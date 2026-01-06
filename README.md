@@ -10,13 +10,15 @@ npm install
 ```
 
 ### Starting Backend Server
-To start the backend navigate to ```./backend``` and run:
+To start the server, navigate to ```./backend``` and run:
 
 ```sh
 npm run start
 ```
 
 ### Starting Client - compile and hot-reload for development
+
+For the frontend side, navigate to ```./frontend``` and run:
 
 ```sh
 npm run dev
