@@ -9,6 +9,14 @@ In both folders ```./backend``` and ```./frontend``` run:
 npm install
 ```
 
+### Starting the DB
+
+Navigate to ```./backend/db``` and run:
+
+```sh
+docker compose up
+```
+
 ### Starting Backend Server
 To start the server, navigate to ```./backend``` and run:
 
