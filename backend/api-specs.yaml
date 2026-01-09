@@ -1,0 +1,417 @@
+openapi: 3.0.3
+info:
+  title: PitHub API
+  description: The PitHub APIs for users, cars, teams
+  contact:
+    name: API Support
+    email: tiziano.vuksan@studio.unibo.it, ines.fraccalvieri@studio.unibo.it
+  version: 1.0.0
+servers:
+  - url: https://api.pithub.com/v1
+    description: Production server
+  - url: https://localhost:3000/v1
+    description: Sandbox server
+
+paths:
+  # -------------------------
+  # TEAMS ENDPOINTS
+  # -------------------------
+  /teams:
+    get:
+      summary: Returns a list of all the F1 teams
+      tags: 
+        - Teams
+      responses:
+        '200':
+          description: A JSON array of F1 teams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+    post:
+      summary: Adds a new team
+      tags: 
+        - Teams
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        '201':
+          description: New team added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          $ref: '#/components/responses/GenericError'
+
+  /teams/{id}:
+    get:
+      summary: Gets a team by ID
+      tags: 
+        - Teams
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Team found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    put:
+      summary: Updates an existing team
+      tags: 
+        - Teams
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        '200':
+          description: Team updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      summary: Deletes a team
+      tags: 
+        - Teams
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Team deleted successfully (no content)
+        '404':
+          $ref: '#/components/responses/404NotFound'
+
+  # -------------------------
+  # DRIVERS ENDPOINTS
+  # -------------------------
+  /drivers:
+    get:
+      summary: Returns a list of all F1 drivers
+      tags: 
+        - Drivers
+      responses:
+        '200':
+          description: A JSON array of drivers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Driver'
+    post:
+      summary: Adds a new driver
+      tags: 
+        - Drivers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Driver'
+      responses:
+        '201':
+          description: New driver added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Driver'
+        '400':
+          $ref: '#/components/responses/GenericError'
+
+  /drivers/{id}:
+    get:
+      summary: Gets a driver by ID
+      tags: 
+        - Drivers
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Driver found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Driver'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    put:
+      summary: Updates an existing driver
+      tags: 
+        - Drivers
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Driver'
+      responses:
+        '200':
+          description: Driver updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Driver'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      summary: Deletes a driver
+      tags: 
+        - Drivers
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Driver deleted successfully
+        '404':
+          $ref: '#/components/responses/404NotFound'
+
+  # -------------------------
+  # CARS ENDPOINTS
+  # -------------------------
+  /cars:
+    get:
+      summary: Returns a list of all F1 cars
+      tags: 
+        - Cars
+      responses:
+        '200':
+          description: A list of cars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Car'
+    post:
+      summary: Adds a new car
+      tags: 
+        - Cars
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+      responses:
+        '201':
+          description: New car added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        '400':
+          $ref: '#/components/responses/GenericError'
+
+  /cars/{id}:
+    get:
+      summary: Gets a car by ID
+      tags: 
+        - Cars
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Car found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    put:
+      summary: Updates an existing car
+      tags: 
+        - Cars
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+      responses:
+        '200':
+          description: Car updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      summary: Deletes a car
+      tags: 
+        - Cars
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Car deleted successfully
+        '404':
+          $ref: '#/components/responses/404NotFound'
+
+components:
+  schemas:
+    Car:
+      type: object
+      required:
+        - id
+        - model
+        - engine_manufacturer
+        - team_id
+      properties:
+        id:
+          type: integer
+          example: 101
+        model:
+          type: string
+          example: "RB19"
+        engine_manufacturer:
+          type: string
+          example: "Honda RBPT"
+        team_id:
+          type: integer
+          description: The ID of the team this car belongs to
+          example: 7
+
+    Driver:
+      type: object
+      required:
+        - id
+        - name
+        - surname
+        - dob
+        - team_id
+      properties:
+        id:
+          type: integer
+          example: 42
+        name: 
+          type: string
+          example: "Max"
+        surname:
+          type: string
+          example: "Verstappen"
+        dob:
+          type: integer
+          example: 2001
+        height:
+          type: integer
+          example: 185
+        weight:
+          type: integer
+          example: 75
+        team_id:
+          type: integer
+          example: 7
+
+    Team:
+      type: object
+      required:
+        - id
+        - name
+        - joined_year
+      properties:
+        id:
+          type: integer
+          example: 7
+        name:
+          type: string
+          example: RedBull
+        joined_year:
+          type: integer
+          example: 2020
+
+    Error: 
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+
+  responses: 
+    404NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    GenericError:
+      description: An error occurred (Bad Request).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+            
+    ImageResponse: 
+      description: An image.
+      content:
+        image/*:
+          schema:
+            type: string
+            format: binary

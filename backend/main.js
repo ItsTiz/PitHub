@@ -1,4 +1,7 @@
 const express = require('express');
+const YAML = require('yamljs');
+const swaggerUI = require('swagger-ui-express');
+const swaggerDocument = YAML.load('./api-specs.yaml');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const rootUri = 'mongodb://localhost:27017/pithub';
@@ -11,6 +14,7 @@ mongoose.connect(rootUri)
 const app = express();
 
 app.use('/',[express.json(), cors()]);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.get('/', (req, res) => {
   res.send('PitHub Backend Running...');
 });
