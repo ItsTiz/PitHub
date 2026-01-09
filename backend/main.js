@@ -5,7 +5,7 @@ const swaggerDocument = YAML.load('./api-specs.yaml');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const rootUri = 'mongodb://localhost:27017/pithub';
-const serverPort = 5000;
+const serverPort = 3000;
 
 mongoose.connect(rootUri)
    .then(() => console.log('Connected to MongoDB successfully.'))
@@ -13,9 +13,10 @@ mongoose.connect(rootUri)
 
 const app = express();
 
-app.use('/',[express.json(), cors()]);
+app.use(express.json());
+app.use(cors());
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.get('/', (req, res) => {
-  res.send('PitHub Backend Running...');
+  res.redirect('/api-docs');
 });
 app.listen(serverPort, () => console.log(`Server running on port ${serverPort}`));
