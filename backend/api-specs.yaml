@@ -313,6 +313,29 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
 
+  /cars/{mfr}:
+    get:
+      summary: Returns a list of cars by manufacturers
+      tags: 
+        - Cars
+      parameters:
+        - in: path
+          name: mfr
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of cars by manufacturer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Car'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+
 components:
   schemas:
     Car:
