@@ -17,7 +17,7 @@ const carSchema = new mongoose.Schema({
         downforce_rating: { type: Number, min: 0, max: 100 },
         reliability_rating: { type: Number, min: 0, max: 100 }
     },
-    team: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Team' }
+    team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
 });
 
 const carModel = mongoose.model('Car', carSchema);

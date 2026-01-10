@@ -67,13 +67,16 @@ const findCarsByMfr = (req, res) => {
         return res.status(400).send('Missing query parameter: msf');
     }
 
+    console.log("mfr: " + mfr);
+
     carModel.find()
         .where('engine_manufacturer').equals(mfr)
-        .then(docs => {
+        .then(doc => {
             if (!doc) {
                 return res.status(404).send('No car with ' + mfr + ' as manufacturer found.');
             }
-            res.json(docs);
+            console.log("doc: " + doc);
+            res.json(doc);
         })
         .catch(err => {
             res.status(500).send(err);
