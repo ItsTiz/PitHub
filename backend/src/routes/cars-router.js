@@ -1,16 +1,16 @@
 import express from 'express';
-import * as controller from '../controllers/cars-controller.js';
+import controller from '../controllers/cars-controller.js';
 
 const carRouter = express.Router();
 
 carRouter.route('/')
-    .get(controller.listCars)
-    .post(controller.createCar);
+    .get(controller.listElements)
+    .post(controller.createElements);
 
 carRouter.route('/:id')
-    .get(controller.getCar)
-    .put(controller.updateCar)
-    .delete(controller.deleteCar);
+    .get(controller.getElement)
+    .put(controller.updateElement)
+    .delete(controller.deleteElement);
 
 carRouter.route('/search/:mfr')
     .get(controller.findCarsByMfr);
