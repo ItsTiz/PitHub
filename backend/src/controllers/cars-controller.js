@@ -7,14 +7,14 @@ class CarController extends BaseController {
         super(schema);
     }
 
-    findCarsByMfr = (req, res) => {
+    findCarsByMfr = async (req, res) => {
         const mfr = req.params.mfr;
 
         if (!mfr) {
             this.badRequestError(res, 'Missing query parameter: msf');
         }
 
-        this._schemaModel
+        await this._schemaModel
             .find()
             .where('engine_manufacturer').equals(mfr)
             .then(doc => {

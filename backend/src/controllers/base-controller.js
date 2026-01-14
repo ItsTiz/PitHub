@@ -19,8 +19,8 @@ class BaseController {
         res.status(Errors.GENERIC_SERVER).send(err);
     }
 
-    getElement = (req, res) => {
-        this._schemaModel
+    getElement = async (req, res) => {
+        await this._schemaModel
             .findById(req.params.id)
             .then(doc => {
                 if (!doc) {
@@ -33,8 +33,8 @@ class BaseController {
             });
     }
 
-    updateElement = (req, res) => {
-        this._schemaModel
+    updateElement = async (req, res) => {
+        await this._schemaModel
             .findByIdAndUpdate(req.params.id, req.body, { new: true })
             .then(doc => {
                 if (!doc) {
@@ -47,8 +47,8 @@ class BaseController {
             });
     }
 
-    createElements = (req, res) => {
-        this._schemaModel
+    createElements = async (req, res) => {
+        await this._schemaModel
             .insertMany(req.body)
             .then(doc => {
                 res.json(doc);
@@ -58,8 +58,8 @@ class BaseController {
             });
     }
 
-    deleteElement = (req, res) => {
-        this._schemaModel
+    deleteElement = async (req, res) => {
+        await this._schemaModel
             .findByIdAndDelete(req.params.id)
             .then(doc => {
                 if (!doc) {
@@ -72,8 +72,8 @@ class BaseController {
             });
     }
 
-    listElements = (_, res) => {
-        this._schemaModel
+    listElements = async (_, res) => {
+        await this._schemaModel
             .find()
             .then(doc => {
                 res.json(doc);

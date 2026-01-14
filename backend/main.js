@@ -1,26 +1,14 @@
-import express from 'express';
-import YAML from 'yamljs';
-import swaggerUI from 'swagger-ui-express';
-import cors from 'cors';
-import mongoose from 'mongoose';
-import carsRouter from './src/routes/cars-router.js'
-import teamsRouter from './src/routes/teams-router.js'
-const swaggerDocument = YAML.load('./api-specs.yaml');
-const rootUri = 'mongodb://localhost:27017/pithub';
-const serverPort = 3000;
+import app from "./src/app.js"
+import { connectDb } from "./src/config/db.js";
 
-mongoose.connect(rootUri)
-    .then(() => console.log('Connected to MongoDB successfully.'))
-    .catch(err => console.log(err));
+const PORT = 3000;
 
-const app = express();
+const startServer = async () => {
+    await connectDb();
 
-app.use(express.json());
-app.use(cors());
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-app.use('/cars', carsRouter);
-app.use('/teams', teamsRouter);
-app.get('/', (_, res) => {
-    res.redirect('/api-docs');
-});
-app.listen(serverPort, () => console.log(`Server running on port ${serverPort}`));
+    app.listen(PORT, () => {
+        console.log('Server running on port: ', PORT);
+    });
+};
+
+startServer();

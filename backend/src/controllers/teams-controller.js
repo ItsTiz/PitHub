@@ -7,14 +7,14 @@ class TeamController extends BaseController {
         super(schema);
     }
 
-    findTeamsByYearJoined = (req, res) => {
+    findTeamsByYearJoined = async (req, res) => {
         const year_joined = req.params.year_joined;
 
         if (!year_joined) {
             this.badRequestError(res, 'Missing query parameter: year_joined');
         }
 
-        this._schemaModel
+        await this._schemaModel
             .find()
             .where('year_joined').equals(year_joined)
             .then(doc => {
@@ -28,14 +28,14 @@ class TeamController extends BaseController {
             });
     };
 
-    findTeamsByNationality = (req, res) => {
+    findTeamsByNationality = async (req, res) => {
         const nationality = req.params.nationality;
 
         if (!nationality) {
             this.badRequestError(res, 'Missing query parameter: nationality');
         }
 
-        this._schemaModel
+        await this._schemaModel
             .find()
             .where('nationality').equals(nationality)
             .then(doc => {
