@@ -12,10 +12,10 @@ teamsRouter.route('/:id')
     .put(controller.updateElement)
     .delete(controller.deleteElement);
 
-teamsRouter.route('/search/:year_joined')
-    .get(controller.findTeamsByYearJoined);
+teamsRouter.route('/search/year/:joined_year')
+    .get(controller.findTeamByYearJoined);
 
-teamsRouter.route('/search/:nationality')
-    .get(controller.findTeamsByNationality);
+teamsRouter.route('/search/nationality/:nationality')
+    .get(controller.findTeamByNationality);
 
 export default teamsRouter;

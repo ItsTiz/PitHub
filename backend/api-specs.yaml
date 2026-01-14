@@ -313,14 +313,14 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
 
-  /cars/{mfr}:
+  /cars/{engine_manufacturer}:
     get:
       summary: Returns a list of cars by manufacturers
       tags: 
         - Cars
       parameters:
         - in: path
-          name: mfr
+          name: engine_manufacturer
           required: true
           schema:
             type: string
@@ -374,24 +374,23 @@ components:
     Driver:
       type: object
       required:
-        - id
-        - name
-        - surname
+        - full_name
         - dob
-        - team_id
+        - nationality
       properties:
         id:
           type: integer
           example: 42
-        name: 
+        full_name: 
           type: string
-          example: "Max"
-        surname:
-          type: string
-          example: "Verstappen"
+          example: "Max Verstappen"
         dob:
           type: integer
           example: 2001
+        nationality:
+          type: string
+          description: The country origin of the driver
+          example: Dutch
         height:
           type: integer
           example: 185
@@ -405,7 +404,6 @@ components:
     Team:
       type: object
       required:
-        - id
         - name
         - full_name
         - joined_year
