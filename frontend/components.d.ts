@@ -18,7 +18,7 @@ declare module 'vue' {
     CarTracing: typeof import('./src/components/views/CarTracing.vue')['default']
     Events: typeof import('./src/components/views/Events.vue')['default']
     Footer: typeof import('./src/components/layouts/Footer.vue')['default']
-    Header: typeof import('./src/components/layouts/Header.vue')['default']
+    Header: typeof import('./src/components/layouts/AppHeader.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
     NotFound: typeof import('./src/components/NotFound.vue')['default']
