@@ -1,6 +1,7 @@
 <script setup>
   import { computed } from 'vue'
   import { useDisplay } from 'vuetify'
+import Odometer from '../components/pages-components/carTracing/Odometer.vue'
 
   const { smAndDown } = useDisplay()
 
@@ -14,29 +15,49 @@
 
         <v-row class="flex-grow-1">
             <v-col :cols="cols[0]">
-                <v-sheet class="h-100 ma-2 d-flex align-center justify-center">
-                    Row 1 - Col 1
-                </v-sheet>
+                <Sheet
+                    class="h-100 ma-2"
+                    elevation="5"
+                >
+                    <template v-slot:default>
+                        <Odometer/> 
+                    </template>
+                </Sheet>
             </v-col>
 
             <v-col :cols="cols[1]">
-                <v-sheet class="h-100 ma-2 d-flex align-center justify-center">
-                    Row 1 - Col 2
-                </v-sheet>
+                <Sheet
+                    class="h-100 ma-2"
+                    elevation="5"
+                >
+                    <template v-slot:default>
+                        Row 1 - Col 2
+                    </template>
+                </Sheet>
             </v-col>
         </v-row>
 
         <v-row class="flex-grow-1">
             <v-col :cols="cols[0]">
-                <v-sheet class="h-100 ma-2 d-flex align-center justify-center">
-                    Row 2 - Col 1
-                </v-sheet>
+                <Sheet
+                    class="h-100 ma-2"
+                    elevation="5"
+                >
+                    <template v-slot:default>
+                        Row 2 - Col 1
+                    </template>
+                </Sheet>
             </v-col>
 
             <v-col :cols="cols[1]">
-                <v-sheet class="h-100 ma-2 d-flex align-center justify-center">
-                    Row 2 - Col 2
-                </v-sheet>
+                 <Sheet
+                    class="h-100 ma-2"
+                    elevation="5"
+                >
+                    <template v-slot:default>
+                        Row 2 - Col 2
+                    </template>
+                </Sheet>
             </v-col>
         </v-row>
 
