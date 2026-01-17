@@ -32,8 +32,8 @@ const color = computed(() => {
                 <div class="semicircle-container">
 
                     <v-progress-circular
-                        :size="400"
-                        :width="25"
+                        :size="250"
+                        :width="15"
                         :rotate="-90"
                         :model-value="gaugeValue"
                         :color="color"
@@ -67,8 +67,8 @@ const color = computed(() => {
             <template #text>
                 <div class="semicircle-container">
                     <v-progress-circular
-                        :size="400"
-                        :width="25"
+                        :size="250"
+                        :width="15"
                         :rotate="-90"
                         :model-value="gaugeValue"
                         :color="color"
@@ -85,8 +85,8 @@ const color = computed(() => {
 
 <style scoped>
 .semicircle-container {
-    width: 400px;
-    height: 200px;
+    width: 250px;
+    height: 125px;
 
     /* Hide the bottom half of the circle */
     overflow: hidden;
