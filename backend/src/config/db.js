@@ -1,10 +1,8 @@
 import mongoose from 'mongoose';
 
-const connectionString = 'mongodb://root:pithub@localhost:27017/pithub?authSource=admin';;
-
 export const connectDb = async () => {
     try {
-        await mongoose.connect(connectionString);
+        await mongoose.connect(process.env.DB_URI.toString());
         successConnectionHandler();
     } catch(err) {        
         failureConnectionHandler(err);

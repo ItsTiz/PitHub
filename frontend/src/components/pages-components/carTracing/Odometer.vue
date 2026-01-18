@@ -1,11 +1,16 @@
 <script setup>
-const speed = ref(25)
+const props = defineProps({
+    speed: {
+        type: Number,
+        default: 25
+    }
+});
 const min = ref(0)
 const max = ref(340)
 
 const percentage = computed(()=> {
     if (max.value === min.value) return 0 
-    const percent = (((speed.value - min.value) / (max.value - min.value)) * 100).toFixed(1);
+    const percent = (((props.speed - min.value) / (max.value - min.value)) * 100).toFixed(1);
     return Math.min(Math.max(percent, 0), 100)
 })
 
@@ -45,7 +50,7 @@ const color = computed(() => {
             </template>
             
             <!-- temporary -->
-            <template #actions>
+            <!-- <template #actions>
                 <div>
                     <v-slider
                         v-model="speed"
@@ -57,7 +62,7 @@ const color = computed(() => {
                         track-color="white"
                     ></v-slider>
                 </div>
-            </template>
+            </template> -->
         </Card>
 
         <Card>

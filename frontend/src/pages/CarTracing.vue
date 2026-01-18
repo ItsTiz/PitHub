@@ -1,13 +1,35 @@
 <script setup>
-  import { computed } from 'vue'
-  import { useDisplay } from 'vuetify'
+import { computed, onMounted, onUnmounted } from 'vue'
+import { useTelemetryStore } from "@/stores/car-telemetry";
+import { useDisplay } from 'vuetify'
 import Odometer from '../components/pages-components/carTracing/Odometer.vue'
 
-  const { smAndDown } = useDisplay()
+const telemetryStore = useTelemetryStore();
 
-  const cols = computed(() => {
+const { smAndDown } = useDisplay()
+
+const cols = computed(() => {
     return smAndDown.value ? [12, 12] : [6, 6]
-  })
+})
+
+const getSpeed = computed(() => {
+    return telemetryStore.carData?.speed
+});
+
+
+onMounted(() => {
+    //request the join to the telemetry room
+    //TODO auth here too;
+    const token = "";
+    telemetryStore.subscribeToTeam(token);
+});
+
+onUnmounted(() => {
+    //tell the socket to leave the room
+    telemetryStore.unsubscribeFromTeam();
+});
+
+
 </script>
 
 <template>
@@ -15,21 +37,17 @@ import Odometer from '../components/pages-components/carTracing/Odometer.vue'
 
         <v-row class="flex-grow-1">
             <v-col :cols="cols[0]">
-                <Sheet
-                    class="h-100 ma-2"
-                    elevation="5"
-                >
+                <Sheet class="h-100 ma-2" elevation="5">
                     <template v-slot:default>
-                        <Odometer/> 
+                        <Odometer 
+                            :speed="getSpeed"
+                        />
                     </template>
                 </Sheet>
             </v-col>
 
             <v-col :cols="cols[1]">
-                <Sheet
-                    class="h-100 ma-2"
-                    elevation="5"
-                >
+                <Sheet class="h-100 ma-2" elevation="5">
                     <template v-slot:default>
                         Row 1 - Col 2
                     </template>
@@ -39,10 +57,7 @@ import Odometer from '../components/pages-components/carTracing/Odometer.vue'
 
         <v-row class="flex-grow-1">
             <v-col :cols="cols[0]">
-                <Sheet
-                    class="h-100 ma-2"
-                    elevation="5"
-                >
+                <Sheet class="h-100 ma-2" elevation="5">
                     <template v-slot:default>
                         Row 2 - Col 1
                     </template>
@@ -50,10 +65,7 @@ import Odometer from '../components/pages-components/carTracing/Odometer.vue'
             </v-col>
 
             <v-col :cols="cols[1]">
-                 <Sheet
-                    class="h-100 ma-2"
-                    elevation="5"
-                >
+                <Sheet class="h-100 ma-2" elevation="5">
                     <template v-slot:default>
                         Row 2 - Col 2
                     </template>
@@ -66,5 +78,5 @@ import Odometer from '../components/pages-components/carTracing/Odometer.vue'
 
 <route lang="yaml">
 meta:
-  layout: carTracingl
+  layout: cartracingl
 </route>
