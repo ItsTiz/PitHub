@@ -1,6 +1,4 @@
 <script setup>
-import SemiCircularGauge from './SemiCircularGauge.vue';
-
 const props = defineProps({
     speed: {
         type: Number,

@@ -21,7 +21,8 @@ declare module 'vue' {
     Odometer: typeof import('./src/components/pages-components/carTracing/Odometer.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SemiCircularGauge: typeof import('./src/components/pages-components/carTracing/SemiCircularGauge.vue')['default']
+    SemiCircularGauge: typeof import('./src/components/pages-components/SemiCircularGauge.vue')['default']
     Sheet: typeof import('./src/components/containers/Sheet.vue')['default']
+    Tires: typeof import('./src/components/pages-components/carTracing/Tires.vue')['default']
   }
 }
