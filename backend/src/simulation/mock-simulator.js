@@ -13,7 +13,7 @@ const assembleData = () => {
         battery_level: getRandomBetween(0, 100),  // % of ERS battery
 
         brake_temperature: getRandomBetween(200, 1100),  // °C – operating range
-        engine_oil_temp: getRandomBetween(90, 150),  // °C – ideal operating range
+        engine_oil_temp: getRandomBetween(90, 200),  // °C – ideal operating range
 
         oil_pressure: getRandomBetween(3, 8) // bar
     };

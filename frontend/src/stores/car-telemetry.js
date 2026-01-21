@@ -16,7 +16,7 @@ export const useTelemetryStore = defineStore("telemetry", {
             if (this.isListening) return;
 
             socket.on("telemetry:update", (data) => {
-                console.log("Store received data: ", data);
+                console.log("[telemetry-store] received data: ", data);
                 this.carData = data;
             });
 

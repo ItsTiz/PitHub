@@ -12,7 +12,22 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="d-flex flex-column align-center justify-space-around w-100 h-100">
+    <div class="d-flex flex-row align-center justify-space-around w-100 h-100">
+        <Card>
+            <template #title>
+                <div class="text-title font-weight-bold">RPMs</div>
+            </template>
+            <template #text>
+                <SemiCircularGauge
+                    :input="rpms"
+                    :uom="'rpms'"
+                    :size="200"
+                    :min="3000"
+                    :max="15000"
+                />
+            </template>
+        </Card>
+
         <Card>
             <template #title>
                 <div class="text-title font-weight-bold">Speed</div>
@@ -22,24 +37,12 @@ const props = defineProps({
                <SemiCircularGauge
                     :input="speed"
                     :uom="'km/h'"
+                    :size="200"
                     :min="0"
                     :max="378"
                 />
             </template>
         </Card>
 
-        <Card>
-            <template #title>
-                <div class="text-title font-weight-bold">RPMs</div>
-            </template>
-            <template #text>
-                <SemiCircularGauge
-                    :input="rpms"
-                    :uom="'rpms'"
-                    :min="3000"
-                    :max="15000"
-                />
-            </template>
-        </Card>
     </div>
 </template>
