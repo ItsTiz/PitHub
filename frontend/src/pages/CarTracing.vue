@@ -16,6 +16,10 @@ const getSpeed = computed(() => {
     return telemetryStore.carData?.speed
 });
 
+const getRpms = computed(() => {
+    return telemetryStore.carData?.rpms
+});
+
 
 onMounted(() => {
     //request the join to the telemetry room
@@ -41,6 +45,7 @@ onUnmounted(() => {
                     <template v-slot:default>
                         <Odometer 
                             :speed="getSpeed"
+                            :rpms="getRpms"
                         />
                     </template>
                 </Sheet>

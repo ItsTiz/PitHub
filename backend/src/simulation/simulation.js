@@ -1,21 +1,18 @@
-import { getIO } from "../socket.js"
-import EventRooms from "./event-rooms.js"
+import TelemetryEvent from "./events/telemetry-events.js";
+import { assembleData } from "./mock-simulator.js";
 
 let timeout;
 
-const startSimulation = () => {
+const startSimulation = (io) => {
     //TODO break this on its own class to simulate different data
     timeout = setInterval(() => {
-        const io = getIO();
-        const fakeSpeed = Math.floor(Math.random() * 350);
-
         //TODO auth here too, for now ferrari is default
         const teamId = 'ferrari';
-        const toSend = { speed: fakeSpeed };
+        const toSend = assembleData();
 
         io
-        .to(EventRooms.TELEMETRY_ROOM_PREFIX+`${teamId}`)
-        .emit(EventRooms.TELEMETRY_UPDATE, toSend);
+        .to(TelemetryEvent.ROOM_PREFIX+`${teamId}`)
+        .emit(TelemetryEvent.UPDATE, toSend);
     }, process.env.INTERVAL);
 }
 

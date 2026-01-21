@@ -1,4 +1,4 @@
-import EventRooms from "../simulation/event-rooms.js";
+import TelemetryEvent from "../simulation/events/telemetry-events.js";
 
 const registerTelemetryHandlers = (io, socket) => {
 
@@ -7,30 +7,29 @@ const registerTelemetryHandlers = (io, socket) => {
         //TODO get based on user's authentication
         const teamId = 'ferrari';
 
-        //Callback with error as user authentication failed or not found
         //TODO based on authentication
         if (!teamId) {
             callback({ message: `[${socket.id}] Authentication failed.` })
             return;
         }
 
-        socket.join(EventRooms.TELEMETRY_ROOM_PREFIX + `${teamId}`);
+        socket.join(TelemetryEvent.ROOM_PREFIX + `${teamId}`);
         console.log(`[${socket.id}] Client joined team-${teamId}`);
 
-        //Callback acknowledge
         callback({ message: `[${socket.id}] joined ${teamId}` });
     };
 
     const leaveTelemetry = () => {
+        //TODO watch out for auth-based room leave
         socket.rooms.forEach((room) => {
-            if (room.startsWith(EventRooms.TELEMETRY_ROOM_PREFIX)) {
+            if (room.startsWith(TelemetryEvent.ROOM_PREFIX)) {
                 socket.leave(room);
             }
         });
     };
 
-    socket.on(EventRooms.TELEMETRY_JOIN, joinTelemetry);
-    socket.on(EventRooms.TELEMETRY_LEAVE, leaveTelemetry);
+    socket.on(TelemetryEvent.JOIN, joinTelemetry);
+    socket.on(TelemetryEvent.LEAVE, leaveTelemetry);
 };
 
 export { registerTelemetryHandlers };

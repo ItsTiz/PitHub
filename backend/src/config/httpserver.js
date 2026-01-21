@@ -4,7 +4,7 @@ import { initIoServer } from "../socket.js"
 export const createHttpServer = (app) => {
     const httpServer = createServer(app);
 
-    initIoServer(httpServer);
+    const io = initIoServer(httpServer);
 
-    return httpServer;
+    return {httpServer, io};
 }
