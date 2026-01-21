@@ -37,7 +37,7 @@ const props = defineProps({
             <template #text>
                 <SemiCircularGauge
                     :input="rpms"
-                    :uom='rpm'
+                    :uom="'rpms'"
                     :min="3000"
                     :max="15000"
                 />
