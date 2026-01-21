@@ -15,6 +15,7 @@ declare module 'vue' {
     AppHeader: typeof import('./src/components/sections/AppHeader.vue')['default']
     Button: typeof import('./src/components/controls/Button.vue')['default']
     Card: typeof import('./src/components/containers/Card.vue')['default']
+    CircularGauge: typeof import('./src/components/pages-components/carTracing/CircularGauge.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
     NotFound: typeof import('./src/components/NotFound.vue')['default']
     Odometer: typeof import('./src/components/pages-components/carTracing/Odometer.vue')['default']

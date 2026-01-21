@@ -3,9 +3,9 @@ import cors from 'cors';
 import swaggerUI from 'swagger-ui-express';
 import YAML from 'yamljs';
 
-import carsRouter from './routes/cars-router.js'
-import teamsRouter from './routes/teams-router.js'
-import driversRouter from './routes/drivers-router.js'
+import carsRouter from '../routes/cars-router.js'
+import teamsRouter from '../routes/teams-router.js'
+import driversRouter from '../routes/drivers-router.js'
 
 const swaggerDocument = YAML.load('./api-specs.yaml');
 
