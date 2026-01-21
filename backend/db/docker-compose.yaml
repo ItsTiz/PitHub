@@ -3,10 +3,14 @@ services:
   mongo:
     image: mongo
     restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pithub
     ports:
       - 27017:27017
-    # volumes:
-    #   - ./import:/docker-entrypoint-initdb.d:ro
+    volumes:
+       - mongo-data:/data/db 
+       - ./import:/docker-entrypoint-initdb.d:ro
 
   mongo-express:
     depends_on:
@@ -16,5 +20,8 @@ services:
     ports:
       - 8081:8081
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://root:pithub@mongo:27017/
       ME_CONFIG_BASICAUTH: false
+
+volumes:
+  mongo-data:

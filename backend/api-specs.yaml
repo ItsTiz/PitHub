@@ -313,25 +313,59 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
 
+  /cars/{engine_manufacturer}:
+    get:
+      summary: Returns a list of cars by manufacturers
+      tags: 
+        - Cars
+      parameters:
+        - in: path
+          name: engine_manufacturer
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of cars by manufacturer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Car'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+
 components:
   schemas:
     Car:
       type: object
       required:
-        - id
         - model
         - engine_manufacturer
         - team_id
       properties:
-        id:
-          type: integer
-          example: 101
         model:
           type: string
           example: "RB19"
         engine_manufacturer:
           type: string
           example: "Honda RBPT"
+        base_weight_kg:
+          type: integer
+        fuel_capacity_kg:
+          type: integer
+        specs:
+          type: object
+          properties:
+            max_speed_kmh:
+              type: integer
+            acceleration_0_100_s:
+              type: integer
+            downforce_rating:
+              type: integer
+            reliability_rating:
+              type: integer
         team_id:
           type: integer
           description: The ID of the team this car belongs to
@@ -340,24 +374,23 @@ components:
     Driver:
       type: object
       required:
-        - id
-        - name
-        - surname
+        - full_name
         - dob
-        - team_id
+        - nationality
       properties:
         id:
           type: integer
           example: 42
-        name: 
+        full_name: 
           type: string
-          example: "Max"
-        surname:
-          type: string
-          example: "Verstappen"
+          example: "Max Verstappen"
         dob:
           type: integer
           example: 2001
+        nationality:
+          type: string
+          description: The country origin of the driver
+          example: Dutch
         height:
           type: integer
           example: 185
@@ -371,19 +404,57 @@ components:
     Team:
       type: object
       required:
-        - id
         - name
+        - full_name
         - joined_year
+        - nationality
       properties:
         id:
           type: integer
           example: 7
         name:
           type: string
-          example: RedBull
+          description: Common short name
+          example: Red Bull
+        full_name:
+          type: string
+          description: Official licensed name
+          example: Oracle Red Bull Racing
         joined_year:
           type: integer
-          example: 2020
+          description: Year the team joined the current league/dataset
+          example: 2005
+        nationality:
+          type: string
+          description: The country under which the team races
+          example: Austrian
+        headquarters:
+          type: string
+          description: Physical factory location
+          example: Milton Keynes, UK
+        team_principal:
+          type: string
+          description: Name of the team boss
+          example: Christian Horner
+        # world_championships:
+        #   type: integer
+        #   description: Total constructor titles won
+        #   example: 6
+        # logo_url:
+        #   type: string
+        #   format: uri
+        #   description: URL to the official team badge
+        #   example: https://api.f1.com/logos/redbull.png
+        # colors:
+        #   type: object
+        #   description: Hex codes for UI theming
+        #   properties:
+        #     primary:
+        #       type: string
+        #       example: "#061D41"
+        #     secondary:
+        #       type: string
+        #       example: "#FFCC00"
 
     Error: 
       type: object
