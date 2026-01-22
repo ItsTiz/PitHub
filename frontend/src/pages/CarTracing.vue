@@ -5,9 +5,9 @@ import { useDisplay } from 'vuetify'
 import Odometer from '../components/pages-components/carTracing/Odometer.vue'
 import OilTempGraph from '../components/pages-components/carTracing/OilTempGraph.vue';
 
-const telemetryStore = useTelemetryStore();
-
 const { smAndDown } = useDisplay()
+const telemetryStore = useTelemetryStore();
+const { carData } = storeToRefs(telemetryStore);
 
 const oil_temp_values = ref([]);
 
@@ -19,29 +19,6 @@ const getOilTemp = computed(() => {
     return telemetryStore.carData?.engine_oil_temp
 });
 
-const getSpeed = computed(() => {
-    return telemetryStore.carData?.speed
-});
-
-const getRpms = computed(() => {
-    return telemetryStore.carData?.rpms
-});
-
-const getTireHealthFL = computed(() => {
-    return telemetryStore.carData?.tire_health_fl
-});
-
-const getTireHealthFR = computed(() => {
-    return telemetryStore.carData?.tire_health_fr
-});
-
-const getTireHealthRL= computed(() => {
-    return telemetryStore.carData?.tire_health_rl
-});
-
-const getTireHealthRR = computed(() => {
-    return telemetryStore.carData?.tire_health_rr
-});
 
 watch(getOilTemp, (temp, _) => {
     if(oil_temp_values.value.length == 11){
@@ -71,8 +48,8 @@ onUnmounted(() => {
                 <Sheet class="h-100 ma-2" elevation="5">
                     <template v-slot:default>
                         <Odometer 
-                            :speed="getSpeed"
-                            :rpms="getRpms"
+                            :speed="carData.speed"
+                            :rpms="carData.rpms"
                         />
                     </template>
                 </Sheet>
@@ -94,10 +71,10 @@ onUnmounted(() => {
                 <Sheet class="h-100 ma-2" elevation="5">
                     <template v-slot:default>
                          <Tires 
-                            :front_left_health="getTireHealthFL"
-                            :front_right_health="getTireHealthFR"
-                            :rear_left_health="getTireHealthRL"
-                            :rear_right_health="getTireHealthRR"
+                            :front_left_health="carData.tire_health_fl"
+                            :front_right_health="carData.tire_health_fr"
+                            :rear_left_health="carData.tire_health_rl"
+                            :rear_right_health="carData.tire_health_rr"
                         />
                     </template>
                 </Sheet>

@@ -15,10 +15,11 @@ const props = defineProps({
     <div class="d-flex flex-row align-center justify-space-around w-100 h-100">
         <Card>
             <template #title>
-                <div class="text-title font-weight-bold">RPMs</div>
+                <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">RPMs</div>
             </template>
             <template #text>
                 <SemiCircularGauge
+                    class="w-100"
                     :input="rpms"
                     :uom="'rpms'"
                     :size="200"
@@ -30,11 +31,12 @@ const props = defineProps({
 
         <Card>
             <template #title>
-                <div class="text-title font-weight-bold">Speed</div>
+                <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">Speed</div>
             </template>
 
             <template #text>
                <SemiCircularGauge
+                    class="w-100"
                     :input="speed"
                     :uom="'km/h'"
                     :size="200"
