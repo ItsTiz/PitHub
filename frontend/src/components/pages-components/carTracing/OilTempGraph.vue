@@ -35,8 +35,9 @@ const gradientColors = computed(() => {
     const baseHex = currentColors[colorName] || colorName;
     return [
         addAlpha(baseHex, 1),
-        addAlpha(baseHex, 0.5), 
-        addAlpha(baseHex, 0.1)  
+        addAlpha(baseHex, 0.5),
+        addAlpha(baseHex, 0.3),
+        addAlpha(baseHex, 0.1)
     ];
 });
 
@@ -50,6 +51,5 @@ const gradientColors = computed(() => {
         :gradient="gradientColors" 
         :uom="'C°'"
         :icon="'mdi-oil-temperature'"
-        :icon_color="temperatureColor" 
     />
 </template>

@@ -4,6 +4,7 @@ import { useTelemetryStore } from "@/stores/car-telemetry";
 import { useDisplay } from 'vuetify'
 import Odometer from '../components/pages-components/carTracing/Odometer.vue'
 import OilTempGraph from '../components/pages-components/carTracing/OilTempGraph.vue';
+import LinearGauge from '../components/pages-components/LinearGauge.vue';
 
 const { smAndDown } = useDisplay()
 const telemetryStore = useTelemetryStore();
@@ -83,6 +84,10 @@ onUnmounted(() => {
             <v-col :cols="cols[1]">
                 <Sheet class="h-100 ma-2" elevation="5">
                     <template v-slot:default>
+                    <Autonomy
+                        :fuel="carData.fuel_level"
+                        :esr_percentage="carData.battery_level"
+                    />
                     </template>
                 </Sheet>
             </v-col>

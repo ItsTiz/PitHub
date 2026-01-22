@@ -6,7 +6,7 @@ const props = defineProps({
     input_model: { type: Array, default: [] },
     uom: { type: String, default: "" },
     icon: { type: String, default: "" },
-    icon_color: { type: String, default: "primary" },
+    icon_color: { type: String, default: "text" },
     gradient: { type: Array, default: ["primary", "primary-darken-1"] },
     line_width: { type: Number, default: 3 }
 });
@@ -37,7 +37,7 @@ const latestTemp = computed(() => {
                 :icon="icon"
                 :color="icon_color"
                 class="me-8"
-                size="64"
+                size="48"
             >
             </v-icon>
         </template>

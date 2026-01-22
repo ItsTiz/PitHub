@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { useGaugeColor, usePercentage } from '../../composables/use-percentage-color';
 
 const props = defineProps({
     input: { type: Number, default: 0 },
@@ -10,22 +11,9 @@ const props = defineProps({
     width: { type: Number, default: 15 }
 });
 
-const percentage = computed(() => {
-    if (props.max === props.min) return 0;
-    const percent = (((props.input - props.min) / (props.max - props.min)) * 100).toFixed(1);
-    return Math.min(Math.max(percent, 0), 100)
-})
-
-const gaugeValue = computed(() => {
-    return percentage.value / 2
-})
-
-const color = computed(() => {
-    if (percentage.value < 50) return 'info'
-    if (percentage.value < 75) return 'success'
-    if (percentage.value < 95) return 'warning'
-    return 'primary-darken-1'
-})
+const percentage = usePercentage(() => props.min, () => props.max, () => props.input);
+const color = useGaugeColor(percentage);
+const gaugeValue = computed(() => { return percentage.value / 2})
 </script>
 
 <template>

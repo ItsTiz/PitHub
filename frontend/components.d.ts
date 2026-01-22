@@ -13,10 +13,13 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: typeof import('./src/components/sections/AppFooter.vue')['default']
     AppHeader: typeof import('./src/components/sections/AppHeader.vue')['default']
+    Autonomy: typeof import('./src/components/pages-components/carTracing/Autonomy.vue')['default']
     Button: typeof import('./src/components/controls/Button.vue')['default']
     Card: typeof import('./src/components/containers/Card.vue')['default']
     CircularGauge: typeof import('./src/components/pages-components/carTracing/CircularGauge.vue')['default']
+    copy: typeof import('./src/components/pages-components/SemiCircularGauge copy.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
+    LinearGauge: typeof import('./src/components/pages-components/LinearGauge.vue')['default']
     LinearGraph: typeof import('./src/components/pages-components/LinearGraph.vue')['default']
     NotFound: typeof import('./src/components/NotFound.vue')['default']
     Odometer: typeof import('./src/components/pages-components/carTracing/Odometer.vue')['default']
