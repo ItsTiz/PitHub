@@ -23,6 +23,7 @@ declare module 'vue-router/auto-routes' {
     '/Auth': RouteRecordInfo<'/Auth', '/Auth', Record<never, never>, Record<never, never>>,
     '/CarTracing': RouteRecordInfo<'/CarTracing', '/CarTracing', Record<never, never>, Record<never, never>>,
     '/Events': RouteRecordInfo<'/Events', '/Events', Record<never, never>, Record<never, never>>,
+    '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
     '/Race': RouteRecordInfo<'/Race', '/Race', Record<never, never>, Record<never, never>>,
     '/Signup': RouteRecordInfo<'/Signup', '/Signup', Record<never, never>, Record<never, never>>,
     '/SysAdmin': RouteRecordInfo<'/SysAdmin', '/SysAdmin', Record<never, never>, Record<never, never>>,
@@ -57,6 +58,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/Events.vue': {
       routes: '/Events'
+      views: never
+    }
+    'src/pages/login.vue': {
+      routes: '/login'
       views: never
     }
     'src/pages/Race.vue': {
