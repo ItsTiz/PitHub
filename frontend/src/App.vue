@@ -1,9 +1,11 @@
 <script setup>
-import { onMounted, onUnmounted } from "vue";
+import { computed, onMounted, onUnmounted } from "vue";
+import { useAppStore } from "@/stores/app";
 import { useConnectionStore } from "@/stores/connections";
 import { useTelemetryStore } from "@/stores/car-telemetry";
 import { socket } from "@/socket";
 
+const appStore = useAppStore();
 const connectionStore = useConnectionStore();
 const telemetryStore = useTelemetryStore();
 
@@ -21,7 +23,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <v-app>
+    <v-app
+        :theme="appStore.appTheme"
+    >
         <router-view />
     </v-app>
 </template>
