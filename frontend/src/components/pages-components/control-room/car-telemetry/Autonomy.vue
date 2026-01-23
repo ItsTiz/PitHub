@@ -1,5 +1,5 @@
 <script setup>
-import LinearGauge from '../LinearGauge.vue';
+import LinearGauge from '../../LinearGauge.vue';
 
 const props = defineProps({
     fuel: { type: Number, default: 0 },

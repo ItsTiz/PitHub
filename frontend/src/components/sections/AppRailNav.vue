@@ -1,10 +1,19 @@
 <script setup>
 import { useAppStore } from '../../stores/app';
 const appStore = useAppStore();
-const pageIndex = ref(1);
+const router = useRouter()
+const pageIndex = ref(1)
 
 const toggleTheme = () => {
     appStore.toggleTheme();
+}
+
+const views = ['telemetry', 'race', 'comms']
+
+function selectView(index) {
+  pageIndex.value = index
+  const view = views[index - 1] || 'telemetry'
+  router.push(`/controlroom/${view}`)
 }
 
 </script>
@@ -34,7 +43,7 @@ const toggleTheme = () => {
                 :color="n === pageIndex ? 'primary' : 'grey-lighten-1'"
                 :size="n === pageIndex ? 48 : 32"
                 class="mb-8 cursor-pointer"
-                @click="pageIndex = n"
+                @click="selectView(n)"
             >
                 {{ n }}
             </v-avatar>

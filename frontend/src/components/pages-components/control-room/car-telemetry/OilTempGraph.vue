@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useTheme } from 'vuetify' // 1. Import useTheme
-import LinearGraph from '../LinearGraph.vue'
+import LinearGraph from '../../LinearGraph.vue'
 
 const props = defineProps({
     oil_temp_array: { type: Array, default: () => [] } // Fixed default syntax

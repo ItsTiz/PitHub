@@ -20,12 +20,15 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
-    '/Auth': RouteRecordInfo<'/Auth', '/Auth', Record<never, never>, Record<never, never>>,
-    '/CarTracing': RouteRecordInfo<'/CarTracing', '/CarTracing', Record<never, never>, Record<never, never>>,
-    '/Events': RouteRecordInfo<'/Events', '/Events', Record<never, never>, Record<never, never>>,
-    '/Race': RouteRecordInfo<'/Race', '/Race', Record<never, never>, Record<never, never>>,
-    '/Signup': RouteRecordInfo<'/Signup', '/Signup', Record<never, never>, Record<never, never>>,
-    '/SysAdmin': RouteRecordInfo<'/SysAdmin', '/SysAdmin', Record<never, never>, Record<never, never>>,
+    '/auth': RouteRecordInfo<'/auth', '/auth', Record<never, never>, Record<never, never>>,
+    '/controlroom': RouteRecordInfo<'/controlroom', '/controlroom', Record<never, never>, Record<never, never>, '/controlroom/comms' | '/controlroom/race' | '/controlroom/telemetry'>,
+    '/controlroom/comms': RouteRecordInfo<'/controlroom/comms', '/controlroom/comms', Record<never, never>, Record<never, never>>,
+    '/controlroom/race': RouteRecordInfo<'/controlroom/race', '/controlroom/race', Record<never, never>, Record<never, never>>,
+    '/controlroom/telemetry': RouteRecordInfo<'/controlroom/telemetry', '/controlroom/telemetry', Record<never, never>, Record<never, never>>,
+    '/events': RouteRecordInfo<'/events', '/events', Record<never, never>, Record<never, never>>,
+    '/race': RouteRecordInfo<'/race', '/race', Record<never, never>, Record<never, never>>,
+    '/signup': RouteRecordInfo<'/signup', '/signup', Record<never, never>, Record<never, never>>,
+    '/sysadmin': RouteRecordInfo<'/sysadmin', '/sysadmin', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -47,28 +50,40 @@ declare module 'vue-router/auto-routes' {
       routes: '/[...path]'
       views: never
     }
-    'src/pages/Auth.vue': {
-      routes: '/Auth'
+    'src/pages/auth.vue': {
+      routes: '/auth'
       views: never
     }
-    'src/pages/CarTracing.vue': {
-      routes: '/CarTracing'
+    'src/pages/controlroom.vue': {
+      routes: '/controlroom' | '/controlroom/comms' | '/controlroom/race' | '/controlroom/telemetry'
+      views: 'default'
+    }
+    'src/pages/controlroom/comms.vue': {
+      routes: '/controlroom/comms'
       views: never
     }
-    'src/pages/Events.vue': {
-      routes: '/Events'
+    'src/pages/controlroom/race.vue': {
+      routes: '/controlroom/race'
       views: never
     }
-    'src/pages/Race.vue': {
-      routes: '/Race'
+    'src/pages/controlroom/telemetry.vue': {
+      routes: '/controlroom/telemetry'
       views: never
     }
-    'src/pages/Signup.vue': {
-      routes: '/Signup'
+    'src/pages/events.vue': {
+      routes: '/events'
       views: never
     }
-    'src/pages/SysAdmin.vue': {
-      routes: '/SysAdmin'
+    'src/pages/race.vue': {
+      routes: '/race'
+      views: never
+    }
+    'src/pages/signup.vue': {
+      routes: '/signup'
+      views: never
+    }
+    'src/pages/sysadmin.vue': {
+      routes: '/sysadmin'
       views: never
     }
   }

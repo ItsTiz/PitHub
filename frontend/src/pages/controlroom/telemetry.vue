@@ -2,8 +2,6 @@
 import { watch, computed, onMounted, onUnmounted, ref } from 'vue'
 import { useTelemetryStore } from "@/stores/car-telemetry";
 import { useDisplay } from 'vuetify'
-import Odometer from '../components/pages-components/carTracing/Odometer.vue'
-import OilTempGraph from '../components/pages-components/carTracing/OilTempGraph.vue';
 
 const { smAndDown } = useDisplay()
 const telemetryStore = useTelemetryStore();
@@ -39,6 +37,7 @@ onUnmounted(() => {
 
 
 </script>
+
 
 <template>
     <v-container fluid class="h-100 d-flex flex-column bg-surface-bright">
@@ -94,8 +93,3 @@ onUnmounted(() => {
 
     </v-container>
 </template>
-
-<route lang="yaml">
-meta:
-  layout: cartracingl
-</route>
