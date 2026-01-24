@@ -10,10 +10,21 @@ const toggleTheme = () => {
 
 const views = ['telemetry', 'race', 'comms']
 
-function selectView(index) {
+const selectView = (index) => {
   pageIndex.value = index
   const view = views[index - 1] || 'telemetry'
   router.push(`/controlroom/${view}`)
+}
+
+const getIcon = (index) => {
+    switch(index){
+        case 1:
+            return 'mdi-gauge-low';
+        case 2:
+            return 'mdi-go-kart-track';
+        case 3:
+            return 'mdi-radio-tower';
+    }
 }
 
 </script>
@@ -24,12 +35,13 @@ function selectView(index) {
         elevation="7"
         permanent           
         rail                
-        color="background"
+        color="bg-surface"
     >
     <div class="d-flex flex-column h-100">
         <div class="d-flex flex-column align-center justify-center">
             <v-avatar
                 :size="48"
+                color="bg-surface-bright"
                 class="mb-4"
             >
             </v-avatar>
@@ -40,12 +52,12 @@ function selectView(index) {
             <v-avatar
                 v-for="n in 3"
                 :key="n"
-                :color="n === pageIndex ? 'primary' : 'grey-lighten-1'"
+                :color="n === pageIndex ? 'primary' : 'surface-variant'"
                 :size="n === pageIndex ? 48 : 32"
+                :icon="getIcon(n)"
                 class="mb-8 cursor-pointer"
                 @click="selectView(n)"
             >
-                {{ n }}
             </v-avatar>
         </div>
 

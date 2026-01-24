@@ -40,7 +40,7 @@ onUnmounted(() => {
 
 
 <template>
-    <v-container fluid class="h-100 d-flex flex-column bg-surface-bright">
+    <v-container fluid class="h-100 d-flex flex-column bg-background">
 
         <v-row class="flex-grow-1">
             <v-col :cols="cols[0]">

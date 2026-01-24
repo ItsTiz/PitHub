@@ -21,7 +21,8 @@ declare module 'vue-router/auto-routes' {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
     '/auth': RouteRecordInfo<'/auth', '/auth', Record<never, never>, Record<never, never>>,
-    '/controlroom': RouteRecordInfo<'/controlroom', '/controlroom', Record<never, never>, Record<never, never>, '/controlroom/comms' | '/controlroom/race' | '/controlroom/telemetry'>,
+    '/controlroom': RouteRecordInfo<'/controlroom', '/controlroom', Record<never, never>, Record<never, never>, '/controlroom/' | '/controlroom/comms' | '/controlroom/race' | '/controlroom/telemetry'>,
+    '/controlroom/': RouteRecordInfo<'/controlroom/', '/controlroom', Record<never, never>, Record<never, never>>,
     '/controlroom/comms': RouteRecordInfo<'/controlroom/comms', '/controlroom/comms', Record<never, never>, Record<never, never>>,
     '/controlroom/race': RouteRecordInfo<'/controlroom/race', '/controlroom/race', Record<never, never>, Record<never, never>>,
     '/controlroom/telemetry': RouteRecordInfo<'/controlroom/telemetry', '/controlroom/telemetry', Record<never, never>, Record<never, never>>,
@@ -55,8 +56,12 @@ declare module 'vue-router/auto-routes' {
       views: never
     }
     'src/pages/controlroom.vue': {
-      routes: '/controlroom' | '/controlroom/comms' | '/controlroom/race' | '/controlroom/telemetry'
+      routes: '/controlroom' | '/controlroom/' | '/controlroom/comms' | '/controlroom/race' | '/controlroom/telemetry'
       views: 'default'
+    }
+    'src/pages/controlroom/index.vue': {
+      routes: '/controlroom/'
+      views: never
     }
     'src/pages/controlroom/comms.vue': {
       routes: '/controlroom/comms'
