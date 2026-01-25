@@ -1,4 +1,25 @@
-const assembleData = () => {
+const injectCarRaceData = (cars) => {
+
+    if (!cars || cars.length == 0) {
+        console.log("[ERROR] Invalid cars object.");
+        return;
+    }
+
+    cars.forEach(element => {
+        if (element.progress === undefined || element.progress === null) {
+            element.progress = 0;
+        } else {
+            const prevProgress = element.progress;
+            element.progress = prevProgress + getRandomBetween(1, 5);
+        }
+    });
+
+    return cars;
+
+}
+
+
+const assembleTelemetryData = () => {
 
     const data = {
         speed: getRandomBetween(0, 378), // km/h – 0 (pit/standstill) to ~378 (absolute top speed record)
@@ -28,4 +49,4 @@ function getRandomBetween(min, max) {
     return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
 }
 
-export { assembleData };
+export { assembleTelemetryData, injectCarRaceData };
