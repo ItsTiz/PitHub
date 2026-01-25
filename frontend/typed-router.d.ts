@@ -22,9 +22,9 @@ declare module 'vue-router/auto-routes' {
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
     '/Auth': RouteRecordInfo<'/Auth', '/Auth', Record<never, never>, Record<never, never>>,
     '/CarTracing': RouteRecordInfo<'/CarTracing', '/CarTracing', Record<never, never>, Record<never, never>>,
-    '/Events': RouteRecordInfo<'/Events', '/Events', Record<never, never>, Record<never, never>>,
-    '/Race': RouteRecordInfo<'/Race', '/Race', Record<never, never>, Record<never, never>>,
-    '/Signup': RouteRecordInfo<'/Signup', '/Signup', Record<never, never>, Record<never, never>>,
+    '/events': RouteRecordInfo<'/events', '/events', Record<never, never>, Record<never, never>>,
+    '/race': RouteRecordInfo<'/race', '/race', Record<never, never>, Record<never, never>>,
+    '/signup': RouteRecordInfo<'/signup', '/signup', Record<never, never>, Record<never, never>>,
     '/SysAdmin': RouteRecordInfo<'/SysAdmin', '/SysAdmin', Record<never, never>, Record<never, never>>,
   }
 
@@ -55,16 +55,16 @@ declare module 'vue-router/auto-routes' {
       routes: '/CarTracing'
       views: never
     }
-    'src/pages/Events.vue': {
-      routes: '/Events'
+    'src/pages/events.vue': {
+      routes: '/events'
       views: never
     }
-    'src/pages/Race.vue': {
-      routes: '/Race'
+    'src/pages/race.vue': {
+      routes: '/race'
       views: never
     }
-    'src/pages/Signup.vue': {
-      routes: '/Signup'
+    'src/pages/signup.vue': {
+      routes: '/signup'
       views: never
     }
     'src/pages/SysAdmin.vue': {
