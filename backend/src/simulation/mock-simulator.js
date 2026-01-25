@@ -1,23 +1,22 @@
 const injectCarRaceData = (cars) => {
-
-    if (!cars || cars.length == 0) {
+    if (!Array.isArray(cars) || cars.length === 0) {
         console.log("[ERROR] Invalid cars object.");
-        return;
+        return [];
     }
 
     cars.forEach(element => {
         if (element.progress === undefined || element.progress === null) {
             element.progress = 0;
-        } else {
-            const prevProgress = element.progress;
-            element.progress = prevProgress + getRandomBetween(1, 5);
+        }
+        else {
+            const speed = getRandomBetween(3, 5);
+            element.progress = (element.progress + speed) % 100;
         }
     });
 
     return cars;
 
 }
-
 
 const assembleTelemetryData = () => {
 

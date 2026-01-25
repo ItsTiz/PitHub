@@ -1,58 +1,80 @@
 <script setup>
-import { onMounted, watch, ref, onUnmounted } from 'vue';
-
 import gsap from 'gsap';
 import MotionPathPlugin from 'gsap/MotionPathPlugin';
-
+import { useRaceStore } from "@/stores/race";
+import { onMounted, watch, ref, onUnmounted, computed, useTemplateRef } from 'vue';
 import { tracks } from '@/composables/constants/tracks.js';
+const raceStore = useRaceStore();
 
 gsap.registerPlugin(MotionPathPlugin);
 
-const progress = ref(0);
+const carRef = useTemplateRef('car')
+const pathRef = useTemplateRef('path')
+const lapCount = ref(0);
+
+const mountMainAnimation = () => {
+    pathAnimation =
+        gsap.to(
+            carRef.value,
+            {
+                motionPath: {
+                    path: pathRef.value,
+                    align: pathRef.value,
+                    alignOrigin: [0.5, 0.5]
+                },
+                duration: 1,
+                repeat: -1,
+                paused: true,
+                ease: "none"
+            }
+        );
+}
 
 const props = defineProps({
-    // progress: { type: Number, default: 10 },
-    trackName: { type: String, default: 'monza' }
+    trackName: { type: String, default: 'monza' },    
 });
 
 const currentTrack = tracks[props.trackName];
-const carRef = useTemplateRef('car')
-const carRef2 = useTemplateRef('car2')
-const pathRef = useTemplateRef('path')
-let pathAnimation = null;
+
+let pathAnimation = {};
+
+const progress = computed(() => {
+    return raceStore.cars[0]?.progress ?? 0;
+});
+
+watch(progress, (newVal, oldVal) => {
+    if (!pathAnimation) return;
+
+    const prev = (oldVal ?? 0) / 100;
+    const current = newVal / 100;
+
+    // detecting the "lap wrap-around"
+    if (prev > 0.8 && current < 0.2) {
+        lapCount.value++;
+    }
+
+    const targetTime = lapCount.value + current;
+
+    gsap.to(
+        pathAnimation,
+        {
+            totalTime: targetTime,
+            duration: 1, 
+            ease: "power1.out",
+            overwrite: true // allegedly, kills half-baked animations
+        }
+    );
+});
+
 
 onMounted(() => {
-    
-    pathAnimation = gsap.to(carRef.value,
-    {
-        motionPath: {
-            path: "path",
-            align: "path",
-            alignOrigin: [0.5, 0.5],
-        },
-        duration: 1,
-        paused: true,
-        ease: "none"
-    });
+    raceStore.subscribeToRace();
+    mountMainAnimation();
 });
 
 onUnmounted(() => {
-    if (pathAnimation) pathAnimation.kill();
-});
-
-watch(progress, (newVal, prevVal) => {
-    if (!pathAnimation) return;
-
-    const targetProgress = Math.min(Math.max(newVal / 100, 0), 1);
-
-    gsap.to(
-    pathAnimation,
-    {
-        progress: targetProgress,
-        duration: 0.5,
-        ease: "power2.out"
-    });
-    
+    raceStore.unsubscribeFromRace();
+    if (pathAnimation) pathAnimation.kill(); //releasing it for gbc
 });
 
 </script>
@@ -61,45 +83,31 @@ watch(progress, (newVal, prevVal) => {
     <div class="d-flex flex-row align-center justify-space-around w-100 h-100 no-select">
         <Card>
             <template #title>
-                <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold flex-grow-0">ADD TRACK TITLE HERE + DATE</div>
+                <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold flex-grow-0">
+                    {{ trackName }}
+                </div>
             </template>
             <template #text>
-                <div class="track-container">
+                <div class="d-flex flex-row align-center justify-space-around w-100 h-100 no-select">
                     <svg
                         :viewBox="currentTrack.viewBox"
-                        class="track-object"
+                        class="w-66 h-66"
                     >
                     <path
-                        :ref="path"
+                        ref="path"
                         :d="currentTrack.path"
                         fill="none"
                         stroke="black"
-                        stroke-width="5"
+                        stroke-width="4"
                     />
                     <circle
                         ref="car"
-                        r="8"
+                        r="6"
                         fill="#b11914"
                         stroke="red"
                         stroke-width="2"
                     />
-                    <circle
-                        ref="car2"
-                        r="8"
-                        fill="#56564d"
-                        stroke="blue"
-                        stroke-width="2"
-                    />
                     </svg>
-
-                    <v-slider
-                        v-model="progress"
-                        :step="1"
-                        :max="100"
-                        :min="0"
-                        width="500"
-                        track-color="white"
-                    ></v-slider>
                 </div>
             </template>
         </Card>
@@ -107,18 +115,6 @@ watch(progress, (newVal, prevVal) => {
 </template>
 
 <style scoped>
-.track-container {
-    display: flex;
-    flex: column;
-    align-items: center;
-    justify-items: center;
-}
-
-.track-object {
-    width: 50%;
-    height: 50%;
-}
-
 .no-select,
 .no-select * {
   -webkit-user-select: none;

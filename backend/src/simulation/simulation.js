@@ -4,13 +4,12 @@ import { assembleTelemetryData, injectCarRaceData } from "./mock-simulator.js";
 import { getCars } from "./data-fetcher.js";
 
 let timeout;
-let carsRacing = [];
+let carsRacing;
 
-const startSimulation = (io) => {
+const startSimulation = async (io) => {
     //TODO break this on its own class to simulate different data
 
-    carsRacing = getCars();
-
+    carsRacing = await getCars();
     timeout = setInterval(() => {
         //TODO auth here too, for now ferrari is default
         const teamId = 'ferrari';

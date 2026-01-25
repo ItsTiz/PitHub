@@ -1,10 +1,11 @@
 <script setup>
+import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import RaceView from '../../components/pages-components/control-room/race-view/RaceView.vue';
 const { smAndDown } = useDisplay()
 const cols = computed(() => {
-    return smAndDown.value ? [12, 12, 12] : [2, 7, 3]
-})
+    return smAndDown.value ? [12, 12, 12] : [2, 7, 3];
+});
 
 </script>
 

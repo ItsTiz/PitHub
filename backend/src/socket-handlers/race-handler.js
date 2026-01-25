@@ -2,7 +2,7 @@ import RaceEvent from "../simulation/events/race-events.js";
 
 const registerRaceHandlers = (io, socket) => {
 
-    const joinRace = (payload, callback) => {
+    const joinRace = (callback) => {
 
         socket.join(RaceEvent.ROOM_PREFIX);
         console.log(`[${socket.id}] Client joined race view`);
