@@ -15,7 +15,7 @@ export const useRaceStore = defineStore("race", {
             if (this.isListening) return;
 
             socket.on("race:update", (data) => {
-                console.log("[race-store] received data: ", data);
+               // console.log("[race-store] received data: ", data);
                 this.cars = data;
             });
 
