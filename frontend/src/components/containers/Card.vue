@@ -15,7 +15,7 @@ const props = defineProps({
             class="fill-height rounded-lg d-flex flex-column justify-space-around"
             border="sm"
         >
-            <v-card-title class="flex-grow-1" v-if="$slots.title">
+            <v-card-title class="flex-grow-0" v-if="$slots.title">
                 <slot name="title"></slot>
             </v-card-title>
 

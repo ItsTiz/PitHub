@@ -57,7 +57,6 @@ const latestTemp = computed(() => {
                 :line-width="line_width"
                 :smooth="16"
                 stroke-linecap="round"
-                auto-draw
             >
                 <template #label="item"> -{{ 10-item.index }}s </template>
             </v-sparkline>
