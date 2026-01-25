@@ -106,6 +106,10 @@ class BaseController {
                 this._genericServerError(res, err);
             });
     }
+
+    getElementsAsJsArray = async () => {
+        return await this._schemaModel.find().lean(); 
+    }
 }
 
 export default BaseController;
