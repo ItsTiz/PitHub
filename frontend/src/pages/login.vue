@@ -92,5 +92,5 @@ const submit = async () => {
 <route lang="yaml">
 meta:
   guestOnly: true
-  layout: guest        
+  layout: authl        
 </route>

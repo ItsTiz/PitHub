@@ -14,6 +14,7 @@ declare module 'vue' {
     AppFooter: typeof import('./src/components/layouts/AppFooter.vue')['default']
     AppHeader: typeof import('./src/components/layouts/AppHeader.vue')['default']
     Auth: typeof import('./src/components/views/Auth.vue')['default']
+    Authl: typeof import('./src/components/layouts/authl.vue')['default']
     Button: typeof import('./src/components/controls/Button.vue')['default']
     Card: typeof import('./src/components/containers/Card.vue')['default']
     CarTracing: typeof import('./src/components/views/CarTracing.vue')['default']

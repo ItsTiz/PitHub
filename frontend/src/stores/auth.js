@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import axios from 'axios'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+const API_BASE = import.meta.env.VITE_API_URL || 'https://localhost:3000'
 
 export const useAuthStore = defineStore('auth', () => {
   // State
@@ -38,7 +38,8 @@ export const useAuthStore = defineStore('auth', () => {
 
   const login = async (email, password) => {
     try {
-      const { data } = await axios.post(`${API_BASE}/users/login`, { email, password })
+      //axios.defaults.httpsAgent = new (require('https').Agent)({ rejectUnauthorized: false });
+      const { data } = await axios.post(`${API_BASE}/v1/users/login`, { email, password })
       setAuth(data.token, data.user)
       return data.user
     } catch (err) {
@@ -48,7 +49,8 @@ export const useAuthStore = defineStore('auth', () => {
 
   const register = async (payload) => {
   try {
-    const { data } = await axios.post(`${API_BASE}/users/register`, payload)
+    //axios.defaults.httpsAgent = new (require('https').Agent)({ rejectUnauthorized: false });
+    const { data } = await axios.post(`${API_BASE}/v1/users/register`, payload)
 
     await login(payload.email, payload.password)
 
