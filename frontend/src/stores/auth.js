@@ -38,7 +38,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const login = async (email, password) => {
     try {
-      //axios.defaults.httpsAgent = new (require('https').Agent)({ rejectUnauthorized: false });
+      axios.defaults.httpsAgent = new (require('https').Agent)({ rejectUnauthorized: false });
       const { data } = await axios.post(`${API_BASE}/v1/users/login`, { email, password })
       setAuth(data.token, data.user)
       return data.user
@@ -49,7 +49,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const register = async (payload) => {
   try {
-    //axios.defaults.httpsAgent = new (require('https').Agent)({ rejectUnauthorized: false });
+    axios.defaults.httpsAgent = new (require('https').Agent)({ rejectUnauthorized: false });
     const { data } = await axios.post(`${API_BASE}/v1/users/register`, payload)
 
     await login(payload.email, payload.password)

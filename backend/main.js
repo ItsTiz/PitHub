@@ -1,13 +1,18 @@
-import app from "./src/app.js"
+import app from "./src/config/app.js"
 import { connectDb } from "./src/config/db.js";
-
-const PORT = 3000;
+import { createHttpServer } from "./src/config/httpserver.js"
+import { startSimulation } from "./src/simulation/simulation.js"
+import 'dotenv/config';
 
 const startServer = async () => {
     await connectDb();
 
-    app.listen(PORT, () => {
-        console.log('Server running on port: ', PORT);
+    const {httpServer, io} = createHttpServer(app);
+
+    startSimulation(io);
+
+    httpServer.listen(process.env.PORT, () => {
+        console.log('Server running on port: ', process.env.PORT);
     });
 };
 

@@ -20,13 +20,12 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
-    '/Auth': RouteRecordInfo<'/Auth', '/Auth', Record<never, never>, Record<never, never>>,
-    '/CarTracing': RouteRecordInfo<'/CarTracing', '/CarTracing', Record<never, never>, Record<never, never>>,
-    '/Events': RouteRecordInfo<'/Events', '/Events', Record<never, never>, Record<never, never>>,
-    '/Login': RouteRecordInfo<'/Login', '/Login', Record<never, never>, Record<never, never>>,
-    '/Race': RouteRecordInfo<'/Race', '/Race', Record<never, never>, Record<never, never>>,
-    '/Signup': RouteRecordInfo<'/Signup', '/Signup', Record<never, never>, Record<never, never>>,
-    '/SysAdmin': RouteRecordInfo<'/SysAdmin', '/SysAdmin', Record<never, never>, Record<never, never>>,
+    '/cartracing': RouteRecordInfo<'/cartracing', '/cartracing', Record<never, never>, Record<never, never>>,
+    '/events': RouteRecordInfo<'/events', '/events', Record<never, never>, Record<never, never>>,
+    '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
+    '/race': RouteRecordInfo<'/race', '/race', Record<never, never>, Record<never, never>>,
+    '/signup': RouteRecordInfo<'/signup', '/signup', Record<never, never>, Record<never, never>>,
+    '/sysadmin': RouteRecordInfo<'/sysadmin', '/sysadmin', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -48,32 +47,28 @@ declare module 'vue-router/auto-routes' {
       routes: '/[...path]'
       views: never
     }
-    'src/pages/Auth.vue': {
-      routes: '/Auth'
+    'src/pages/cartracing.vue': {
+      routes: '/cartracing'
       views: never
     }
-    'src/pages/CarTracing.vue': {
-      routes: '/CarTracing'
+    'src/pages/events.vue': {
+      routes: '/events'
       views: never
     }
-    'src/pages/Events.vue': {
-      routes: '/Events'
+    'src/pages/login.vue': {
+      routes: '/login'
       views: never
     }
-    'src/pages/Login.vue': {
-      routes: '/Login'
+    'src/pages/race.vue': {
+      routes: '/race'
       views: never
     }
-    'src/pages/Race.vue': {
-      routes: '/Race'
+    'src/pages/signup.vue': {
+      routes: '/signup'
       views: never
     }
-    'src/pages/Signup.vue': {
-      routes: '/Signup'
-      views: never
-    }
-    'src/pages/SysAdmin.vue': {
-      routes: '/SysAdmin'
+    'src/pages/sysadmin.vue': {
+      routes: '/sysadmin'
       views: never
     }
   }

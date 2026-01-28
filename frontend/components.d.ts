@@ -11,25 +11,18 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AppFooter: typeof import('./src/components/layouts/AppFooter.vue')['default']
-    AppHeader: typeof import('./src/components/layouts/AppHeader.vue')['default']
-    Auth: typeof import('./src/components/views/Auth.vue')['default']
+    AppFooter: typeof import('./src/components/sections/AppFooter.vue')['default']
+    AppHeader: typeof import('./src/components/sections/AppHeader.vue')['default']
     Authl: typeof import('./src/components/layouts/authl.vue')['default']
     Button: typeof import('./src/components/controls/Button.vue')['default']
     Card: typeof import('./src/components/containers/Card.vue')['default']
-    CarTracing: typeof import('./src/components/views/CarTracing.vue')['default']
-    Events: typeof import('./src/components/views/Events.vue')['default']
-    Footer: typeof import('./src/components/layouts/Footer.vue')['default']
-    Header: typeof import('./src/components/layouts/AppHeader.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    CircularGauge: typeof import('./src/components/pages-components/carTracing/CircularGauge.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
     NotFound: typeof import('./src/components/NotFound.vue')['default']
     Odometer: typeof import('./src/components/pages-components/carTracing/Odometer.vue')['default']
-    Race: typeof import('./src/components/views/Race.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SemiCircularGauge: typeof import('./src/components/pages-components/carTracing/SemiCircularGauge.vue')['default']
     Sheet: typeof import('./src/components/containers/Sheet.vue')['default']
-    Signup: typeof import('./src/components/views/Signup.vue')['default']
-    SystemManagement: typeof import('./src/components/views/SystemManagement.vue')['default']
   }
 }
