@@ -13,6 +13,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: typeof import('./src/components/sections/AppFooter.vue')['default']
     AppHeader: typeof import('./src/components/sections/AppHeader.vue')['default']
+    Authl: typeof import('./src/components/layouts/authl.vue')['default']
     Button: typeof import('./src/components/controls/Button.vue')['default']
     Card: typeof import('./src/components/containers/Card.vue')['default']
     CircularGauge: typeof import('./src/components/pages-components/carTracing/CircularGauge.vue')['default']

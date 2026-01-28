@@ -9,18 +9,18 @@ let carsRacing = [];
 const startSimulation = (io) => {
     //TODO break this on its own class to simulate different data
 
-    carsRacing = getCars();
+    //carsRacing = getCars();
 
     timeout = setInterval(() => {
         //TODO auth here too, for now ferrari is default
         const teamId = 'ferrari';
         const telemetryData = assembleTelemetryData();
 
-        carsRacing = injectCarRaceData(carsRacing);
+        //carsRacing = injectCarRaceData(carsRacing);
 
-        io
-        .to(RaceEvent.ROOM_PREFIX)
-        .emit(RaceEvent.UPDATE, carsRacing);
+        // io
+        // .to(RaceEvent.ROOM_PREFIX)
+        // .emit(RaceEvent.UPDATE, carsRacing);
 
         io
         .to(TelemetryEvent.ROOM_PREFIX+`${teamId}`)
