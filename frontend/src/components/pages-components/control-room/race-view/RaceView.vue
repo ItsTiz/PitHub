@@ -4,8 +4,12 @@ import MotionPathPlugin from 'gsap/MotionPathPlugin';
 import { useRaceStore } from "@/stores/race";
 import { onMounted, watch, ref, onUnmounted, computed, useTemplateRef } from 'vue';
 import { tracks } from '@/composables/constants/tracks.js';
+import { getTeamHex } from '../../../../composables/utils/teams-colors';
 const raceStore = useRaceStore();
+
+import { useTheme } from 'vuetify'
 const { cars } = storeToRefs(raceStore);
+const theme = useTheme()
 
 gsap.registerPlugin(MotionPathPlugin);
 
@@ -45,6 +49,10 @@ const initializedCars = new Set()
 const progress = computed(() => {
     return raceStore.cars[0]?.progress ?? 0;
 });
+
+const getColor = (name) =>{
+    return getTeamColor(name)
+}
 
 watch(cars, (newCars, oldCars) => {
     
@@ -107,11 +115,11 @@ onUnmounted(() => {
                         stroke-width="4"
                     />
                     <circle v-for="(car, index) in cars" 
-                        :key="car.id || index"
+                        :key="car._id || index"
                         :ref="(el) => carElements[index] = el"
                         r="6" 
-                        fill="#b11914" 
-                        stroke="red" 
+                        :fill="getTeamHex(theme, car.team.full_name)" 
+                        :stroke="getTeamHex(theme, car.team.full_name, darken = true)" 
                         stroke-width="2"
                     />
                     </svg>

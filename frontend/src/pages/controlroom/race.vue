@@ -5,7 +5,7 @@ import RaceView from '../../components/pages-components/control-room/race-view/R
 import Leaderboard from '../../components/pages-components/control-room/race-view/Leaderboard.vue';
 const { smAndDown } = useDisplay()
 const cols = computed(() => {
-    return smAndDown.value ? [12, 12, 12] : [2, 7, 3];
+    return smAndDown.value ? [12, 12, 12] : [3, 6, 3];
 });
 
 </script>

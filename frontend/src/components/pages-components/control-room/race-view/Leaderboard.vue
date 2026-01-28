@@ -1,33 +1,42 @@
 <script setup>
 import { useRaceStore } from '@/stores/race';
-
+import { getTeamColor } from '../../../../composables/utils/teams-colors';
 const raceStore = useRaceStore();
 const { cars } = storeToRefs(raceStore);
+
+const getColor = (name) =>{
+    return getTeamColor(name) + " md"
+}
+
 </script>
 
 <template>
-    <v-list class="bg-transparent pa-4 w-100">
+    <v-list class="pa-1 w-100 bg-transparent">
     <TransitionGroup name="flip-list" tag="ul">
         
         <v-list-item
-            class="mb-2 rounded-lg elevation-2"
+            class="super-compact rounded-lg ma-1 elevation-2 border-opacity-75"
+            rounded="xl"
+            density="compact"
+            lines="two" 
             v-for="(car, index) in cars"
             :key="car._id" 
-            :class="{ 'leader': index === 0 }"
+            :border="getColor(car.team.name)"
+            
         >
             <template #prepend>
-                <v-avatar color="grey-lighten-2" size="32" class="font-weight-bold">
+                <v-avatar :color="index === 0 ? 'warning' : 'grey-lighten-1'" size="16" class="font-weight-bold text-caption">
                     {{ index + 1 }}
                 </v-avatar>
-            </template>
+            </template> 
 
-            <v-list-item-title class="font-weight-bold">
-                {{ `${car.model}` }}
+            <v-list-item-title class="font-weight-bold text-caption">
+                {{ `${car.driver.full_name}` }}
             </v-list-item-title>
 
             <template #append>
                 <div class="text-caption">
-                    Lap {{ car.lapCount || 0 }}
+                    lap: {{ car.lapCount || 0 }}
                 </div>
             </template>
         </v-list-item>
@@ -37,6 +46,12 @@ const { cars } = storeToRefs(raceStore);
 </template>
 
 <style scoped>
+
+.super-compact {
+  min-height: 25px !important; 
+  padding: 2px 4px !important; 
+}
+
 .flip-list-move {
   transition: transform 0.5s ease;
 }
