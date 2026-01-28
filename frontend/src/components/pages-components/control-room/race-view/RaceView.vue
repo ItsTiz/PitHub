@@ -49,7 +49,6 @@ const progress = computed(() => {
 watch(cars, (newCars, oldCars) => {
     
     newCars.forEach((car, index) => {
-        console.log(car);
         const tween = animations[index];
         if (!tween) return;
         const targetTime = (car.lapCount || 0) + (car.progress / 100);
