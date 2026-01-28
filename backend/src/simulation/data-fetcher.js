@@ -2,7 +2,9 @@ import controller from '../controllers/cars-controller.js';
 
 
 const getCars = async () => {
-    return await controller.getElementsAsJsArray();
+    const cars = await controller.getElementsAsJsArray();
+    console.log(cars);
+    return cars;
 }
 
 export { getCars };

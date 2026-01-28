@@ -31,7 +31,8 @@ const carSchema = new mongoose.Schema({
             max: 100
         }
     },
-    team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
+    team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
+    driver: { type: mongoose.Schema.Types.ObjectId, ref: 'Driver' }
 });
 
 const carModel = mongoose.model('Car', carSchema);

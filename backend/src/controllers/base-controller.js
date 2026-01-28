@@ -108,7 +108,11 @@ class BaseController {
     }
 
     getElementsAsJsArray = async () => {
-        return await this._schemaModel.find().lean();;
+        return await this._schemaModel
+            .find()
+            .populate('team')
+            .populate('driver')
+            .lean();
     }
 }
 
