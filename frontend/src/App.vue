@@ -28,6 +28,6 @@ onUnmounted(() => {
     <v-app
         :theme="appStore.appTheme"
     >
-        <router-view />
+        <RouterView />
     </v-app>
 </template>

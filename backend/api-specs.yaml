@@ -7,9 +7,9 @@ info:
     email: tiziano.vuksan@studio.unibo.it, ines.fraccalvieri@studio.unibo.it
   version: 1.0.0
 servers:
-  - url: https://api.pithub.com/v1
+  - url: http://api.pithub.com/v1
     description: Production server
-  - url: https://localhost:3000/v1
+  - url: http://localhost:3000/v1
     description: Sandbox server
 
 paths:

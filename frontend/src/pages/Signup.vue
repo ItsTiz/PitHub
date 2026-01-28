@@ -19,55 +19,54 @@ const pageTitle = computed(() => isAdminCreating.value ? 'Create New User' : 'Si
 const buttonText = computed(() => isAdminCreating.value ? 'Create User' : 'Sign Up')
 
 const submit = async () => {
-  error.value = null
-  success.value = null
+    error.value = null
+    success.value = null
 
-  if (password.value !== confirmPassword.value) {
-    error.value = 'Passwords do not match'
-    return
-  }
-
-  if (!email.value.trim()) {
-    error.value = 'Email is required'
-    return
-  }
-
-  try {
-    loading.value = true
-
-    const payload = {
-      email: email.value.trim(),
-      password: password.value
+    if (password.value !== confirmPassword.value) {
+        error.value = 'Passwords do not match'
+        return
     }
 
-    // Only include role if admin is creating
-    if (isAdminCreating.value) {
-      payload.role = role.value
+    if (!email.value.trim()) {
+        error.value = 'Email is required'
+        return
     }
 
-    await auth.register(payload)
+    try {
+        loading.value = true
 
-    if (!auth.isAuthenticated) {
-      // Public signup → auto-login & redirect
-      await auth.login(email.value.trim(), password.value)
-      auth.redirectByRole(router)
-    } else {
-      // Admin created user → show success, stay or redirect to user list
-      success.value = `User ${email.value} created successfully with role: ${role.value}`
-      router.push('/sysadmin')          // or '/admin/users' — adjust to your route
-      // Optional: reset form
-      email.value = ''
-      password.value = ''
-      confirmPassword.value = ''
-      role.value = 'user'
+        const payload = {
+            email: email.value.trim(),
+            password: password.value
+        }
+
+        // Only include role if admin is creating
+        if (isAdminCreating.value) {
+            payload.role = role.value
+        }
+
+        await auth.register(payload)
+
+        if (auth.isAuthenticated) {
+            await auth.login(email.value.trim(), password.value)
+            auth.redirectByRole(router)
+        } else {
+            success.value = `User ${email.value} created successfully with role: ${role.value}`
+            // Todo optional
+            router.push('/sysadmin')
+            email.value = ''
+            password.value = ''
+            confirmPassword.value = ''
+            role.value = 'user'
+        }
+    } catch (err) {
+        console.log(err);
+        error.value = err.response?.data?.message
+            || err.message
+            || 'Operation failed. Please try again.'
+    } finally {
+        loading.value = false
     }
-  } catch (err) {
-    error.value = err.response?.data?.message
-      || err.message
-      || 'Operation failed. Please try again.'
-  } finally {
-    loading.value = false
-  }
 }
 </script>
 
@@ -172,4 +171,6 @@ const submit = async () => {
 <route lang="yaml">
 meta:
   guestOnly: true   # ← only applies to public /signup; admin can still access if you have /admin/signup or similar
+  requiresAuth: false
+  layout: authlayout
 </route>

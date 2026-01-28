@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema(
 
 userSchema.pre('save', function (next) {
     this.email = this.email.toLowerCase();
-    next();
 });
 
 const userModel = mongoose.model('User', userSchema);

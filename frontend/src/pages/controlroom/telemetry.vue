@@ -24,18 +24,6 @@ watch(getOilTemp, (temp, _) => {
     }
     oil_temp_values.value.push(temp);
 })
-
-onMounted(() => {
-    //TODO auth here too;
-    const token = "";
-    telemetryStore.subscribeToTeam(token);
-});
-
-onUnmounted(() => {
-    telemetryStore.unsubscribeFromTeam();
-});
-
-
 </script>
 
 
@@ -93,3 +81,10 @@ onUnmounted(() => {
 
     </v-container>
 </template>
+
+<route lang="yaml">
+meta:
+  requiresAuth: true
+  minRole: 'team'
+  guestOnly: false
+</route>

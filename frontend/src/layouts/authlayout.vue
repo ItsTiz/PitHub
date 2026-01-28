@@ -1,10 +1,20 @@
+<script setup>
+    import { ref } from 'vue'
+    import { useAuthStore } from '@/stores/auth'
+
+    const auth = useAuthStore()
+    const drawer = ref(false)
+</script>
+
 <template>
   <v-app>
-    <v-main v-if="!auth.isAuthenticated" class="auth-main">
-      <slot />
+      <v-main class="auth-main"> 
+      <RouterView />
     </v-main>
+    
+    <!-- v-if="!auth.isAuthenticated"  -->
 
-    <template v-else>
+    <!-- <template v-else>
       <v-app-bar app color="primary" dark>
         <v-toolbar-title>PitHub</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -20,19 +30,11 @@
       </v-navigation-drawer>
 
       <v-main>
-        <slot />
+        <RouterView />
       </v-main>
-    </template>
+    </template> -->
   </v-app>
 </template>
-
-<script setup>
-  import { ref } from 'vue'
-  import { useAuthStore } from '@/stores/auth'
-
-  const auth = useAuthStore()
-  const drawer = ref(false)
-</script>
 
 <style scoped>
 .auth-main {
@@ -40,6 +42,6 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  background: var(--v-theme-background);
 }
 </style>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
@@ -6,25 +6,25 @@ import { useAuthStore } from '@/stores/auth'
 const auth = useAuthStore()
 const router = useRouter()
 
-const email = ref('')
-const password = ref('')
+const email = ref("")
+const password = ref("")
 const loading = ref(false)
-const error = ref<string | null>(null)
+const error = ref("")
 
 const submit = async () => {
-  error.value = null
-  loading.value = true
+    error.value = null
+    loading.value = true
 
-  try {
-    await auth.login(email.value.trim(), password.value)
-    auth.redirectByRole(router)
-  } catch (err: any) {
-    error.value = err.response?.data?.message
-      || err.message
-      || 'Invalid email or password. Please try again.'
-  } finally {
-    loading.value = false
-  }
+    try {
+        await auth.login(email.value.trim(), password.value)
+        auth.redirectByRole(router)
+    } catch (err) {
+        error.value = err.response?.data?.message
+            || err.message
+            || 'Invalid email or password. Please try again.'
+    } finally {
+        loading.value = false
+    }
 }
 </script>
 
@@ -92,5 +92,6 @@ const submit = async () => {
 <route lang="yaml">
 meta:
   guestOnly: true
-  layout: authl        
+  layout: authlayout
+  requiresAuth: false
 </route>

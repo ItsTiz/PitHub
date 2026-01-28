@@ -79,11 +79,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://localhost:3000',
+        target: 'http://localhost:3000',
         changeOrigin: true
       },
       '/socket.io': {
-        target: 'https://localhost:3000',
+        target: 'http://localhost:3000',
         ws: true
       },
     }

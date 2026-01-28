@@ -11,7 +11,6 @@ gsap.registerPlugin(MotionPathPlugin);
 
 const carElements = ref([]);
 const pathRef = useTemplateRef('path')
-const lapCount = ref(0);
 
 const mountMainAnimation = () => {
     carElements.value.forEach(element => {
@@ -31,9 +30,7 @@ const mountMainAnimation = () => {
                 }
             );
         animations.push(tween);
-    });
-    console.log(animations)
-    
+    });    
 }
 
 const props = defineProps({
@@ -74,12 +71,10 @@ watch(cars, (newCars, oldCars) => {
 
 
 onMounted(() => {
-    raceStore.subscribeToRace();
     mountMainAnimation();
 });
 
 onUnmounted(() => {
-    raceStore.unsubscribeFromRace();
     if(animations){
         animations.forEach(element => {
             element.kill();  //releasing it for gbc

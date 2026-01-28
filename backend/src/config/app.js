@@ -17,10 +17,10 @@ app.use(cors());
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-app.use('/cars', carsRouter);
-app.use('/teams', teamsRouter);
-app.use('/drivers', driversRouter);
-app.use('/user', userRouter);
+app.use('/v1/cars', carsRouter);
+app.use('/v1/teams', teamsRouter);
+app.use('/v1/drivers', driversRouter);
+app.use('/v1/users', userRouter);
 
 app.get('/', (_, res) => { res.redirect('/api-docs');});
 
