@@ -47,7 +47,7 @@ export default defineConfig({
         },
       ],
       eslintrc: {
-        enabled: true,
+        enabled: false,
       },
       vueTemplate: true,
     }),
@@ -79,13 +79,13 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'https://localhost:3000',
         changeOrigin: true
       },
       '/socket.io': {
-        target: 'http://localhost:3000',
+        target: 'https://localhost:3000',
         ws: true
-      }
+      },
     }
   },
 })

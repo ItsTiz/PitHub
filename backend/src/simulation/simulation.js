@@ -4,7 +4,7 @@ import { assembleTelemetryData, injectCarRaceData } from "./mock-simulator.js";
 import { getCars } from "./data-fetcher.js";
 
 let timeout;
-let carsRacing;
+let carsRacing = [];
 
 const startSimulation = async (io) => {
     //TODO break this on its own class to simulate different data
