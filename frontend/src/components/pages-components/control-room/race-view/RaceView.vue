@@ -47,6 +47,7 @@ const progress = computed(() => {
 });
 
 watch(cars, (newCars, oldCars) => {
+    
     newCars.forEach((car, index) => {
         const tween = animations[index];
         if (!tween) return;
