@@ -22,6 +22,7 @@ declare module 'vue' {
     CircularGauge: typeof import('./src/components/pages-components/carTracing/CircularGauge.vue')['default']
     copy: typeof import('./src/components/pages-components/SemiCircularGauge copy.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
+    Leaderboard: typeof import('./src/components/pages-components/control-room/race-view/Leaderboard.vue')['default']
     LinearGauge: typeof import('./src/components/pages-components/LinearGauge.vue')['default']
     LinearGraph: typeof import('./src/components/pages-components/LinearGraph.vue')['default']
     NotFound: typeof import('./src/components/NotFound.vue')['default']

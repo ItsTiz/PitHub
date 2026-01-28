@@ -25,11 +25,11 @@ declare module 'vue-router/auto-routes' {
     '/controlroom/comms': RouteRecordInfo<'/controlroom/comms', '/controlroom/comms', Record<never, never>, Record<never, never>>,
     '/controlroom/race': RouteRecordInfo<'/controlroom/race', '/controlroom/race', Record<never, never>, Record<never, never>>,
     '/controlroom/telemetry': RouteRecordInfo<'/controlroom/telemetry', '/controlroom/telemetry', Record<never, never>, Record<never, never>>,
-    '/events': RouteRecordInfo<'/events', '/events', Record<never, never>, Record<never, never>>,
+    '/Events': RouteRecordInfo<'/Events', '/Events', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
-    '/race': RouteRecordInfo<'/race', '/race', Record<never, never>, Record<never, never>>,
-    '/signup': RouteRecordInfo<'/signup', '/signup', Record<never, never>, Record<never, never>>,
-    '/sysadmin': RouteRecordInfo<'/sysadmin', '/sysadmin', Record<never, never>, Record<never, never>>,
+    '/Race': RouteRecordInfo<'/Race', '/Race', Record<never, never>, Record<never, never>>,
+    '/Signup': RouteRecordInfo<'/Signup', '/Signup', Record<never, never>, Record<never, never>>,
+    '/SysAdmin': RouteRecordInfo<'/SysAdmin', '/SysAdmin', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -71,24 +71,24 @@ declare module 'vue-router/auto-routes' {
       routes: '/controlroom/telemetry'
       views: never
     }
-    'src/pages/events.vue': {
-      routes: '/events'
+    'src/pages/Events.vue': {
+      routes: '/Events'
       views: never
     }
     'src/pages/login.vue': {
       routes: '/login'
       views: never
     }
-    'src/pages/race.vue': {
-      routes: '/race'
+    'src/pages/Race.vue': {
+      routes: '/Race'
       views: never
     }
-    'src/pages/signup.vue': {
-      routes: '/signup'
+    'src/pages/Signup.vue': {
+      routes: '/Signup'
       views: never
     }
-    'src/pages/sysadmin.vue': {
-      routes: '/sysadmin'
+    'src/pages/SysAdmin.vue': {
+      routes: '/SysAdmin'
       views: never
     }
   }

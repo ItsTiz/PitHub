@@ -34,7 +34,7 @@ const mountMainAnimation = () => {
 }
 
 const props = defineProps({
-    trackName: { type: String, default: 'monza' },    
+    trackName: { type: String, default: 'imola' },    
 });
 
 const currentTrack = tracks[props.trackName];

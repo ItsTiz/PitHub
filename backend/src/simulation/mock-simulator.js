@@ -23,6 +23,20 @@ const injectCarRaceData = (cars) => {
 
 }
 
+const sortCars = (cars) => {
+     if (!Array.isArray(cars) || cars.length === 0) {
+        console.log("[ERROR] Invalid cars object.");
+        return [];
+    }
+
+    return cars.sort((a, b) => {
+        const totalProgressA = ((a.lapCount || 0) + ((a.progress || 0) / 100)) ?? 0; 
+        const totalProgressB = ((b.lapCount || 0) + ((b.progress || 0) / 100)) ?? 0;
+
+        return totalProgressB - totalProgressA;
+    });
+}
+
 const assembleTelemetryData = () => {
 
     const data = {
@@ -53,4 +67,4 @@ function getRandomBetween(min, max) {
     return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
 }
 
-export { assembleTelemetryData, injectCarRaceData };
+export { assembleTelemetryData, injectCarRaceData, sortCars };

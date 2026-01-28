@@ -1,6 +1,6 @@
 import TelemetryEvent from "./events/telemetry-events.js";
 import RaceEvent from "./events/race-events.js";
-import { assembleTelemetryData, injectCarRaceData } from "./mock-simulator.js";
+import { assembleTelemetryData, injectCarRaceData, sortCars } from "./mock-simulator.js";
 import { getCars } from "./data-fetcher.js";
 
 let timeout;
@@ -15,7 +15,7 @@ const startSimulation = async (io) => {
         const teamId = 'ferrari';
         const telemetryData = assembleTelemetryData();
 
-        carsRacing = injectCarRaceData(carsRacing);
+        carsRacing = sortCars(injectCarRaceData(carsRacing));
 
         io
         .to(RaceEvent.ROOM_PREFIX)

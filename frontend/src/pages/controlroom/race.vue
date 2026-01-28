@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import RaceView from '../../components/pages-components/control-room/race-view/RaceView.vue';
+import Leaderboard from '../../components/pages-components/control-room/race-view/Leaderboard.vue';
 const { smAndDown } = useDisplay()
 const cols = computed(() => {
     return smAndDown.value ? [12, 12, 12] : [2, 7, 3];
@@ -15,7 +16,7 @@ const cols = computed(() => {
             <v-col :cols="cols[0]">
                 <Sheet class="h-100" elevation="5">
                     <template v-slot:default>
-
+                        <Leaderboard/>
                     </template>
                 </Sheet>
             </v-col>
