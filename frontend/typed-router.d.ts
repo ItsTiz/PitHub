@@ -20,7 +20,11 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
-    '/cartracing': RouteRecordInfo<'/cartracing', '/cartracing', Record<never, never>, Record<never, never>>,
+    '/controlroom': RouteRecordInfo<'/controlroom', '/controlroom', Record<never, never>, Record<never, never>, '/controlroom/' | '/controlroom/comms' | '/controlroom/race' | '/controlroom/telemetry'>,
+    '/controlroom/': RouteRecordInfo<'/controlroom/', '/controlroom', Record<never, never>, Record<never, never>>,
+    '/controlroom/comms': RouteRecordInfo<'/controlroom/comms', '/controlroom/comms', Record<never, never>, Record<never, never>>,
+    '/controlroom/race': RouteRecordInfo<'/controlroom/race', '/controlroom/race', Record<never, never>, Record<never, never>>,
+    '/controlroom/telemetry': RouteRecordInfo<'/controlroom/telemetry', '/controlroom/telemetry', Record<never, never>, Record<never, never>>,
     '/events': RouteRecordInfo<'/events', '/events', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
     '/race': RouteRecordInfo<'/race', '/race', Record<never, never>, Record<never, never>>,
@@ -47,8 +51,24 @@ declare module 'vue-router/auto-routes' {
       routes: '/[...path]'
       views: never
     }
-    'src/pages/cartracing.vue': {
-      routes: '/cartracing'
+    'src/pages/controlroom.vue': {
+      routes: '/controlroom' | '/controlroom/' | '/controlroom/comms' | '/controlroom/race' | '/controlroom/telemetry'
+      views: 'default'
+    }
+    'src/pages/controlroom/index.vue': {
+      routes: '/controlroom/'
+      views: never
+    }
+    'src/pages/controlroom/comms.vue': {
+      routes: '/controlroom/comms'
+      views: never
+    }
+    'src/pages/controlroom/race.vue': {
+      routes: '/controlroom/race'
+      views: never
+    }
+    'src/pages/controlroom/telemetry.vue': {
+      routes: '/controlroom/telemetry'
       views: never
     }
     'src/pages/events.vue': {

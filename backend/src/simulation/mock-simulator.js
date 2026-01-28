@@ -1,23 +1,27 @@
 const injectCarRaceData = (cars) => {
-
-    if (!cars || cars.length == 0) {
+    if (!Array.isArray(cars) || cars.length === 0) {
         console.log("[ERROR] Invalid cars object.");
-        return;
+        return [];
     }
 
     cars.forEach(element => {
         if (element.progress === undefined || element.progress === null) {
             element.progress = 0;
-        } else {
-            const prevProgress = element.progress;
-            element.progress = prevProgress + getRandomBetween(1, 5);
+            element.lapCount = 0;
+        }
+        else {
+            const oldProgress = element.progress;
+            const newProgress = (element.progress + getRandomBetween(3, 5)) % 100;
+            if (oldProgress > 80 && newProgress < 20) { // detecting the "lap wrap-around"
+                element.lapCount++;
+            }
+            element.progress = newProgress
         }
     });
 
     return cars;
 
 }
-
 
 const assembleTelemetryData = () => {
 
@@ -34,7 +38,7 @@ const assembleTelemetryData = () => {
         battery_level: getRandomBetween(0, 100),  // % of ERS battery
 
         brake_temperature: getRandomBetween(200, 1100),  // °C – operating range
-        engine_oil_temp: getRandomBetween(90, 150),  // °C – ideal operating range
+        engine_oil_temp: getRandomBetween(90, 200),  // °C – ideal operating range
 
         oil_pressure: getRandomBetween(3, 8) // bar
     };

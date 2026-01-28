@@ -2,8 +2,8 @@
 
 const props = defineProps({
     elevation: {
-        type: String,
-        default: "10"
+        type: Number,
+        default: 24
     },
     backgroundColor: {
         type: String,
@@ -27,7 +27,7 @@ const props = defineProps({
         :elevation="elevation"
         :rounded="roundedRadius"
         color="backgroundColor"
-        border="secondary md"
+        border="secondary sm"
     >
         <slot></slot>
     </v-sheet>

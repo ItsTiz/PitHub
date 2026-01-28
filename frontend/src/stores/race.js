@@ -3,39 +3,36 @@ import { socket } from "@/socket";
 
 const timeOutDelay = 5000;
 
-export const useTelemetryStore = defineStore("telemetry", {
+export const useRaceStore = defineStore("race", {
 
     state: () => ({
-        carData: {},
+        cars: [],
         isListening: false
     }),
 
     actions: {
         initListeners() {
-            // This prevents double-binding
             if (this.isListening) return;
 
-            socket.on("telemetry:update", (data) => {
-                console.log("[telemetry-store] received data: ", data);
-                this.carData = data;
+            socket.on("race:update", (data) => {
+               // console.log("[race-store] received data: ", data);
+                this.cars = data;
             });
 
             this.isListening = true;
         },
-        subscribeToTeam(token) {
+        subscribeToRace() {
             if (!socket.connected) {
-                // Try reconnecting if disconnected for some reason
                 socket.connect();
             }
 
-            // Request to join the room on a timeout
-            socket.timeout(timeOutDelay).emit("telemetry:join", token, (err, response) => {
+            socket.timeout(timeOutDelay).emit("race:join", (err, response) => {
                 this.handleRejectedRequest(err, response);
             });
         },
-        unsubscribeFromTeam() {
-            socket.emit("telemetry:leave");
-            this.carData = {};
+        unsubscribeFromRace() {
+            socket.emit("race:leave");
+            this.carData = [];
         },
         handleRejectedRequest(err, response) {
             if (err) {
