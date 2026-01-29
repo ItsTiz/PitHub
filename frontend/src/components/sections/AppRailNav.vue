@@ -1,8 +1,10 @@
 <script setup>
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router'
 import { useAppStore } from '../../stores/app';
 const appStore = useAppStore();
 const router = useRouter()
-const pageIndex = ref(1)
+const pageIndex = ref(0)
 
 const toggleTheme = () => {
     appStore.toggleTheme();
@@ -12,21 +14,38 @@ const views = ['telemetry', 'race', 'comms']
 
 const selectView = (index) => {
   pageIndex.value = index
-  const view = views[index - 1] || 'telemetry'
+  const view = views[index] || 'telemetry'
   router.push(`/controlroom/${view}`)
 }
 
 const getIcon = (index) => {
     switch(index){
-        case 1:
+        case 0:
             return 'mdi-gauge-low';
-        case 2:
+        case 1:
             return 'mdi-go-kart-track';
-        case 3:
+        case 2:
             return 'mdi-radio-tower';
     }
 }
 
+onMounted(() => {
+    const path = router.currentRoute.value.path;
+    const splitted = path.split("/")
+    const last = splitted[splitted.length - 1];
+    console.log(last)
+    switch(last){
+        case "telemetry":
+            pageIndex.value = 0;
+            return;
+        case "race":
+            pageIndex.value = 1;
+            return;
+        case "comms":
+            pageIndex.value = 2;
+            return;
+    }
+})
 </script>
 
 <template>
@@ -52,11 +71,11 @@ const getIcon = (index) => {
             <v-avatar
                 v-for="n in 3"
                 :key="n"
-                :color="n === pageIndex ? 'primary' : 'surface-variant'"
-                :size="n === pageIndex ? 48 : 32"
-                :icon="getIcon(n)"
+                :color="n === (pageIndex + 1) ? 'primary' : 'surface-variant'"
+                :size="n === (pageIndex + 1 )? 48 : 32"
+                :icon="getIcon(n-1)"
                 class="mb-8 cursor-pointer"
-                @click="selectView(n)"
+                @click="selectView(n-1)"
             >
             </v-avatar>
         </div>
