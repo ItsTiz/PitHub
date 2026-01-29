@@ -2,6 +2,7 @@ import { Server } from "socket.io";
 import { registerTelemetryHandlers } from "./socket-handlers/telemetry-handler.js";
 import { registerSimulationHandlers } from "./socket-handlers/sim-controller-handler.js";
 import { registerRaceHandlers } from "./socket-handlers/race-handler.js";
+import { registerNotificationHandlers } from "./socket-handlers/notification-handler.js";
 
 let io;
 const enableDebuggingLog = true;
@@ -36,9 +37,17 @@ const getIO = () => {
 const onConnection = (socket) => {
     console.log(`[${socket.id}] Client connected`);
 
+    const role = socket.handshake.auth?.role || 'user';
+    const teamId = socket.handshake.auth?.teamId || null;
+
+    if (role === 'user')   socket.join('users');
+    if (role === 'admin')  socket.join('admin');
+    if (role === 'team' && teamId) socket.join(`team-${teamId}`);
+
     registerTelemetryHandlers(io, socket);
     registerSimulationHandlers(io, socket);
     registerRaceHandlers(io, socket);
+    registerNotificationHandlers(io, socket);
 
     socket.on("disconnect", () => {
         console.log(`[${socket.id}] Client disconnected`);
