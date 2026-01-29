@@ -10,7 +10,7 @@ const props = defineProps({
 
 <template>
     <div class="d-flex flex-row align-center w-100">
-        <Card>
+        <Card class="h-100">
             <template #title>
                 <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">Fuel</div>
             </template>
@@ -22,7 +22,7 @@ const props = defineProps({
             </template>
         </Card>
 
-        <Card>
+        <Card class="h-100">
             <template #title>
                 <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">ESR</div>
             </template>

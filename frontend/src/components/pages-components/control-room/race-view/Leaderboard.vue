@@ -4,6 +4,8 @@ import { getTeamColor } from '../../../../composables/utils/teams-colors';
 const raceStore = useRaceStore();
 const { cars } = storeToRefs(raceStore);
 
+const emits = defineEmits(['driverClicked']);
+
 const getColor = (name) =>{
     return getTeamColor(name) + " md"
 }
@@ -22,6 +24,7 @@ const getColor = (name) =>{
             v-for="(car, index) in cars"
             :key="car._id" 
             :border="getColor(car.team.name)"
+            @click="$emit('driverClicked', car._id)"
             
         >
             <template #prepend>
@@ -54,10 +57,5 @@ const getColor = (name) =>{
 
 .flip-list-move {
   transition: transform 0.5s ease;
-}
-
-/* leader */
-.leader {
-  border: 2px solid gold;
 }
 </style>

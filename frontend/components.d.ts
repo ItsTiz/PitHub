@@ -29,6 +29,7 @@ declare module 'vue' {
     Odometer: typeof import('./src/components/pages-components/control-room/car-telemetry/Odometer.vue')['default']
     OilTempGraph: typeof import('./src/components/pages-components/control-room/car-telemetry/OilTempGraph.vue')['default']
     RaceView: typeof import('./src/components/pages-components/control-room/race-view/RaceView.vue')['default']
+    RightSidePanel: typeof import('./src/components/pages-components/control-room/race-view/RightSidePanel.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SemiCircularGauge: typeof import('./src/components/pages-components/SemiCircularGauge.vue')['default']

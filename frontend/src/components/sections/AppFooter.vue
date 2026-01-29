@@ -1,35 +1,49 @@
+<script setup>
+    const items = [
+    {
+        title: 'Vuetify Documentation',
+        icon: `$vuetify`,
+        href: 'https://vuetifyjs.com/',
+    },
+    {
+        title: 'PitHub GitHub',
+        icon: `mdi-github`,
+        href: 'https://github.com/ItsTiz/PitHub',
+    }
+    ]
+</script>
 <template>
   <v-footer
     app
     height="40"
-    elevation="2"
+    :elevation="2"
   >
     <a
-      v-for="item in items"
-      :key="item.title"
-      class="d-inline-block mx-2 social-link"
-      :href="item.href"
-      rel="noopener noreferrer"
-      target="_blank"
-      :title="item.title"
+        v-for="item in items"
+        class="d-inline-block mx-2 social-link"
+        :key="item.title"
+        :href="item.href"
+        :title="item.title"
+        rel="noopener noreferrer"
+        target="_blank"
     >
       <v-icon
-        :icon="item.icon"
-        :size="item.icon === '$vuetify' ? 24 : 16"
+            :icon="item.icon"
+            :size="item.icon === '$vuetify' ? 24 : 16"
       />
     </a>
 
     <div
-      class="text-caption text-disabled"
-      style="position: absolute; right: 16px;"
+        class="text-caption text-disabled"
+        style="position: absolute; right: 16px;"
     >
       {{ (new Date()).getFullYear() }} <span class="d-none d-sm-inline-block">PitHub</span>
       —
       <a
-        class="text-decoration-none on-surface"
-        href="https://vuetifyjs.com/about/licensing/"
-        rel="noopener noreferrer"
-        target="_blank"
+            class="text-decoration-none on-surface"
+            href="https://vuetifyjs.com/about/licensing/"
+            rel="noopener noreferrer"
+            target="_blank"
       >
         MIT License
       </a>
@@ -37,20 +51,6 @@
   </v-footer>
 </template>
 
-<script setup>
-  const items = [
-    {
-      title: 'Vuetify Documentation',
-      icon: `$vuetify`,
-      href: 'https://vuetifyjs.com/',
-    },
-    {
-      title: 'PitHub GitHub',
-      icon: `mdi-github`,
-      href: 'https://github.com/ItsTiz/PitHub',
-    }
-  ]
-</script>
 
 <style scoped lang="sass">
   .social-link :deep(.v-icon)

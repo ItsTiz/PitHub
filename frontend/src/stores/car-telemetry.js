@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { socket } from "@/socket";
 
 const timeOutDelay = 5000;
+const enableDebugging = false;
 
 export const useTelemetryStore = defineStore("telemetry", {
 
@@ -16,7 +17,7 @@ export const useTelemetryStore = defineStore("telemetry", {
             if (this.isListening) return;
 
             socket.on("telemetry:update", (data) => {
-                console.log("[telemetry-store] received data: ", data);
+                if(enableDebugging) console.log("[telemetry-store] received data: ", data);
                 this.carData = data;
             });
 

@@ -7,7 +7,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <v-container class="h-100">
+    <v-container>
         <v-card
             :elevation="elevation" 
             :color="backgroundColor" 

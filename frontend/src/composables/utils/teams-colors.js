@@ -21,9 +21,6 @@ export function getTeamColor(teamName, darken = false) {
 
 export function getTeamHex(theme, teamName, darken = false) {
   const colorKey = getTeamColor(teamName, darken)
-  
-    console.log(theme);
-
   const hex = theme.current.value.colors[colorKey]
 
   return hex || '#ffffff'

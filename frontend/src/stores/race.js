@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { socket } from "@/socket";
 
 const timeOutDelay = 5000;
+const enableDebugging = false;
 
 export const useRaceStore = defineStore("race", {
 
@@ -15,7 +16,7 @@ export const useRaceStore = defineStore("race", {
             if (this.isListening) return;
 
             socket.on("race:update", (data) => {
-               // console.log("[race-store] received data: ", data);
+                if(enableDebugging) console.log("[race-store] received data: ", data);
                 this.cars = data;
             });
 

@@ -32,7 +32,7 @@ const getIcon = (index) => {
 <template>
     <v-navigation-drawer
         class="pt-4 pb-4 no-select"
-        elevation="7"
+        :elevation="7"
         permanent           
         rail                
         color="bg-surface"

@@ -72,7 +72,7 @@ const submit = async () => {
 
 <template>
   <v-container class="fill-height d-flex align-center justify-center">
-    <v-card width="420" elevation="8" class="pa-6 rounded-lg">
+    <v-card width="420" :elevation="8" class="pa-6 rounded-lg">
       <v-card-title class="text-h5 text-center mb-6">
         {{ pageTitle }}
       </v-card-title>

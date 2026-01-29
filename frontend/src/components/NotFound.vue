@@ -1,6 +1,6 @@
 <template>
   <v-container class="d-flex align-center justify-center" style="height: 100vh">
-    <v-card class="pa-6" width="400" elevation="5">
+    <v-card class="pa-6" width="400" :elevation="5">
       <v-card-title class="text-h5 text-center mb-4">
         404 - Page Not Found
       </v-card-title>
