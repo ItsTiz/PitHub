@@ -1,6 +1,7 @@
 /* * RUN WITH: node seed.js
  */
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 // --- 1. CONFIGURATION ---
 const MONGO_URI = 'mongodb://root:pithub@localhost:27017/pithub?authSource=admin';
@@ -41,10 +42,17 @@ const carSchema = new mongoose.Schema({
     driver: { type: mongoose.Schema.Types.ObjectId, ref: 'Driver' } // <--- The only addition
 });
 
+const userSchema = new mongoose.Schema({
+   email: {type: String, required: true, unique: true, lowercase: true, trim: true},
+    password: {type: String, required: true, minlength: 6, select: false},
+    role: {type: String, enum: ['user', 'admin', 'team'], default: 'user'}
+});
+
 // --- 3. MODELS ---
 const Team = mongoose.model('Team', teamSchema);
 const Driver = mongoose.model('Driver', driverSchema);
 const Car = mongoose.model('Car', carSchema);
+const User = mongoose.model('User', userSchema);
 
 // --- 4. DATA (2026 Grid - 11 Teams, 22 Cars) ---
 const gridData = [
@@ -160,6 +168,7 @@ const gridData = [
     }
 ];
 
+
 // --- 5. EXECUTION ---
 const seedDB = async () => {
     try {
@@ -171,10 +180,18 @@ const seedDB = async () => {
         await Car.deleteMany({});
         await Driver.deleteMany({});
         await Team.deleteMany({});
+        await User.deleteMany({});
         console.log('Database cleared.');
 
         let totalTeams = 0, totalDrivers = 0, totalCars = 0;
 
+        const admin = {
+            email: 'admin@f1.com',
+            password: await bcrypt.hash('password', 10),
+            role: 'admin'
+        };
+
+        await User.create(admin);
         for (const data of gridData) {
             // 1. Create Team
             const team = await Team.create(data.team);
@@ -207,7 +224,6 @@ const seedDB = async () => {
                 totalCars++;
             }
         }
-
         console.log(`\nReady.`);
         console.log(`Stats: ${totalTeams} Teams | ${totalDrivers} Drivers | ${totalCars} Cars`);
         mongoose.connection.close();
