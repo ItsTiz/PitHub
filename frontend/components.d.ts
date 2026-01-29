@@ -11,17 +11,13 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AdminAppNav: typeof import('./src/components/sections/AdminAppNav.vue')['default']
     AppFooter: typeof import('./src/components/sections/AppFooter.vue')['default']
     AppHeader: typeof import('./src/components/sections/AppHeader.vue')['default']
-    AppRailNav: typeof import('./src/components/sections/AppRailNav.vue')['default']
-    Authl: typeof import('./src/components/layouts/authl.vue')['default']
     Autonomy: typeof import('./src/components/pages-components/control-room/car-telemetry/Autonomy.vue')['default']
     Button: typeof import('./src/components/controls/Button.vue')['default']
     Card: typeof import('./src/components/containers/Card.vue')['default']
     CarProfileCard: typeof import('./src/components/pages-components/control-room/race-view/CarProfileCard.vue')['default']
-    CarTelemetry: typeof import('./src/components/pages-components/control-room/CarTelemetry.vue')['default']
-    CircularGauge: typeof import('./src/components/pages-components/carTracing/CircularGauge.vue')['default']
-    copy: typeof import('./src/components/pages-components/SemiCircularGauge copy.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
     Leaderboard: typeof import('./src/components/pages-components/control-room/race-view/Leaderboard.vue')['default']
     LinearGauge: typeof import('./src/components/pages-components/LinearGauge.vue')['default']
@@ -36,7 +32,7 @@ declare module 'vue' {
     SemiCircularGauge: typeof import('./src/components/pages-components/SemiCircularGauge.vue')['default']
     Sheet: typeof import('./src/components/containers/Sheet.vue')['default']
     Switch: typeof import('./src/components/controls/Switch.vue')['default']
-    TeamComms: typeof import('./src/components/pages-components/control-room/TeamComms.vue')['default']
+    TeamAppNav: typeof import('./src/components/sections/TeamAppNav.vue')['default']
     Tires: typeof import('./src/components/pages-components/control-room/car-telemetry/Tires.vue')['default']
   }
 }

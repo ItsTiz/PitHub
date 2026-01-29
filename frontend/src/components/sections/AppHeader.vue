@@ -10,8 +10,6 @@ const title = ref("PitHub F1");
         :elevation = "2"
         height = "45"
     > 
-        <v-app-bar-nav-icon>
-        </v-app-bar-nav-icon>
         <v-toolbar-title> {{ title }}</v-toolbar-title>
 
     </v-app-bar>

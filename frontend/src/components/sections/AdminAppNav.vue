@@ -10,22 +10,20 @@ const toggleTheme = () => {
     appStore.toggleTheme();
 }
 
-const views = ['telemetry', 'race', 'comms']
+const views = ['simulation', 'users']
 
 const selectView = (index) => {
   pageIndex.value = index
-  const view = views[index] || 'telemetry'
-  router.push(`/controlroom/${view}`)
+  const view = views[index] || 'simulation'
+  router.push(`/sysadmin/${view}`)
 }
 
 const getIcon = (index) => {
     switch(index){
         case 0:
-            return 'mdi-gauge-low';
+            return 'mdi-matrix';
         case 1:
-            return 'mdi-go-kart-track';
-        case 2:
-            return 'mdi-radio-tower';
+            return 'mdi-account-group';
     }
 }
 
@@ -35,14 +33,11 @@ onMounted(() => {
     const last = splitted[splitted.length - 1];
     console.log(last)
     switch(last){
-        case "telemetry":
+        case "simulation":
             pageIndex.value = 0;
             return;
-        case "race":
+        case "users":
             pageIndex.value = 1;
-            return;
-        case "comms":
-            pageIndex.value = 2;
             return;
     }
 })
@@ -60,19 +55,21 @@ onMounted(() => {
         <div class="d-flex flex-column align-center justify-center">
             <v-avatar
                 :size="48"
-                color="bg-surface-bright"
+                color="warning"
                 class="mb-4"
             >
+            <v-icon icon="mdi-shield-crown">
+            </v-icon>
             </v-avatar>
         </div>
         <v-divider></v-divider>
 
         <div class="flex-grow-1 d-flex flex-column align-center justify-center">
             <v-avatar
-                v-for="n in 3"
+                v-for="n in 2"
                 :key="n"
-                :color="n === (pageIndex + 1) ? 'primary' : 'surface-variant'"
-                :size="n === (pageIndex + 1 )? 48 : 32"
+                :color="n === (pageIndex + 1) ? 'info' : 'surface-variant'"
+                :size="n === (pageIndex + 1 )? 48 : 38"
                 :icon="getIcon(n-1)"
                 class="mb-8 cursor-pointer"
                 @click="selectView(n-1)"

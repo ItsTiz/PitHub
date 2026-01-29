@@ -25,11 +25,13 @@ declare module 'vue-router/auto-routes' {
     '/controlroom/comms': RouteRecordInfo<'/controlroom/comms', '/controlroom/comms', Record<never, never>, Record<never, never>>,
     '/controlroom/race': RouteRecordInfo<'/controlroom/race', '/controlroom/race', Record<never, never>, Record<never, never>>,
     '/controlroom/telemetry': RouteRecordInfo<'/controlroom/telemetry', '/controlroom/telemetry', Record<never, never>, Record<never, never>>,
-    '/Events': RouteRecordInfo<'/Events', '/Events', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
-    '/Race': RouteRecordInfo<'/Race', '/Race', Record<never, never>, Record<never, never>>,
-    '/Signup': RouteRecordInfo<'/Signup', '/Signup', Record<never, never>, Record<never, never>>,
-    '/SysAdmin': RouteRecordInfo<'/SysAdmin', '/SysAdmin', Record<never, never>, Record<never, never>>,
+    '/race': RouteRecordInfo<'/race', '/race', Record<never, never>, Record<never, never>>,
+    '/signup': RouteRecordInfo<'/signup', '/signup', Record<never, never>, Record<never, never>>,
+    '/sysadmin': RouteRecordInfo<'/sysadmin', '/sysadmin', Record<never, never>, Record<never, never>, '/sysadmin/' | '/sysadmin/simulation' | '/sysadmin/users'>,
+    '/sysadmin/': RouteRecordInfo<'/sysadmin/', '/sysadmin', Record<never, never>, Record<never, never>>,
+    '/sysadmin/simulation': RouteRecordInfo<'/sysadmin/simulation', '/sysadmin/simulation', Record<never, never>, Record<never, never>>,
+    '/sysadmin/users': RouteRecordInfo<'/sysadmin/users', '/sysadmin/users', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -71,24 +73,32 @@ declare module 'vue-router/auto-routes' {
       routes: '/controlroom/telemetry'
       views: never
     }
-    'src/pages/Events.vue': {
-      routes: '/Events'
-      views: never
-    }
     'src/pages/login.vue': {
       routes: '/login'
       views: never
     }
-    'src/pages/Race.vue': {
-      routes: '/Race'
+    'src/pages/race.vue': {
+      routes: '/race'
       views: never
     }
-    'src/pages/Signup.vue': {
-      routes: '/Signup'
+    'src/pages/signup.vue': {
+      routes: '/signup'
       views: never
     }
-    'src/pages/SysAdmin.vue': {
-      routes: '/SysAdmin'
+    'src/pages/sysadmin.vue': {
+      routes: '/sysadmin' | '/sysadmin/' | '/sysadmin/simulation' | '/sysadmin/users'
+      views: 'default'
+    }
+    'src/pages/sysadmin/index.vue': {
+      routes: '/sysadmin/'
+      views: never
+    }
+    'src/pages/sysadmin/simulation.vue': {
+      routes: '/sysadmin/simulation'
+      views: never
+    }
+    'src/pages/sysadmin/users.vue': {
+      routes: '/sysadmin/users'
       views: never
     }
   }

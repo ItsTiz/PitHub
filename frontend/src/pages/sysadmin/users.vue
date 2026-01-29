@@ -1,10 +1,11 @@
 <template>
-    <RouterView/>
+    <v-container fluid class="d-flex flex-row bg-surface-bright">
+        USers
+    </v-container>
 </template>
 
 <route lang="yaml">
 meta:
-  layout: sysadminlayout
   requiresAuth: true
   minRole: 'admin'
   guestOnly: false

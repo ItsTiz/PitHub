@@ -17,29 +17,39 @@ const getColor = (name) =>{
     <TransitionGroup name="flip-list" tag="ul">
         
         <v-list-item
-            class="super-compact rounded-lg ma-1 elevation-2 border-opacity-75"
-            rounded="xl"
-            lines="two" 
-            v-for="(car, index) in cars"
+        rounded="xl"
+        lines="two" 
+        v-for="(car, index) in cars"
+            :class="`${index % 2 == 0 ? 'bg-surface' : 'bg-background'} super-compact rounded-lg ma-1 elevation-2 border-opacity-75`"
             :key="car._id" 
-            :border="getColor(car.team.name)"
+            
             @click="$emit('driverClicked', car._id)"
             
         >
             <template #prepend>
-                <v-avatar 
-                    :color="index === 0 ? 'warning' : 'grey-lighten-1'"
-                    size="16"
-                    class="font-weight-bold text-caption"
-                >
-                    {{ index + 1 }}
-                </v-avatar>
+                <div class="d-flex justify-space-around align-center">
+                    <v-avatar 
+                        :color="index === 0 ? 'warning' : 'grey-lighten-1'"
+                        size="16"
+                        class="font-weight-bold text-caption"
+                    >
+                        {{ index + 1 }}
+                    </v-avatar>
+                </div>
+                <v-divider
+                    class="mx-4"
+                    :color="getColor(car.team.name)"
+                    thickness="5"
+                    vertical
+                    opacity="1.0"
+                    >
+                </v-divider>
             </template> 
 
             <v-list-item-title
-                class="font-weight-bold text-caption"
+                class="font-weight-bold text-caption text-uppercase align-left"
             >
-                {{ `${car.driver.full_name}` }}
+                {{ `${car.driver.full_name.split(" ")[1].substr(0, 3)}` }}
             </v-list-item-title>
 
             <template #append>
