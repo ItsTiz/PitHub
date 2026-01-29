@@ -112,7 +112,7 @@ onUnmounted(() => {
                         :ref="(el) => carElements[index] = el"
                         :fill="getTeamHex(theme, car.team.full_name)" 
                         :stroke="getTeamHex(theme, car.team.full_name, darken = true)" 
-                        @click="$emit('carClicked', car)"
+                        @click="$emit('carClicked', car._id)"
                         class="cursor-pointer car.hover"
                         r="6" 
                         stroke-width="2"

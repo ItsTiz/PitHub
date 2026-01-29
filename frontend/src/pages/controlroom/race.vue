@@ -3,28 +3,35 @@ import { computed, provide } from 'vue'
 import { useDisplay } from 'vuetify'
 import RaceView from '../../components/pages-components/control-room/race-view/RaceView.vue';
 import Leaderboard from '../../components/pages-components/control-room/race-view/Leaderboard.vue';
+import { useRaceStore } from '@/stores/race'
 const { smAndDown } = useDisplay()
-const cols = computed(() => {
-    return smAndDown.value ? [12, 12, 12] : [3, 6, 3];
-});
+const raceStore = useRaceStore()
+const { cars } = storeToRefs(raceStore)
 
-const selectedCar = ref();
+const selectedCarId = ref(null);
 
-provide('selectedItem', selectedCar)
-
-const handleCarClicked = (car) => {
-    if(car === undefined){
+const handleCarClicked = (carId) => {
+    if(carId === undefined){
         console.log("Cannot handle click! Car id is invalid.");
         return;
     }
-
-    if (selectedCar.value?.driver.full_name === car?.driver.full_name) {
-       selectedCar.value = null; //triggers the lazyness of mr. provider
+    
+    if (selectedCarId.value === carId) {
+        selectedCarId.value = null; //triggers the lazyness of mr. provider
     } else {
-        selectedCar.value = car;
+        selectedCarId.value = carId;
     }
 }
 
+const activeCar = computed(() => {
+    if (!selectedCarId.value) return null
+    return cars.value.find(c => c._id === selectedCarId.value) || null
+})
+
+const cols = computed(() => {
+    return smAndDown.value ? [12, 12, 12] : [3, 6, 3];
+});
+provide('selectedItem', activeCar)
 </script>
 
 <template>
@@ -54,6 +61,7 @@ const handleCarClicked = (car) => {
                 <Sheet class="h-100" :elevation="5">
                     <template v-slot:default>
                         <RightSidePanel
+                        :selectedItem="selectedCar"
                         />
                     </template>
                 </Sheet>

@@ -29,11 +29,17 @@ const imagePath = computed(()=>{
             <CarProfileCard
                 class="pa-1"
                 v-show="isCarSelected"
-                height="250px"
+                height="350px"
                 :driver-name="selectedItem?.driver.full_name || ''"
                 :team-name="selectedItem?.team.full_name || ''"
-                :driver-number="'31'"
+                :driver-number="selectedItem?.driver.number"
                 :imgSrc="imagePath"
+                :engineManufacturer="selectedItem?.engine_manufacturer"
+                :currentSpeed="selectedItem?.speed"
+                :maxSpeed="selectedItem?.specs.max_speed_kmh"
+                :acceleration="selectedItem?.specs.acceleration_0_100_s"
+                :reliability="selectedItem?.specs.reliability_rating"
+                :downforce="selectedItem?.specs.downforce_rating"
                 />
         </v-expand-transition>
 

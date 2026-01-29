@@ -8,6 +8,7 @@ const injectCarRaceData = (cars) => {
         if (element.progress === undefined || element.progress === null) {
             element.progress = 0;
             element.lapCount = 0;
+            element.speed = 0;
         }
         else {
             const oldProgress = element.progress;
@@ -16,6 +17,7 @@ const injectCarRaceData = (cars) => {
                 element.lapCount++;
             }
             element.progress = newProgress
+            element.speed = getRandomBetween(150, 378) 
         }
     });
 
