@@ -18,6 +18,7 @@ declare module 'vue' {
     Autonomy: typeof import('./src/components/pages-components/control-room/car-telemetry/Autonomy.vue')['default']
     Button: typeof import('./src/components/controls/Button.vue')['default']
     Card: typeof import('./src/components/containers/Card.vue')['default']
+    CarProfileCard: typeof import('./src/components/pages-components/control-room/race-view/CarProfileCard.vue')['default']
     CarTelemetry: typeof import('./src/components/pages-components/control-room/CarTelemetry.vue')['default']
     CircularGauge: typeof import('./src/components/pages-components/carTracing/CircularGauge.vue')['default']
     copy: typeof import('./src/components/pages-components/SemiCircularGauge copy.vue')['default']

@@ -23,7 +23,7 @@ const getColor = (name) =>{
             v-for="(car, index) in cars"
             :key="car._id" 
             :border="getColor(car.team.name)"
-            @click="$emit('driverClicked', car._id)"
+            @click="$emit('driverClicked', car)"
             
         >
             <template #prepend>

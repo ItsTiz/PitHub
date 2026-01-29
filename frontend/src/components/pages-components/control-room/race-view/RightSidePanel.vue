@@ -1,5 +1,6 @@
 <script setup>
 import { inject } from 'vue'
+import { getCarForTeam } from '../../../../composables/utils/cars-images';
 const props = defineProps({
     selectedItem: { type: String }
 });
@@ -12,6 +13,10 @@ watch(selectedItem, (newCar, _) => {
     isCarSelected.value = !!newCar;
 });
 
+const imagePath = computed(()=>{    
+    return getCarForTeam(selectedItem?.value?.team?.name);
+})
+
 </script>
 
 
@@ -21,19 +26,15 @@ watch(selectedItem, (newCar, _) => {
       
       <div class="d-flex flex-column fill-height pa-0 ma-0">
         <v-expand-transition>
-            <Card 
+            <CarProfileCard
                 class="pa-1"
                 v-show="isCarSelected"
                 height="250px"
-                :elevation="5"
-            >
-                <template #text>
-                    <div class="fill-height">
-                        Car
-                    </div>
-                </template>
-                
-            </Card>
+                :driver-name="selectedItem?.driver.full_name || ''"
+                :team-name="selectedItem?.team.full_name || ''"
+                :driver-number="'31'"
+                :imgSrc="imagePath"
+                />
         </v-expand-transition>
 
         <Card 
@@ -58,7 +59,7 @@ watch(selectedItem, (newCar, _) => {
 .no-select * {
   -webkit-user-select: none;
      -moz-user-select: none;
-      -ms-user-select: none;
+      -ms-user-select: none; 
           user-select: none;
 }
 </style>

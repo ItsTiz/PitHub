@@ -12,16 +12,16 @@ const selectedCar = ref();
 
 provide('selectedItem', selectedCar)
 
-const handleCarClicked = (carId) => {
-    if(carId === undefined){
+const handleCarClicked = (car) => {
+    if(car === undefined){
         console.log("Cannot handle click! Car id is invalid.");
         return;
     }
 
-    if (selectedCar.value === carId) {
+    if (selectedCar.value?.driver.full_name === car?.driver.full_name) {
        selectedCar.value = null; //triggers the lazyness of mr. provider
     } else {
-        selectedCar.value = carId;
+        selectedCar.value = car;
     }
 }
 
