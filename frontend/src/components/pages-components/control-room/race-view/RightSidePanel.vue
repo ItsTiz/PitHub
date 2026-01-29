@@ -20,19 +20,21 @@ watch(selectedItem, (newCar, _) => {
     <v-col no-gutters cols="12" class="fill-height">
       
       <div class="d-flex flex-column fill-height pa-0 ma-0">
-        
-        <Card 
-            class="top-drawer  pa-1"
-            :class="{ 'is-open': isCarSelected }"
-            :elevation="5"
-        >
-            <template #text>
-                <div class="fill-height">
-                    Car
-                </div>
-            </template>
-            
-        </Card>
+        <v-expand-transition>
+            <Card 
+                class="pa-1"
+                v-show="isCarSelected"
+                height="250px"
+                :elevation="5"
+            >
+                <template #text>
+                    <div class="fill-height">
+                        Car
+                    </div>
+                </template>
+                
+            </Card>
+        </v-expand-transition>
 
         <Card 
             class="flex-grow-1 rounded-0 pa-1" 
@@ -58,16 +60,5 @@ watch(selectedItem, (newCar, _) => {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-}
-
-.top-drawer {
-  height: 0;
-  overflow: hidden; 
-  
-  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.top-drawer.is-open {
-  height: 250px; 
 }
 </style>

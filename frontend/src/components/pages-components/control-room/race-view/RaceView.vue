@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, watch, ref, onUnmounted, useTemplateRef } from 'vue';
+import { onMounted, watch, ref, computed, onUnmounted, useTemplateRef } from 'vue';
 import gsap from 'gsap';
 import MotionPathPlugin from 'gsap/MotionPathPlugin';
 import { useRaceStore } from "@/stores/race";
@@ -24,7 +24,7 @@ const props = defineProps({
 
 const emits = defineEmits(['carClicked']);
 
-const currentTrack = tracks[props.trackName];
+const currentTrack = computed(() => {return tracks[props.trackName]});
 
 const mountMainAnimation = () => {
     carElements.value.forEach(element => {
@@ -100,20 +100,22 @@ onUnmounted(() => {
                         class="w-66 h-66"
                     >
                     <path
-                        ref="path"
                         :d="currentTrack.path"
+                        ref="path"
                         fill="none"
                         stroke="black"
                         stroke-width="4"
                     />
-                    <circle v-for="(car, index) in cars" 
+                    <circle  
+                        v-for="(car, index) in cars" 
                         :key="car._id || index"
                         :ref="(el) => carElements[index] = el"
-                        r="6" 
                         :fill="getTeamHex(theme, car.team.full_name)" 
                         :stroke="getTeamHex(theme, car.team.full_name, darken = true)" 
-                        stroke-width="2"
                         @click="$emit('carClicked', car._id)"
+                        class="cursor-pointer car.hover"
+                        r="6" 
+                        stroke-width="2"
                     />
                     </svg>
                 </div>
@@ -130,4 +132,9 @@ onUnmounted(() => {
       -ms-user-select: none;
           user-select: none;
 }
+
+car.hover{
+    r: 10;
+}
+
 </style>

@@ -19,7 +19,6 @@ const getColor = (name) =>{
         <v-list-item
             class="super-compact rounded-lg ma-1 elevation-2 border-opacity-75"
             rounded="xl"
-            density="compact"
             lines="two" 
             v-for="(car, index) in cars"
             :key="car._id" 
@@ -28,12 +27,18 @@ const getColor = (name) =>{
             
         >
             <template #prepend>
-                <v-avatar :color="index === 0 ? 'warning' : 'grey-lighten-1'" size="16" class="font-weight-bold text-caption">
+                <v-avatar 
+                    :color="index === 0 ? 'warning' : 'grey-lighten-1'"
+                    size="16"
+                    class="font-weight-bold text-caption"
+                >
                     {{ index + 1 }}
                 </v-avatar>
             </template> 
 
-            <v-list-item-title class="font-weight-bold text-caption">
+            <v-list-item-title
+                class="font-weight-bold text-caption"
+            >
                 {{ `${car.driver.full_name}` }}
             </v-list-item-title>
 
