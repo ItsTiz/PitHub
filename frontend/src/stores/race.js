@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { socket } from "@/socket";
 
-const timeOutDelay = 5000;
+const timeOutDelay = 3000;
 const enableDebugging = false;
 
 export const useRaceStore = defineStore("race", {
@@ -18,48 +18,56 @@ export const useRaceStore = defineStore("race", {
                 return;
             }
 
+            socket.on("disconnect", () => {
+                this.isConnectedToRoom = false;
+            });
+
             socket.on("race:update", (data) => {
                 if (enableDebugging) console.log("[race-store] received data: ", data);
                 this.cars = data;
             });
 
-            socket.emit("race:connected?", (response) => {
-                console.log(response);
-                if (!response) this.isConnectedToRoom = false
-                if (!response.isConnected) this.isConnectedToRoom = false
-                this.isConnectedToRoom = true
-            });
-
             this.isListening = true;
+
+            this.checkConnectionStatus();
+        },
+        checkConnectionStatus() {
+            if (!socket.connected) {
+                this.isConnectedToRoom = false;
+                return;
+            }
+
+            socket.timeout(timeOutDelay).emit("race:connected?", (err, response) => {
+                if (err) {
+                    this.isConnectedToRoom = false;
+                } else {
+                    this.isConnectedToRoom = response?.isConnected || false;
+                }
+            });
         },
         subscribeToRace() {
-            console.log("diocane");
             if (!socket.connected) {
                 socket.connect();
             }
 
             socket.timeout(timeOutDelay).emit("race:join", (err, response) => {
-                this.handleRequestResponse(err, response);
+                this.handleRequestResponse(err, response, true);
             });
-
-            console.log(this.isConnectedToRoom);
         },
         unsubscribeFromRace() {
-            console.log("porcamadonna");
-            socket.emit("race:leave");
+            if (!socket.connected) {
+                socket.connect();
+            }
+            socket.timeout(timeOutDelay).emit("race:leave", (err, response) => {
+                this.handleRequestResponse(err, response, false);
+            });
             this.carData = [];
-            this.isConnectedToRoom = false
-            console.log(this.isConnectedToRoom);
         },
-        handleRequestResponse(err, response) {
+        handleRequestResponse(err, response, targetState) {
             if (err) {
-                console.log(err);
-                this.isConnectedToRoom = false
-                console.log(this.isConnectedToRoom);
+                console.error("Socket Error:", err);
             } else {
-                console.log(response.message);
-                this.isConnectedToRoom = true
-                console.log(this.isConnectedToRoom);
+                this.isConnectedToRoom = targetState;
             }
         }
     }

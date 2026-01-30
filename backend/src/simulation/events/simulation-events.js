@@ -4,10 +4,12 @@ class SimulationEvent {
 
     static #START = `${this.#EVENT_NAME}:start`;
     static #STOP = `${this.#EVENT_NAME}:stop`;
+    static #STATUS = `${this.#EVENT_NAME}:status`;
     static #PAUSE = `${this.#EVENT_NAME}:pause`;
 
     static get START() { return this.#START; }
     static get STOP() { return this.#STOP; }
+    static get STATUS() { return this.#STATUS; }
     static get PAUSE() { return this.#PAUSE; }
 }
 

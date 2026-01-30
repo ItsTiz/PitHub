@@ -1,5 +1,5 @@
 <script setup>
-import { watch, computed, onMounted, onUnmounted, ref } from 'vue'
+import { watch, computed, ref } from 'vue'
 import { useTelemetryStore } from "@/stores/car-telemetry";
 import { useDisplay } from 'vuetify'
 

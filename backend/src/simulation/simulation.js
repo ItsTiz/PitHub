@@ -8,7 +8,7 @@ let carsRacing = [];
 
 const startSimulation = async (io) => {
     //TODO break this on its own class to simulate different data
-
+    console.log("Starting simulation...")
     carsRacing = await getCars();
     timeout = setInterval(() => {
         //TODO auth here too, for now ferrari is default
@@ -28,9 +28,14 @@ const startSimulation = async (io) => {
 }
 
 const stopSimulation = () => {
+    console.log("Stopping simulation...")
     clearInterval(timeout);
 }
 
-export { startSimulation, stopSimulation };
+const isAlive = () => {
+    return !!timeout
+}
+
+export { startSimulation, stopSimulation, isAlive };
 
 

@@ -2,24 +2,20 @@
 import { ref } from 'vue'
 import { useSimulationControlStore } from '@/stores/simulation';
 import { useConnectionStore } from '@/stores/connections';
-import { useRaceStore } from '@/stores/race';
 import Combobox from '../../controls/Combobox.vue'
 const simControl = useSimulationControlStore();
 const socketConnection = useConnectionStore();
-const race = useRaceStore();
-
 const selectedCircuit = ref('Imola')
 const circuits = ['Imola', 'Monza', 'Monaco', 'Zandvoort']
 
 const handleStartClicked = () => {
-    console.log("porcodio")
     simControl.emitStartRequest();
 }
 
 const handleStopClicked = () => {
-    console.log("maiocane")
     simControl.emitStopRequest();
 }
+
 </script>
 
 <template>
@@ -56,56 +52,25 @@ const handleStopClicked = () => {
                 </template>SOCKET
             </v-chip>
 
-            <v-chip
-                :color="race.isConnectedToRoom ? 'success' : 'error'"
-                variant="tonal"
-                size="small"
-                class="font-weight-bold"
-            >
-                <template #prepend>
-                    <v-icon
-                        icon="mdi-circle-medium"
-                        :class="{ 'animate-pulse': race.isConnectedToRoom }"
-                        start
-                    ></v-icon>
-                </template>SIMULATION
-
-            </v-chip>
-
             <v-divider
                 vertical class="mx-2"
             ></v-divider>
 
             <v-tooltip
-                text="Start Simulation"
+                :text="simControl.isRunning ? 'Stop simulation' : 'Start simulation'"
                 location="top"
             >
                 <template v-slot:activator="{ props }">
                     <Button
                         v-bind="props"
-                        class="mr-1"
-                        :icon="'mdi-play'"
-                        color="success"
-                        variant="flat"
+                        :icon="simControl.isRunning ? 'mdi-stop': 'mdi-play'"
+                        :color="simControl.isRunning ? 'error' : 'success'"
+                        :variant="simControl.isRunning ? 'tonal' : 'flat'"
                         size="small"
-                        @click="handleStartClicked"
+                        @click="simControl.isRunning ? handleStopClicked() : handleStartClicked()"
                     />
                 </template>
             </v-tooltip>
-
-            <v-tooltip text="Stop Simulation" location="top">
-                <template v-slot:activator="{ props }">
-                    <Button
-                        v-bind="props"
-                        :icon="'mdi-stop'"
-                        color="error"
-                        variant="flat"
-                        size="small"
-                        @click="handleStopClicked"
-                    />
-                </template>
-            </v-tooltip>
-
         </v-sheet>
     </v-container>
 </template>

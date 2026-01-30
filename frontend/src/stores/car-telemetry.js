@@ -42,7 +42,7 @@ export const useTelemetryStore = defineStore("telemetry", {
             if (err) {
                 console.log(err);
             } else {
-                console.log(response.status);
+                console.log(response.message);
             }
         }
     }

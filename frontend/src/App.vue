@@ -3,18 +3,21 @@ import { computed, onMounted, onUnmounted } from "vue";
 import { useAppStore } from "@/stores/app";
 import { useConnectionStore } from "@/stores/connections";
 import { useTelemetryStore } from "@/stores/car-telemetry";
+import { useSimulationControlStore } from "./stores/simulation";
 import { useRaceStore } from "@/stores/race";
 import { socket } from "@/socket";
 
 const appStore = useAppStore();
 const connectionStore = useConnectionStore();
 const raceStore = useRaceStore();
+const simulationStore = useSimulationControlStore();
 const telemetryStore = useTelemetryStore();
 
 onMounted(() => {
     //Set up the listeners
-    connectionStore.bindEvents();
+    connectionStore.initListeners();
     telemetryStore.initListeners();
+    simulationStore.initListeners();
     raceStore.initListeners();
 });
 

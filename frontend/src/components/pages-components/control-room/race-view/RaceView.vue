@@ -3,13 +3,14 @@ import { onMounted, watch, ref, computed, onUnmounted, useTemplateRef } from 'vu
 import gsap from 'gsap';
 import MotionPathPlugin from 'gsap/MotionPathPlugin';
 import { useRaceStore } from "@/stores/race";
+import { useSimulationControlStore } from "@/stores/simulation";
 import { useTheme } from 'vuetify'
 import { tracks } from '@/composables/constants/tracks.js';
 import { getTeamHex } from '../../../../composables/utils/teams-colors';
-
 gsap.registerPlugin(MotionPathPlugin);
 
 const theme = useTheme()
+const simControl = useSimulationControlStore();
 const raceStore = useRaceStore();
 const { cars } = storeToRefs(raceStore);
 
@@ -48,7 +49,7 @@ const mountMainAnimation = () => {
 }
 
 watch(cars, (newCars, oldCars) => {
-    
+    if (newCars?.length > 0 && (!oldCars || oldCars.length === 0)) mountMainAnimation();
     newCars.forEach((car, index) => {
         const tween = animations[index];
         if (!tween) return;
@@ -89,9 +90,24 @@ onUnmounted(() => {
     <div class="d-flex flex-row align-center justify-space-around w-100 h-100 no-select">
         <Card class="h-100">
             <template #title>
-                <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold flex-grow-0">
-                    {{ trackName }}
-                </div>
+                <v-chip
+                    :color="simControl.isRunning ? 'success' : 'error'"
+                    variant="tonal"
+                    size="small"
+                    class="text-subtitle-1 text-secondary text-uppercase font-weight-bold flex-grow-0"
+                >
+                    <template #prepend>
+                        <v-icon
+                            icon="mdi-circle-medium"
+                            :class="{ 'animate-pulse': simControl.isRunning }"
+                            start
+                        ></v-icon>
+                    </template> 
+                    <template #default>
+                        {{ trackName }}
+                    </template>
+                </v-chip>
+
             </template>
             <template #text>
                 <div class="d-flex flex-row align-center justify-space-around w-100 h-100 no-select">
@@ -133,7 +149,7 @@ onUnmounted(() => {
           user-select: none;
 }
 
-car.hover{
+.car.hover{
     r: 10;
 }
 

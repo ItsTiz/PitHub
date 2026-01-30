@@ -21,7 +21,7 @@ const selectView = (index) => {
 const getIcon = (index) => {
     switch(index){
         case 0:
-            return 'mdi-matrix';
+            return 'mdi-play-speed';
         case 1:
             return 'mdi-account-group';
     }
