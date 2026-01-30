@@ -52,7 +52,7 @@ const imagePath = computed(() => {
                 </div>
                 <div class="d-flex align-center pa-0">
                     <span 
-                        :color="white" 
+                        color="on-surface" 
                         variant="text" 
                         size="small" 
                         class="font-weight-light text-uppercase text-caption"

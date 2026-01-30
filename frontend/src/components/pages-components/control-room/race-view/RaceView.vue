@@ -7,83 +7,85 @@ import { useSimulationControlStore } from "@/stores/simulation";
 import { useTheme } from 'vuetify'
 import { tracks } from '@/composables/constants/tracks.js';
 import { getTeamHex } from '../../../../composables/utils/teams-colors';
+
 gsap.registerPlugin(MotionPathPlugin);
 
 const theme = useTheme()
 const simControl = useSimulationControlStore();
 const raceStore = useRaceStore();
 const { cars } = storeToRefs(raceStore);
+const { selectedCircuit } = storeToRefs(simControl);
 
 const carElements = ref([]);
 const pathRef = useTemplateRef('path')
 const initializedCars = new Set()
 let animations = [];
 
-const props = defineProps({
-    trackName: { type: String, default: 'imola' },    
-});
-
 const emits = defineEmits(['carClicked']);
 
-const currentTrack = computed(() => {return tracks[props.trackName]});
+const trackName = computed(() => { 
+    return selectedCircuit.value ? selectedCircuit.value.toLowerCase() : "imola";
+});
+
+const currentTrack = computed(() => {
+    const name = trackName.value; 
+    return tracks[name] || tracks['imola'] || { viewBox: '0 0 500 500', path: '' };
+});
 
 const mountMainAnimation = () => {
+    if (!pathRef.value || carElements.value.length === 0) return;
+
     carElements.value.forEach(element => {
-        const tween =
-            gsap.to(
-                element,
-                {
-                    motionPath: {
-                        path: pathRef.value,
-                        align: pathRef.value,
-                        alignOrigin: [0.5, 0.5]
-                    },
-                    duration: 1,
-                    repeat: -1,
-                    paused: true,
-                    ease: "none"
-                }
-            );
+        if(!element) return; // Skip if ref is null
+
+        const tween = gsap.to(element, {
+            motionPath: {
+                path: pathRef.value,
+                align: pathRef.value,
+                alignOrigin: [0.5, 0.5]
+            },
+            duration: 1,
+            repeat: -1,
+            paused: true,
+            ease: "none"
+        });
         animations.push(tween);
     });    
 }
 
 watch(cars, (newCars, oldCars) => {
-    if (newCars?.length > 0 && (!oldCars || oldCars.length === 0)) mountMainAnimation();
+    if (newCars?.length > 0 && (!oldCars || oldCars.length === 0)) {
+        setTimeout(() => mountMainAnimation(), 50); 
+    }
+
     newCars.forEach((car, index) => {
         const tween = animations[index];
         if (!tween) return;
+        
         const targetTime = (car.lapCount || 0) + (car.progress / 100);
+        
         if (!initializedCars.has(index)) {
             tween.totalTime(targetTime);
             initializedCars.add(index); 
         } else {
-            gsap.to(
-                tween,
-                {
-                    totalTime: targetTime,
-                    duration: 1, 
-                    ease: "power1.out",
-                    overwrite: true // allegedly, kills half-baked animations
-                }
-            );
+            gsap.to(tween, {
+                totalTime: targetTime,
+                duration: 1, 
+                ease: "power1.out",
+                overwrite: true 
+            });
         }
     });
-
-},{deep: true});
+}, { deep: true });
 
 onMounted(() => {
     mountMainAnimation();
 });
 
 onUnmounted(() => {
-    if(animations){
-        animations.forEach(element => {
-            element.kill();  //releasing it for gbc
-        });
-    }
+    animations.forEach(tween => tween.kill());
+    animations = [];
 });
-
 </script>
 
 <template>
@@ -107,32 +109,45 @@ onUnmounted(() => {
                         {{ trackName }}
                     </template>
                 </v-chip>
-
             </template>
+
             <template #text>
                 <div class="d-flex flex-row align-center justify-space-around w-100 h-100 no-select">
                     <svg
+                        v-if="currentTrack" 
                         :viewBox="currentTrack.viewBox"
                         class="w-66 h-66"
                     >
-                    <path
-                        :d="currentTrack.path"
-                        ref="path"
-                        fill="none"
-                        stroke="black"
-                        stroke-width="4"
-                    />
-                    <circle  
-                        v-for="(car, index) in cars" 
-                        :key="car._id || index"
-                        :ref="(el) => carElements[index] = el"
-                        :fill="getTeamHex(theme, car.team.full_name)" 
-                        :stroke="getTeamHex(theme, car.team.full_name, darken = true)" 
-                        @click="$emit('carClicked', car._id)"
-                        class="cursor-pointer car.hover"
-                        r="6" 
-                        stroke-width="2"
-                    />
+                        <path
+                            :d="currentTrack.path"
+                            ref="path"
+                            fill="none"
+                            stroke="black"
+                            stroke-width="4"
+                        />
+                        <g 
+                            v-for="(car, index) in cars"
+                            :key="car._id || index"
+                            :ref="(el) => carElements[index] = el"
+                            @click="$emit('carClicked', car._id)"
+                            class="cursor-pointer car-group"
+                        >
+                            <text
+                                y="-10"
+                                text-anchor="middle"
+                                class="driver-label font-weight-bold text-caption text-uppercase"
+                            >
+                                {{ car.driver.full_name.split(" ")[1].substr(0, 3)}}
+                            </text>
+
+                            <circle  
+                                :fill="getTeamHex(theme, car.team.full_name)" 
+                                :stroke="getTeamHex(theme, car.team.full_name, true)" 
+                                r="6" 
+                                stroke-width="2"
+                                class="car-node"
+                            />
+                        </g>
                     </svg>
                 </div>
             </template>
@@ -149,8 +164,20 @@ onUnmounted(() => {
           user-select: none;
 }
 
-.car.hover{
-    r: 10;
+.car-node {
+    transition: r 0.2s ease; 
 }
 
+.car-node:hover {
+    r: 10px;
+    stroke-width: 3px;
+}
+
+.driver-label {
+    fill: rgb(var(--v-theme-on-surface));
+    stroke: rgb(var(--v-theme-background)); 
+    stroke-width: 3px;
+    paint-order: stroke fill;
+    pointer-events: none;
+}
 </style>

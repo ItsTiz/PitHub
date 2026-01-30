@@ -8,8 +8,8 @@ const socketConnection = useConnectionStore();
 const selectedCircuit = ref('Imola')
 const circuits = ['Imola', 'Monza', 'Monaco', 'Zandvoort']
 
-const handleStartClicked = () => {
-    simControl.emitStartRequest();
+const handleStartClicked = (circuit) => {
+    simControl.emitStartRequest(circuit);
 }
 
 const handleStopClicked = () => {
@@ -26,10 +26,10 @@ const handleStopClicked = () => {
                 <Combobox
                     v-model="selectedCircuit"
                     :items="circuits"
-                    label="Select Circuit"
+                    label="Circuit"
                     prepend-inner-icon="mdi-flag-checkered"
                     density="compact"
-                    variant="outlined"
+                    variant="solo-filled"
                     hide-details
                     bg-color="surface"
                 ></Combobox>
@@ -67,7 +67,7 @@ const handleStopClicked = () => {
                         :color="simControl.isRunning ? 'error' : 'success'"
                         :variant="simControl.isRunning ? 'tonal' : 'flat'"
                         size="small"
-                        @click="simControl.isRunning ? handleStopClicked() : handleStartClicked()"
+                        @click="simControl.isRunning ? handleStopClicked() : handleStartClicked(selectedCircuit)"
                     />
                 </template>
             </v-tooltip>
@@ -76,7 +76,6 @@ const handleStopClicked = () => {
 </template>
 
 <style scoped>
-/* Optional: Simple pulse animation for the status dot */
 .animate-pulse {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
