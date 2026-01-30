@@ -31,7 +31,6 @@ onMounted(() => {
     const path = router.currentRoute.value.path;
     const splitted = path.split("/")
     const last = splitted[splitted.length - 1];
-    console.log(last)
     switch(last){
         case "simulation":
             pageIndex.value = 0;

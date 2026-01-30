@@ -3,19 +3,17 @@
 const props = defineProps({
     title: {
         type: String,
-        default: "button"
+        default: ""
     },
     icon: {
         type: String,
         default: ""
     },
     width: {
-        type: Number,
-        default: 150
+        type: Number
     },
     height: {
-        type: Number,
-        default: 35
+        type: Number
     },
     backgroundColor: {
         type: String,
@@ -24,6 +22,10 @@ const props = defineProps({
     textColor: {
         type: String,
         default: "on-background"
+    },
+    rounded: {
+        type: Boolean,
+        default: false
     }
 });
 const emits = defineEmits(['clicked']);
@@ -33,12 +35,11 @@ const emits = defineEmits(['clicked']);
 <template>
     <v-btn
         :class="`bg-${backgroundColor} text-${textColor}`"
-        rounded
-        :prepend-icon="icon"
+        :icon="icon"
         :width="width"
         :height="height"
+        :text="title"
         @click="$emit('clicked')"
     >
-        {{ title }}
     </v-btn>
 </template>

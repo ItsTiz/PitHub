@@ -12,7 +12,7 @@ const injectCarRaceData = (cars) => {
         }
         else {
             const oldProgress = element.progress;
-            const newProgress = (element.progress + getRandomBetween(3, 5)) % 100;
+            const newProgress = (element.progress + getRandomBetween(3, 4)) % 100;
             if (oldProgress > 80 && newProgress < 20) { // detecting the "lap wrap-around"
                 element.lapCount++;
             }

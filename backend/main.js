@@ -9,8 +9,6 @@ const startServer = async () => {
 
     const {httpServer, io} = createHttpServer(app);
 
-    startSimulation(io);
-
     httpServer.listen(process.env.PORT, () => {
         console.log('Server running on port: ', process.env.PORT);
     });

@@ -1,6 +1,6 @@
 <template>
     <v-container fluid class="d-flex flex-row bg-surface-bright">
-        USers
+        Users
     </v-container>
 </template>
 

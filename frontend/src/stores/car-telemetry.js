@@ -31,14 +31,14 @@ export const useTelemetryStore = defineStore("telemetry", {
 
             // Request to join the room on a timeout
             socket.timeout(timeOutDelay).emit("telemetry:join", token, (err, response) => {
-                this.handleRejectedRequest(err, response);
+                this.handleRequestResponse(err, response);
             });
         },
         unsubscribeFromTeam() {
             socket.emit("telemetry:leave");
             this.carData = {};
         },
-        handleRejectedRequest(err, response) {
+        handleRequestResponse(err, response) {
             if (err) {
                 console.log(err);
             } else {

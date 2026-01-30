@@ -1,35 +1,37 @@
 <script setup>
-import { useSimulationControlStore } from '../../stores/simulation';
-
-
-const simControl = useSimulationControlStore();
-
-const handleStartClicked = () => {
-    simControl.emitStartRequest();
-}
-
-const handleStopClicked = () => {
-    simControl.emitStopRequest();
-}
-
+import SimulationControl from '../../components/pages-components/sysadmin/SimulationControl.vue';
 </script>
 
 
 <template>
-    <v-container fluid class="d-flex flex-row bg-surface-bright">
+    <v-container fluid class="h-100 d-flex flex-column bg-background">
+         <v-row class="flex-grow-0">
+            <v-col :cols="12">
+                <Sheet class="h-100" :elevation="5">
+                    <template v-slot:default>
+                        <SimulationControl/>
+                    </template>
+                </Sheet>
+            </v-col>
+        </v-row>
 
-        <Button
-            :title="'START'"
-            :icon="'mdi-play'"
-            :backgroundColor="'success'"
-            @clicked="handleStartClicked"
-        />
+        <v-row class="flex-grow-1">
+            <v-col :cols="7">
+                <Sheet class="h-100" :elevation="5">
+                    <template v-slot:default>
+                        
+                    </template>
+                </Sheet>
+            </v-col>
 
-        <Button
-            :title="'STOP'"
-            :icon="'mdi-stop'"     
-            @clicked="handleStopClicked"   
-        />
+            <v-col :cols="5">
+                <Sheet class="h-100" :elevation="5">
+                    <template v-slot:default>
+                        
+                    </template>
+                </Sheet>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
