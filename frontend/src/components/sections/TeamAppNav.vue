@@ -90,12 +90,12 @@ onMounted(() => {
                 :size="n === (pageIndex + 1 )? 48 : 38"
                 :icon="getIcon(n-1)"
                 class="mb-8 cursor-pointer"
-                @click="selectView(n-1)"
+                @click="n == 4 ? (showProfileMenu = true) : selectView(n-1)"
             >
             
             </v-avatar>
             <v-menu v-model="showProfileMenu" location="top" :close-on-content-click="false">
-                <template v-slot:activator="{ props }">
+                <!-- <template v-slot:activator="{ props }">
                     <v-avatar
                     v-bind="props"
                     :color="pageIndex === 4 ? 'primary' : 'surface-variant'"
@@ -103,7 +103,7 @@ onMounted(() => {
                     icon="mdi-account-circle"
                     class="mb-8 cursor-pointer"
                     />
-                </template>
+                </template> -->
 
                 <v-list density="compact" min-width="140">
                     <v-list-item @click="selectView(3)">
