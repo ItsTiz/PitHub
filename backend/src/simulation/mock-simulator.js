@@ -8,19 +8,35 @@ const injectCarRaceData = (cars) => {
         if (element.progress === undefined || element.progress === null) {
             element.progress = 0;
             element.lapCount = 0;
+            element.speed = 0;
         }
         else {
             const oldProgress = element.progress;
-            const newProgress = (element.progress + getRandomBetween(3, 5)) % 100;
+            const newProgress = (element.progress + getRandomBetween(3, 4)) % 100;
             if (oldProgress > 80 && newProgress < 20) { // detecting the "lap wrap-around"
                 element.lapCount++;
             }
             element.progress = newProgress
+            element.speed = getRandomBetween(150, 378) 
         }
     });
 
     return cars;
 
+}
+
+const sortCars = (cars) => {
+     if (!Array.isArray(cars) || cars.length === 0) {
+        console.log("[ERROR] Invalid cars object.");
+        return [];
+    }
+
+    return cars.sort((a, b) => {
+        const totalProgressA = ((a.lapCount || 0) + ((a.progress || 0) / 100)) ?? 0; 
+        const totalProgressB = ((b.lapCount || 0) + ((b.progress || 0) / 100)) ?? 0;
+
+        return totalProgressB - totalProgressA;
+    });
 }
 
 const assembleTelemetryData = () => {
@@ -53,4 +69,4 @@ function getRandomBetween(min, max) {
     return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
 }
 
-export { assembleTelemetryData, injectCarRaceData };
+export { assembleTelemetryData, injectCarRaceData, sortCars };

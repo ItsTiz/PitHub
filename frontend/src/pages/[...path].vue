@@ -6,5 +6,5 @@
 meta:
   requiresAuth: false
   minRole: 'user'
-  guestOnly: true
+  guestOnly: false
 </route>

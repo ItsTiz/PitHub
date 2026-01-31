@@ -32,7 +32,9 @@ router.beforeEach((to, from, next) => {
     }
 
     if (to.path === '/' || to.path === '') {
+         console.log("1111!");
         if (auth.isAuthenticated) {
+             console.log("2222!");
             auth.redirectByRole(router)
             return
         }
@@ -41,16 +43,21 @@ router.beforeEach((to, from, next) => {
 
     if (to.meta.guestOnly && auth.isAuthenticated) {
         auth.redirectByRole(router);
+         console.log("33333!");
         return
     }
 
     if (to.meta.minRole && auth.user?.role) {
+        console.log("444444!");
         const userRank = roleRank[auth.user.role] ?? 0
         const requiredRank = roleRank[to.meta.minRole] ?? 999
         if (userRank < requiredRank) {
-            return next({ name: '/[...path]' })
+            console.log("here!");
+            return next('/[...path]')
         }
     }
+
+    console.log("yep");
     next();
 })
 

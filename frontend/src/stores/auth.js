@@ -40,7 +40,7 @@ export const useAuthStore = defineStore('auth', () => {
         try {
             const { data } = await axios.post(`${API_BASE}/v1/users/login`, { email, password })
             setAuth(data.token, data.user)
-            axios.defaults.headers.common['Authorization'] = `Bearer ${auth.token.value}`
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
             return data.user
         } catch (err) {
             throw err.response?.data?.message || 'Login failed'

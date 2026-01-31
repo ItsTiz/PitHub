@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { socket } from "@/socket";
 
 const timeOutDelay = 5000;
+const enableDebugging = false;
 
 export const useTelemetryStore = defineStore("telemetry", {
 
@@ -16,7 +17,7 @@ export const useTelemetryStore = defineStore("telemetry", {
             if (this.isListening) return;
 
             socket.on("telemetry:update", (data) => {
-                console.log("[telemetry-store] received data: ", data);
+                if(enableDebugging) console.log("[telemetry-store] received data: ", data);
                 this.carData = data;
             });
 
@@ -30,18 +31,18 @@ export const useTelemetryStore = defineStore("telemetry", {
 
             // Request to join the room on a timeout
             socket.timeout(timeOutDelay).emit("telemetry:join", token, (err, response) => {
-                this.handleRejectedRequest(err, response);
+                this.handleRequestResponse(err, response);
             });
         },
         unsubscribeFromTeam() {
             socket.emit("telemetry:leave");
             this.carData = {};
         },
-        handleRejectedRequest(err, response) {
+        handleRequestResponse(err, response) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(response.status);
+                console.log(response.message);
             }
         }
     }

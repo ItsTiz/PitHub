@@ -4,7 +4,7 @@ import { ref } from 'vue'
 const model = ref(true);
 
 const props = defineProps({
-    label:{ type: String, default: "Switch" },
+    label:{ type: String, default: "" },
     true_icon:{ type: String, default: "" },
     false_icon:{ type: String, default: "" }
 })

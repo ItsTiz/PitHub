@@ -29,7 +29,7 @@ const latestTemp = computed(() => {
 <template>
     <v-card
         class="w-100 rounded-lg "
-        elevation="6"
+        :elevation="6"
         border="sm"    
     >
         <template #prepend>

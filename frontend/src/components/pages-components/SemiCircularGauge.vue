@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { useGaugeColor, usePercentage } from '../../composables/use-percentage-color';
+import { useGaugeColor, usePercentage } from '../../composables/utils/use-percentage-color';
 
 const props = defineProps({
     input: { type: Number, default: 0 },
