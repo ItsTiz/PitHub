@@ -8,30 +8,27 @@ let currentCircuit = null; // Store the circuit here so late-joiners can see it
 const registerSimulationHandlers = (io, socket) => {
 
     const startSimulationLoop = async (circuitArg, callback) => {
+        currentCircuit = circuitArg;
+
+        const toSend = { 
+            selectedCircuit: currentCircuit,
+            isRunning: true 
+        }
+
         if (isSimulationRunning) {
             console.log(`[${socket.id}] tried to start, but sim is already running.`);
-            
-            if (typeof callback === 'function') {
-                callback({ 
-                    selectedCircuit: currentCircuit,
-                    isRunning: true 
-                });
-            }
+            if (typeof callback === 'function') { callback(toSend); }
             return;
         }
 
         await startSimulation(io);
+        isSimulationRunning = true;
 
         console.log(`[${socket.id}] Starting simulation on:`, circuitArg);
         
-        currentCircuit = circuitArg;
-        isSimulationRunning = true;
-
-        if (typeof callback === 'function') {
-            callback({ selectedCircuit: currentCircuit });
-        }
-
-        io.emit(SimulationEvent.STATUS, isSimulationRunning);
+        if (typeof callback === 'function') { callback(toSend); }
+        //Also broadcasting to every other socket
+        io.emit(SimulationEvent.STATUS, toSend);
     };
 
     const stopSimulationLoop = () => {

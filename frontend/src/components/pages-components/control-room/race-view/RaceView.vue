@@ -33,16 +33,16 @@ const currentTrack = computed(() => {
 });
 
 const mountMainAnimation = () => {
+    if (animations.length > 0) { resetAnimation(); }
+
     if (!pathRef.value || carElements.value.length === 0) return;
 
     carElements.value.forEach(element => {
-        if(!element) return; // Skip if ref is null
+        if(!element) return;
 
         const tween = gsap.to(element, {
             motionPath: {
                 path: pathRef.value,
-                align: pathRef.value,
-                alignOrigin: [0.5, 0.5]
             },
             duration: 1,
             repeat: -1,
@@ -51,6 +51,11 @@ const mountMainAnimation = () => {
         });
         animations.push(tween);
     });    
+}
+
+const resetAnimation = () => {
+    animations.forEach(tween => tween.kill());
+    animations = [];
 }
 
 watch(cars, (newCars, oldCars) => {
@@ -78,13 +83,18 @@ watch(cars, (newCars, oldCars) => {
     });
 }, { deep: true });
 
+watch(selectedCircuit, (newPath, oldPath) => {
+    if (newPath !== oldPath) {
+        mountMainAnimation();
+    }
+});
+
 onMounted(() => {
     mountMainAnimation();
 });
 
 onUnmounted(() => {
-    animations.forEach(tween => tween.kill());
-    animations = [];
+   resetAnimation();
 });
 </script>
 
@@ -130,7 +140,7 @@ onUnmounted(() => {
                             :key="car._id || index"
                             :ref="(el) => carElements[index] = el"
                             @click="$emit('carClicked', car._id)"
-                            class="cursor-pointer car-group"
+                            class="cursor-pointer"
                         >
                             <text
                                 y="-10"
