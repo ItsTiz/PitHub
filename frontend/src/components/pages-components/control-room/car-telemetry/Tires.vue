@@ -20,7 +20,7 @@ const cols = computed(() => {
 </script>
 
 <template>
-    <Card>
+    <Card class="h-100">
         <template #title>
             <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">Tire Health</div>
         </template>

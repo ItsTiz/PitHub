@@ -9,7 +9,7 @@ export const useConnectionStore = defineStore("connection", {
     }),
 
     actions: {
-        bindEvents() {
+        initListeners() {
             socket.on("connect", () => {
                 this.isConnected = true;
             });

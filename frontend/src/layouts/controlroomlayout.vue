@@ -1,5 +1,5 @@
 <template>
-  <AppRailNav />
+  <TeamAppNav />
   <v-main>
     <Transition name="fade-view" mode="out-in">
       <RouterView />

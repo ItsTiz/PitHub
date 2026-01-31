@@ -2,12 +2,13 @@
 const props = defineProps({
     elevation: { type: Number, default: 6 },
     backgroundColor: { type: String, default: "surface" },
-    textColor: { type: String, default: "on-surface" }
+    textColor: { type: String, default: "on-surface" },
+    titleClasses: { type: String, default: "" }
 });
 </script>
 
 <template>
-    <v-container class="h-100">
+    <v-container>
         <v-card
             :elevation="elevation" 
             :color="backgroundColor" 
@@ -15,7 +16,10 @@ const props = defineProps({
             class="fill-height rounded-lg d-flex flex-column justify-space-around"
             border="sm"
         >
-            <v-card-title class="flex-grow-0" v-if="$slots.title">
+            <v-card-title
+                class="flex-grow-1"
+                :class="titleClasses" v-if="$slots.title"
+            >
                 <slot name="title"></slot>
             </v-card-title>
 

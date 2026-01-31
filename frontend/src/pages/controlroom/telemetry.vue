@@ -1,5 +1,5 @@
 <script setup>
-import { watch, computed, onMounted, onUnmounted, ref } from 'vue'
+import { watch, computed, ref } from 'vue'
 import { useTelemetryStore } from "@/stores/car-telemetry";
 import { useDisplay } from 'vuetify'
 
@@ -32,7 +32,7 @@ watch(getOilTemp, (temp, _) => {
 
         <v-row class="flex-grow-1">
             <v-col :cols="cols[0]">
-                <Sheet class="h-100 ma-2" elevation="5">
+                <Sheet class="h-100 ma-2" :="5">
                     <template v-slot:default>
                         <Odometer 
                             :speed="carData.speed"
@@ -43,7 +43,7 @@ watch(getOilTemp, (temp, _) => {
             </v-col>
 
             <v-col :cols="cols[1]">
-                <Sheet class="h-100 ma-2" elevation="5">
+                <Sheet class="h-100 ma-2" :elevation="5">
                     <template v-slot:default>
                         <OilTempGraph
                             :oil_temp_array="oil_temp_values"
@@ -55,7 +55,7 @@ watch(getOilTemp, (temp, _) => {
 
         <v-row class="flex-grow-1">
             <v-col :cols="cols[0]">
-                <Sheet class="h-100 ma-2" elevation="5">
+                <Sheet class="h-100 ma-2" :elevation="5">
                     <template v-slot:default>
                          <Tires 
                             :front_left_health="carData.tire_health_fl"
@@ -68,7 +68,7 @@ watch(getOilTemp, (temp, _) => {
             </v-col>
 
             <v-col :cols="cols[1]">
-                <Sheet class="h-100 ma-2" elevation="5">
+                <Sheet class="h-100 ma-2" :elevation="5">
                     <template v-slot:default>
                     <Autonomy
                         :fuel="carData.fuel_level"
