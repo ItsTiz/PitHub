@@ -40,4 +40,5 @@ meta:
   requiresAuth: true
   minRole: 'admin'
   guestOnly: false
+  layout: sysadminlayout
 </route>

@@ -2,9 +2,16 @@
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router'
 import { useAppStore } from '../../stores/app';
+import { useAuthStore } from '@/stores/auth'
 const appStore = useAppStore();
 const router = useRouter()
 const pageIndex = ref(0)
+
+const auth = useAuthStore()
+const logout = () => {
+  auth.logout()
+  router.push('/login')
+}
 
 const toggleTheme = () => {
     appStore.toggleTheme();
@@ -81,6 +88,17 @@ onMounted(() => {
                 :false-icon="'mdi-white-balance-sunny'"
                 :true-icon="'mdi-weather-night'"
                 @modelChanged="toggleTheme()"
+            />
+        </div>
+
+        <div class="d-flex justify-center">
+            <Button 
+                :backgroundColor="'primary'"
+                :textColor="'on-surface'"
+                :icon="'mdi-logout'"
+                :iconOnly="true"
+                :variant="'text'"
+                @click="logout()"
             />
         </div>
     </div>

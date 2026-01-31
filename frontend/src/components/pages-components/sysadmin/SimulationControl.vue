@@ -20,7 +20,7 @@ const handleStopClicked = () => {
 
 <template>
     <v-container fluid>
-        <v-sheet elevation="3" rounded="lg" class="pa-2 d-flex align-center gap-4">
+        <Sheet elevation="3" rounded="lg" class="pa-2 d-flex align-center gap-4">
 
             <div class="flex-grow-1" style="max-width: 400px;">
                 <Combobox
@@ -66,12 +66,13 @@ const handleStopClicked = () => {
                         :icon="simControl.isRunning ? 'mdi-stop': 'mdi-play'"
                         :color="simControl.isRunning ? 'error' : 'success'"
                         :variant="simControl.isRunning ? 'tonal' : 'flat'"
+                        :iconOnly="true"
                         size="small"
                         @click="simControl.isRunning ? handleStopClicked() : handleStartClicked(selectedCircuit)"
                     />
                 </template>
             </v-tooltip>
-        </v-sheet>
+        </Sheet>
     </v-container>
 </template>
 

@@ -40,6 +40,7 @@ export const useAuthStore = defineStore('auth', () => {
         try {
             const { data } = await axios.post(`${API_BASE}/v1/users/login`, { email, password })
             setAuth(data.token, data.user)
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
             return data.user
         } catch (err) {
             throw err.response?.data?.message || 'Login failed'
@@ -76,6 +77,32 @@ export const useAuthStore = defineStore('auth', () => {
         router.push(target)
     }
 
+    const fetchUser = async () => {
+        if (!token.value) return
+        try {
+            const { data } = await axios.get(`${API_BASE}/v1/users/me`)
+            user.value = data.user
+            localStorage.setItem('user', JSON.stringify(data.user))
+        } catch (err) {
+            clearAuth()
+        }
+    }
+
+    const changePassword = async (currentPassword, newPassword) => {
+        console.log('Token prima della chiamata:', token.value)
+        console.log('Bearer header:', axios.defaults.headers.common['Authorization'])
+        try {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
+           await axios.post(`${API_BASE}/v1/users/change-password`, 
+            { current_password: currentPassword, password: newPassword },
+            { headers: { Authorization: `Bearer ${token.value}` } }
+            )
+        } catch (err) {
+            console.log(err)
+            throw err.response?.data?.message || 'Password changing failed'
+        }
+    }
+
     // Initial setup
     if (token.value) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
@@ -92,6 +119,8 @@ export const useAuthStore = defineStore('auth', () => {
         logout,
         redirectByRole,
         setAuth,
-        clearAuth
+        clearAuth,
+        fetchUser,
+        changePassword
     }
 })
