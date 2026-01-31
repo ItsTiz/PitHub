@@ -2,7 +2,6 @@ import { Server } from "socket.io";
 import { registerTelemetryHandlers } from "./socket-handlers/telemetry-handler.js";
 import { registerSimulationHandlers } from "./socket-handlers/sim-controller-handler.js";
 import { registerRaceHandlers } from "./socket-handlers/race-handler.js";
-import { registerNotificationHandlers } from "./socket-handlers/notification-handler.js";
 
 let io;
 const enableDebuggingLog = true;
@@ -47,7 +46,6 @@ const onConnection = (socket) => {
     registerTelemetryHandlers(io, socket);
     registerSimulationHandlers(io, socket);
     registerRaceHandlers(io, socket);
-    registerNotificationHandlers(io, socket);
 
     socket.on("disconnect", () => {
         console.log(`[${socket.id}] Client disconnected`);

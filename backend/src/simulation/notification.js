@@ -1,88 +1,104 @@
-import NotificationEvent from "./events/notification-events.js";
+import { sendToUser } from '../config/sse.js';
+import User from '../models/user.js';
 
-const generateAndEmitNotifications = (io, cars) => {
+let lastRun = 0;
+
+export async function generateNotifications(cars) {
+  const now = Date.now();
+  if (now - lastRun < 5000) return;
+  lastRun = now;
+
+  // Esempio eventi semplici – adatta alle tue logiche reali
   const events = [];
-  const now = new Date();
 
   cars.forEach(car => {
-    // --- LAP COMPLETED ---
-    if (!car.lastNotifiedLap) car.lastNotifiedLap = 0;
-    if (!car.lapCount) car.lapCount = 0;
-
-    if (car.lapCount > car.lastNotifiedLap) {
+    if (car.oldProgress > 90 && car.progress < 10) {
       events.push({
         type: 'lap_completed',
-        message: `Giro completato da ${car.model || 'una vettura'}`,
-        carId: car._id,
-        timestamp: now,
-        roles: ['user', 'admin']
+        message: `Lap completed - ${car.model}`,
+        carId: car._id.toString()
       });
-      car.lastNotifiedLap = car.lapCount;
     }
 
-    // --- TELEMETRY EVENTS (team + admin) ---
-    const telemetry = car.telemetry;
-    if (!telemetry) return;
-
-    const teamId = car.team?.toString();
-    if (!teamId) return;
-
-    // Fuel low
-    if (telemetry.fuel_level < 20 && !car._fuelWarned) {
+    // Pit stop / sosta ai box
+    if (Math.random() < 0.08) {
       events.push({
-        type: 'fuel_low',
-        message: `Carburante basso (${car.model})`,
-        carId: car._id,
-        timestamp: now,
-        roles: ['team', 'admin'],
-        teamId
+        type: 'pit_stop',
+        message: `${car.model} in pit lane`,
+        carId: car._id.toString()
       });
-      car._fuelWarned = true;
     }
 
-    // Engine temperature high
-    if (telemetry.engine_oil_temp > 180 && !car._tempWarned) {
+    // Overtake / sorpasso
+    if (Math.random() < 0.12) {
       events.push({
-        type: 'temperature_high',
-        message: `Temperatura olio elevata (${car.model})`,
-        carId: car._id,
-        timestamp: now,
-        roles: ['team', 'admin'],
-        teamId
+        type: 'overtake',
+        message: `Overtake from ${car.model}`,
+        carId: car._id.toString()
       });
-      car._tempWarned = true;
     }
 
-    // Tire wear
-    const minTire = Math.min(
-      telemetry.tire_health_fl, telemetry.tire_health_fr,
-      telemetry.tire_health_rl, telemetry.tire_health_rr
-    );
-    if (minTire < 30 && !car._tireWarned) {
+    // Problema meccanico grave
+    if (Math.random() < 0.05) {
       events.push({
-        type: 'tire_wear',
-        message: `Usura gomme elevata (${car.model})`,
-        carId: car._id,
-        timestamp: now,
-        roles: ['team', 'admin'],
-        teamId
+        type: 'mechanical_failure',
+        message: `Mechanical failure on ${car.model}`,
+        carId: car._id.toString()
       });
-      car._tireWarned = true;
+    }
+
+    // Low fuel (generale, ma legato a car)
+    if (car.fuel_level < 20) {  // assumi che car abbia fuel_level o prendi da telemetry
+      events.push({
+        type: 'low_fuel',
+        message: `Low fuel - ${car.model} (${car.fuel_level || '?'} kg)`,
+        carId: car._id.toString()
+      });
+    }
+
+    // Nel pit stop: specifica cambio gomme
+    if (Math.random() < 0.08) {
+      const tireChange = Math.random() < 0.8 ? 'new tires' : 'no tire change';
+      events.push({
+        type: 'pit_stop',
+        message: `${car.model} in pits - ${tireChange}`,
+        carId: car._id.toString()
+      });
+    }
+
+    // incidente con possibile red flag o safety car
+    if (Math.random() < 0.4) {
+      if (Math.random() < 0.5) {
+        events.push({ type: 'yellow_flag', message: 'Yellow Flag', carId: car._id.toString() });
+      } else if (Math.random() < 0.7) {
+        events.push({
+          type: 'safety_car',
+          message: 'Safety Car on track (Just an "inchident on the race" of ' + car.model + ')',
+          carId: car._id.toString()
+        });
+      } else {
+        events.push({
+          type: 'red_flag',
+          message: 'Red Flag - (Just an "inchident on the race" of ' + car.model + ')',
+          carId: car._id.toString()
+        });
+      }
     }
   });
 
-  // --- EMISSIONE EVENTI ---
-  events.forEach(ev => {
-    if (ev.roles.includes('admin')) {
-      io.to('admin').emit(NotificationEvent.NEW, ev);
-    }
-    if (ev.roles.includes('user')) {
-      io.to('users').emit(NotificationEvent.NEW, ev);
-    }
-    if (ev.roles.includes('team') && ev.teamId) {
-      io.to(`team-${ev.teamId}`).emit(NotificationEvent.NEW, ev);
-    }
-  });
-};
+  if (events.length === 0) return;
 
-export { generateAndEmitNotifications };
+
+  const users = await User.find().lean().select('_id role team');
+
+  users.forEach(user => {
+    const relevant = events.filter(ev => {
+      if (user.role === 'admin') return true;
+      if (user.role === 'user' && ev.type === 'lap_completed') return true;
+      if (user.role === 'team' && user.team?.toString() === car.team?.toString()) return true;
+      return false;
+    });
+
+    relevant.forEach(ev => sendToUser(user._id.toString(), ev));
+  });
+}
