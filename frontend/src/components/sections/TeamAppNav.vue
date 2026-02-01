@@ -1,8 +1,10 @@
 <script setup>
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router'
 import { useAppStore } from '../../stores/app';
 import { useAuthStore } from '@/stores/auth'
+import { getLogoForTeam } from '../../composables/utils/teams-logos'
+import { getTeamColor } from '../../composables/utils/teams-colors'
 const appStore = useAppStore();
 const auth = useAuthStore()
 const router = useRouter()
@@ -40,6 +42,17 @@ const getIcon = (index) => {
     }
 }
 
+const getImageUrl = (path) => {
+  return new URL(`../../assets/teams/${path}`, import.meta.url).href
+}
+
+const imagePath = computed(()=>{    
+    const logoname = getLogoForTeam(auth.user?.team?.name);
+    return getImageUrl(logoname)
+});
+
+const teamColor = computed(() => getTeamColor(auth.user?.team?.name));
+const teamColorDarkened = computed(() => getTeamColor(auth.user?.team?.name, true));
 
 onMounted(() => {
     const path = router.currentRoute.value.path;
@@ -64,19 +77,23 @@ onMounted(() => {
 
 <template>
     <v-navigation-drawer
-        class="pt-4 pb-4 no-select"
+        :class="`pt-4 pb-4 no-select bg-${teamColorDarkened}`"
         :elevation="7"
         permanent           
         rail                
-        color="bg-surface"
     >
     <div class="d-flex flex-column h-100">
         <div class="d-flex flex-column align-center justify-center">
             <v-avatar
                 :size="48"
-                color="bg-surface-bright"
-                class="mb-4"
+                :class="`mb-4 bg-${teamColor}`"
+                :image="imagePath"
             >
+                <img
+                    :src="imagePath"
+                    :color="'white'"
+                /> 
+                <!-- TODO  put al here-->
             </v-avatar>
         </div>
         <v-divider></v-divider>
@@ -85,10 +102,10 @@ onMounted(() => {
             <v-avatar
                 v-for="n in 4"
                 :key="n"
-                :color="n === (pageIndex + 1) ? 'primary' : 'surface-variant'"
+                :color="n === (pageIndex + 1) ? 'surface ': 'surface-variant'"
                 :size="n === (pageIndex + 1 )? 48 : 38"
                 :icon="getIcon(n-1)"
-                class="mb-8 cursor-pointer"
+                class="mb-8 cursor-pointer bg-background"
                 @click="selectView(n-1)"
             >
             </v-avatar>
@@ -98,17 +115,18 @@ onMounted(() => {
             <Switch
                 :false-icon="'mdi-white-balance-sunny'"
                 :true-icon="'mdi-weather-night'"
+                :color="`background`"
                 @modelChanged="toggleTheme()"
             />
         </div>
 
         <div class="d-flex justify-center">
             <Button 
-                :backgroundColor="'primary'"
+                :backgroundColor="'on-surface'"
                 :textColor="'on-surface'"
                 :icon="'mdi-logout'"
                 :iconOnly="true"
-                :variant="'text'"
+                :variant="'elevated'"
                 @click="logout()"
             />
         </div>

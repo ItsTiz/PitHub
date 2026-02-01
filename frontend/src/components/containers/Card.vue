@@ -3,6 +3,7 @@ const props = defineProps({
     elevation: { type: Number, default: 6 },
     backgroundColor: { type: String, default: "surface" },
     textColor: { type: String, default: "on-surface" },
+    borderColor: { type: String },
     titleClasses: { type: String, default: "" }
 });
 </script>
@@ -13,8 +14,8 @@ const props = defineProps({
             :elevation="elevation" 
             :color="backgroundColor" 
             :theme="textColor"
-            class="fill-height rounded-lg d-flex flex-column justify-space-around"
-            border="sm"
+            :class="`fill-height rounded-lg d-flex flex-column justify-space-around border-${props.borderColor} ${borderColor ? 'border-opacity-100 ': 'border-opacity-20'}`"
+            :border="borderColor ? 'md' : 'sm'"
         >
             <v-card-title
                 class="flex-grow-1"

@@ -2,6 +2,9 @@
 import { watch, computed, ref } from 'vue'
 import { useTelemetryStore } from "@/stores/car-telemetry";
 import { useDisplay } from 'vuetify'
+import { getTeamColor } from '../../composables/utils/teams-colors'
+import { useAuthStore } from '../../stores/auth';
+const auth = useAuthStore()
 
 const { smAndDown } = useDisplay()
 const telemetryStore = useTelemetryStore();
@@ -24,6 +27,10 @@ watch(getOilTemp, (temp, _) => {
     }
     oil_temp_values.value.push(temp);
 })
+
+
+const teamColor = computed(() => getTeamColor(auth.user?.team?.name));
+const teamColorDarkened = computed(() => getTeamColor(auth.user?.team?.name, true));
 </script>
 
 
@@ -37,6 +44,7 @@ watch(getOilTemp, (temp, _) => {
                         <Odometer 
                             :speed="carData.speed"
                             :rpms="carData.rpms"
+                            :teamTheme="teamColor"
                         />
                     </template>
                 </Sheet>
@@ -47,6 +55,7 @@ watch(getOilTemp, (temp, _) => {
                     <template v-slot:default>
                         <OilTempGraph
                             :oil_temp_array="oil_temp_values"
+                            :teamTheme="teamColor"
                         />
                     </template>
                 </Sheet>
@@ -62,6 +71,7 @@ watch(getOilTemp, (temp, _) => {
                             :front_right_health="carData.tire_health_fr"
                             :rear_left_health="carData.tire_health_rl"
                             :rear_right_health="carData.tire_health_rr"
+                            :teamTheme="teamColor"
                         />
                     </template>
                 </Sheet>
@@ -73,6 +83,7 @@ watch(getOilTemp, (temp, _) => {
                     <Autonomy
                         :fuel="carData.fuel_level"
                         :esr_percentage="carData.battery_level"
+                        :teamTheme="teamColor"
                     />
                     </template>
                 </Sheet>

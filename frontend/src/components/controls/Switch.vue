@@ -6,6 +6,7 @@ const model = ref(true);
 const props = defineProps({
     label:{ type: String, default: "" },
     true_icon:{ type: String, default: "" },
+    color:{ type: String, default: "" },
     false_icon:{ type: String, default: "" }
 })
 
@@ -19,6 +20,7 @@ const emits = defineEmits(['modelChanged']);
         :label="label"
         :true-icon="true_icon"
         :false-icon="false_icon"
+        :color="color"
         hide-details
         inset
         @update:model-value="$emit('modelChanged')"
