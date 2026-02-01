@@ -7,7 +7,6 @@ const appStore = useAppStore();
 const auth = useAuthStore()
 const router = useRouter()
 const pageIndex = ref(0)
-const showProfileMenu = ref(false)
 
 const logout = () => {
   auth.logout()
@@ -90,30 +89,9 @@ onMounted(() => {
                 :size="n === (pageIndex + 1 )? 48 : 38"
                 :icon="getIcon(n-1)"
                 class="mb-8 cursor-pointer"
-                @click="n == 4 ? (showProfileMenu = true) : selectView(n-1)"
+                @click="selectView(n-1)"
             >
-            
             </v-avatar>
-            <v-menu v-model="showProfileMenu" location="top" :close-on-content-click="false">
-                <!-- <template v-slot:activator="{ props }">
-                    <v-avatar
-                    v-bind="props"
-                    :color="pageIndex === 4 ? 'primary' : 'surface-variant'"
-                    :size="pageIndex === 4 ? 48 : 32"
-                    icon="mdi-account-circle"
-                    class="mb-8 cursor-pointer"
-                    />
-                </template> -->
-
-                <v-list density="compact" min-width="140">
-                    <v-list-item @click="selectView(3)">
-                    <v-list-item-title>Account</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="logout">
-                    <v-list-item-title class="text-error">Logout</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
         </div>
 
         <div class="d-flex justify-center">

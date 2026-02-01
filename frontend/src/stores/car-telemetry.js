@@ -12,14 +12,14 @@ export const useTelemetryStore = defineStore("telemetry", {
 
     actions: {
         initListeners() {
-            
-            if (this.isListening){
-                if(import.meta.env.VITE_ENABLE_DEBUGGING==='true') console.log("[telemetry-store] Already binded. Aborting.");
+
+            if (this.isListening) {
+                if (import.meta.env.VITE_ENABLE_DEBUGGING === 'true') console.log("[telemetry-store] Already binded. Aborting.");
                 return;
-            } 
+            }
 
             socket.on("telemetry:update", (data) => {
-                if(import.meta.env.VITE_ENABLE_DEBUGGING==='true') console.log("[telemetry-store] received data: ", data);
+                if (import.meta.env.VITE_ENABLE_DEBUGGING === 'true') console.log("[telemetry-store] received data: ", data);
                 this.carData = data;
             });
 
@@ -57,7 +57,7 @@ export const useTelemetryStore = defineStore("telemetry", {
             } else if (response?.error) {
                 console.error("[Telemetry] Server:", response.error);
             } else {
-                if(import.meta.env.VITE_ENABLE_DEBUGGING==='true') console.log("[Telemetry]: ", response.message);
+                if (import.meta.env.VITE_ENABLE_DEBUGGING === 'true') console.log("[Telemetry]: ", response.message);
             }
         }
     }
