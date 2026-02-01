@@ -6,7 +6,10 @@ const verifyUser = async (token) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await userModel.findById(decoded.id).select('-password');
+        const user = await userModel
+                    .findById(decoded.id)
+                    .populate('team') //attaching team obj if role is team
+                    .select('-password');
 
         if (!user) throw new Error('Utente non trovato');
 

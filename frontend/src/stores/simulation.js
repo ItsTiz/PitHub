@@ -49,6 +49,9 @@ export const useSimulationControlStore = defineStore("simulation-control", {
         },
         
         emitStopRequest() {
+            if (!socket.connected) {
+                socket.connect();
+            }
             socket.emit("sim:stop");
         }
     }
