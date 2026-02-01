@@ -4,5 +4,6 @@ import { io } from "socket.io-client";
 // { 
 //   autoConnect: false 
 // }
+//add the notification 
 
 export const socket = io();

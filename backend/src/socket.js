@@ -36,6 +36,13 @@ const getIO = () => {
 const onConnection = (socket) => {
     console.log(`[${socket.id}] Client connected`);
 
+    const role = socket.handshake.auth?.role || 'user';
+    const teamId = socket.handshake.auth?.teamId || null;
+
+    if (role === 'user')   socket.join('users');
+    if (role === 'admin')  socket.join('admin');
+    if (role === 'team' && teamId) socket.join(`team-${teamId}`);
+
     registerTelemetryHandlers(io, socket);
     registerSimulationHandlers(io, socket);
     registerRaceHandlers(io, socket);
