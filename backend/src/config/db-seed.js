@@ -1,4 +1,4 @@
-/* * RUN WITH: node seed.js
+/* * RUN WITH: node src/config/db-seed.js
  */
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
