@@ -4,21 +4,29 @@ import { useTheme } from 'vuetify'
 import LinearGraph from '../../LinearGraph.vue'
 
 const props = defineProps({
-    oil_temp_array: { type: Array, default: () => [] },
+    name: { type: String, default: "" },
+    uom: { type: String, default: "" },
+    icon: { type: String, default: "" },
+    below_level_threshold: { type: Number, default: 90 },
+    normal_level_threshold: { type: Number, default: 150 },
+    over_level_threshold: { type: Number, default: 185 },
+    graph_height: { type: Number, default: 50 },
+    temp_array: { type: Array, default: () => [] },
+    maxSecondsScale: { type: Number, default: 10 },
     teamTheme: { type: String } 
 });
 
 const theme = useTheme();
 
 const latestTemp = computed(() => {
-    if(props.oil_temp_array.length === 0) return 0;
-    return props.oil_temp_array[props.oil_temp_array.length - 1];
+    if(props.temp_array.length === 0) return 0;
+    return props.temp_array[props.temp_array.length - 1];
 });
 
 const temperatureColor = computed(() => {
-    if (latestTemp.value < 90) return 'info'
-    if (latestTemp.value < 150) return 'success'
-    if (latestTemp.value < 185) return 'warning'
+    if (latestTemp.value < props.below_level_threshold) return 'info'
+    if (latestTemp.value < props.normal_level_threshold) return 'success'
+    if (latestTemp.value < props.over_level_threshold) return 'warning'
     return 'primary'
 })
 
@@ -44,11 +52,13 @@ const gradientColors = computed(() => {
 
 <template>
     <LinearGraph
-        :name="'Oil Temperature'"
-        :input_model="oil_temp_array"        
+        :name="name"
+        :input_model="temp_array"        
         :gradient="gradientColors" 
         :borderColor="props.teamTheme"
-        :uom="'C°'"
-        :icon="'mdi-oil-temperature'"
+        :uom="uom"
+        :icon="icon"
+        :graph_height="graph_height"
+        :maxSecondsScale="maxSecondsScale"
     />
 </template>

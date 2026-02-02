@@ -12,18 +12,17 @@ const props = defineProps({
     <Card 
         class="h-100"
         :borderColor="props.teamTheme"
-        :titleClasses="'bg-background pa-0'"
     >
         <template #title>
-            <div class="d-flex flew-row align-center justify-start">
-                <span class="ml-4">
+            <div class="d-flex flew-row align-center justify-center">
+                <span class="ml-2">
                     <v-icon
                        icon="mdi-oil"
                        size="32"
                     >
                    </v-icon>
                 </span>
-                <span class="ml-4 text-subtitle-1 text-secondary text-uppercase font-weight-bold">Oil pressure</span>
+                <span class="ml-2 text-subtitle-1 text-secondary text-uppercase font-weight-bold">Oil pressure</span>
             </div>
         </template>
         <template #text>

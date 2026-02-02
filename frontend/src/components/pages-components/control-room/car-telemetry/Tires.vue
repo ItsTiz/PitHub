@@ -12,6 +12,7 @@ const props = defineProps({
     front_right_health: { type: Number, default: 0 },
     rear_left_health: { type: Number, default: 0 },
     rear_right_health: { type: Number, default: 0 },
+    tire_type: { type: Number, default: -1 },
     teamTheme: { type: String },
 });
 
@@ -36,16 +37,32 @@ const teamHex = computed(() => {
     }
 });
 
+const getTireData = computed(() => {
+    switch(props.tire_type){
+        case 0:
+            return {color: 'error', name: 'SOFT'};
+        case 1:
+            return {color: 'warning', name: 'MEDIUM'};
+        case 2:
+            return {color: 'white', name: 'HARD'};
+        case 3:
+            return {color: 'success', name: 'INTERMEDIATE'};
+        case 4:
+            return {color: 'williams-darken-1', name: 'WET'};
+        default:
+            return {color: 'white', name: '--'};
+    }
+});
+
 </script>
 
 <template>
     <Card class="h-100" :borderColor="props.teamTheme">
         <template #title>
             <div class="d-flex flew-row align-center justify-center">
-                <span class="ml-4 text-subtitle-1 text-secondary text-uppercase font-weight-bold">Tires</span>
                 <span class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">
                     <v-chip
-                        :color="'success'"
+                        :color="getTireData.color"
                         variant="tonal"
                         size="small"
                         class="text-subtitle-1 text-secondary text-uppercase font-weight-bold flex-grow-0"
@@ -57,7 +74,7 @@ const teamHex = computed(() => {
                             ></v-icon>
                         </template> 
                         <template #default>
-                            TIRE_TYPE
+                            {{ getTireData.name }}
                         </template>
                     </v-chip>
                 </span>
@@ -77,7 +94,8 @@ const teamHex = computed(() => {
                                     :input="front_left_health"
                                     :uom="'%'"
                                     :size="gauges_size"
-                                    :width="gauges_width"    
+                                    :width="gauges_width"
+                                    :uomInColumn="false"
                                 />
                             </div>
 
@@ -89,6 +107,7 @@ const teamHex = computed(() => {
                                     :uom="'%'" 
                                     :size="gauges_size"
                                     :width="gauges_width"
+                                    :uomInColumn="false"
                                 />
                             </div>
                         </div>
@@ -120,6 +139,7 @@ const teamHex = computed(() => {
                                     :uom="'%'" 
                                     :size="gauges_size"
                                     :width="gauges_width"
+                                    :uomInColumn="false"
                                 />
                             </div>
 
@@ -131,6 +151,7 @@ const teamHex = computed(() => {
                                     :uom="'%'" 
                                     :size="gauges_size"
                                     :width="gauges_width"
+                                    :uomInColumn="false"
                                 />
                             </div>
                         </div>

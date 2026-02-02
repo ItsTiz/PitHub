@@ -10,18 +10,18 @@ const props = defineProps({
 
 
 <template>
-    <div class="d-flex flex-row align-center w-100">
-        <Card class="h-100" :borderColor="props.teamTheme" :titleClasses="'bg-background pa-0'">
+    <div class="d-flex flex-column align-center w-100">
+        <Card class="h-100" :borderColor="props.teamTheme">
             <template #title>
-            <div class="d-flex flew-row align-center justify-start">
-                <span class="ml-4">
+            <div class="d-flex flew-row align-center justify-center">
+                <span class="ml-2">
                     <v-icon
                        icon="mdi-gas-station"
                        size="25"
                     >
                    </v-icon>
                 </span>
-                <span class="ml-4 text-subtitle-1 text-secondary text-uppercase font-weight-bold">Fuel</span>
+                <span class="ml-2 text-subtitle-1 text-secondary text-uppercase font-weight-bold">Fuel</span>
             </div>
         </template>
             <template #text>
@@ -35,8 +35,17 @@ const props = defineProps({
 
         <Card class="h-100" :borderColor="props.teamTheme">
             <template #title>
-                <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">ESR</div>
-            </template>
+            <div class="d-flex flew-row align-center justify-center">
+                <span class="ml-2">
+                    <v-icon
+                       icon="mdi-battery-charging-medium"
+                       size="25"
+                    >
+                   </v-icon>
+                </span>
+                <span class="ml-2 text-subtitle-1 text-secondary text-uppercase font-weight-bold">ESR</span>
+            </div>
+        </template>
 
             <template #text>
                 <LinearGauge

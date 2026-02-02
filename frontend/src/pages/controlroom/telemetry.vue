@@ -13,6 +13,7 @@ const telemetryStore = useTelemetryStore();
 const { carData } = storeToRefs(telemetryStore);
 
 const oil_temp_values = ref([]);
+const brake_temp_values = ref([]);
 
 const cols = computed(() => {
     return smAndDown.value ? [12, 12] : [6, 6]
@@ -22,12 +23,22 @@ const getOilTemp = computed(() => {
     return telemetryStore.carData?.engine_oil_temp
 });
 
+const brakeTemp = computed(() => {
+    return telemetryStore.carData?.brake_temperature
+});
 
 watch(getOilTemp, (temp, _) => {
     if(oil_temp_values.value.length == 11){
         oil_temp_values.value.splice(0, 1);
     }
     oil_temp_values.value.push(temp);
+})
+
+watch(brakeTemp, (temp, _) => {
+    if(brake_temp_values.value.length == 6){
+        brake_temp_values.value.splice(0, 1);
+    }
+    brake_temp_values.value.push(temp);
 })
 
 const teamColor = computed(() => {
@@ -64,9 +75,12 @@ const teamColor = computed(() => {
                             
                             <v-row no-gutters class="flex-grow-1 flex-shrink-1 w-100" style="min-height: 0;">
                                 <v-col cols="12" class="h-100">
-                                    <OilTempGraph
+                                    <TempGraph
                                         class="pa-0 ma-0"
-                                        :oil_temp_array="oil_temp_values"
+                                        :name="'Oil Temperature'"
+                                        :icon="'mdi-oil-temperature'"
+                                        :uom="'C°'"
+                                        :temp_array="oil_temp_values"
                                         :teamTheme="teamColor"
                                     />
                                 </v-col>
@@ -98,6 +112,7 @@ const teamColor = computed(() => {
                             :rear_left_health="carData.tire_health_rl"
                             :rear_right_health="carData.tire_health_rr"
                             :teamTheme="teamColor"
+                            :tire_type="carData.tire_type"
                         />
                     </template>
                 </Sheet>
@@ -106,11 +121,28 @@ const teamColor = computed(() => {
             <v-col :cols="cols[1]">
                 <Sheet class="h-100 ma-2" :elevation="5">
                     <template v-slot:default>
-                    <Autonomy
-                        :fuel="carData.fuel_level"
-                        :esr_percentage="carData.battery_level"
-                        :teamTheme="teamColor"
-                    />
+                        <div class="d-flex flex-row align-items w-100">
+                            <TempGraph
+                                class="flex-grow-1 w-100 ma-4"
+                                :name="'Brake Temperature'"
+                                :icon="'mdi-car-brake-temperature'"
+                                :uom="'C°'"
+                                :temp_array="brake_temp_values"
+                                :teamTheme="teamColor"
+                                :graph_height="100"
+                                :below_level_threshold="300"
+                                :normal_level_threshold="500"
+                                :over_level_threshold="900"
+                                :maxSecondsScale="5"
+                            />
+    
+                            <Autonomy
+                                class="flex-grow-0"
+                                :fuel="carData.fuel_level"
+                                :esr_percentage="carData.battery_level"
+                                :teamTheme="teamColor"
+                            />
+                        </div>
                     </template>
                 </Sheet>
             </v-col>

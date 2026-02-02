@@ -26,7 +26,6 @@ declare module 'vue' {
     NotFound: typeof import('./src/components/NotFound.vue')['default']
     Odometer: typeof import('./src/components/pages-components/control-room/car-telemetry/Odometer.vue')['default']
     OilPressure: typeof import('./src/components/pages-components/control-room/car-telemetry/OilPressure.vue')['default']
-    OilTempGraph: typeof import('./src/components/pages-components/control-room/car-telemetry/OilTempGraph.vue')['default']
     RaceView: typeof import('./src/components/pages-components/control-room/race-view/RaceView.vue')['default']
     RightSidePanel: typeof import('./src/components/pages-components/control-room/race-view/RightSidePanel.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -37,6 +36,7 @@ declare module 'vue' {
     SimulationTerminal: typeof import('./src/components/pages-components/sysadmin/SimulationTerminal.vue')['default']
     Switch: typeof import('./src/components/controls/Switch.vue')['default']
     TeamAppNav: typeof import('./src/components/sections/TeamAppNav.vue')['default']
+    TempGraph: typeof import('./src/components/pages-components/control-room/car-telemetry/TempGraph.vue')['default']
     Tires: typeof import('./src/components/pages-components/control-room/car-telemetry/Tires.vue')['default']
   }
 }

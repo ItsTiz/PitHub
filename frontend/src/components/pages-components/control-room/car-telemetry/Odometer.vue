@@ -17,34 +17,55 @@ const props = defineProps({
 
 <template>
     <div class="d-flex flex-row align-center justify-space-around w-100 h-100">
-        <Card
+        <Card 
             class="h-100"
             :borderColor="props.teamTheme"
+            :textClasses="'flex-grow-1'"
         >
             <template #title>
-                <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">RPMs</div>
+                <div class="d-flex flew-row align-center justify-center">
+                    <span class="ml-2">
+                        <v-icon
+                        icon="mdi-speedometer-slow"
+                        size="25"
+                        >
+                    </v-icon>
+                    </span>
+                    <span class="ml-2 text-subtitle-1 text-secondary text-uppercase font-weight-bold">RPMS</span>
+                </div>
             </template>
             <template #text>
-                <SemiCircularGauge
-                    class="w-100"
-                    :input="rpms"
-                    :uom="'rpms'"
-                    :size="350"
-                    :width="35"
-                    :min="3000"
-                    :max="15000"
-                />
+                <div class="d-flex align-center justify-center">
+                    <SemiCircularGauge
+                        class="w-100"
+                        :input="rpms"
+                        :uom="'rpms'"
+                        :size="350"
+                        :width="35"
+                        :min="3000"
+                        :max="15000"
+                    />
+                </div>
             </template>
         </Card>
 
-        <Card
+        <Card 
             class="h-100"
             :borderColor="props.teamTheme"
+            :textClasses="'flex-grow-1'"
         >
             <template #title>
-                <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">Speed</div>
+                <div class="d-flex flew-row align-center justify-center">
+                    <span class="ml-2">
+                        <v-icon
+                        icon="mdi-speedometer"
+                        size="25"
+                        >
+                    </v-icon>
+                    </span>
+                    <span class="ml-2 text-subtitle-1 text-secondary text-uppercase font-weight-bold">Speed</span>
+                </div>
             </template>
-
             <template #text>
                <SemiCircularGauge
                     class="w-100"

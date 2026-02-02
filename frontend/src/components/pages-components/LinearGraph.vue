@@ -7,9 +7,11 @@ const props = defineProps({
     uom: { type: String, default: "" },
     icon: { type: String, default: "" },
     icon_color: { type: String, default: "text" },
+    graph_height: { type: Number, default: 50 },
     borderColor: { type: String },
     gradient: { type: Array, default: ["primary", "primary-darken-1"] },
-    line_width: { type: Number, default: 3 }
+    line_width: { type: Number, default: 3 },
+    maxSecondsScale: { type: Number, default: 10 }
 });
 
 const avg = computed(() => {
@@ -56,10 +58,11 @@ const latestTemp = computed(() => {
                 :gradient="gradient"
                 :line-width="line_width"
                 :smooth="16"
-                :height="50"
+                :height="graph_height"
+                v-bind="$attrs"
                 stroke-linecap="round"
             >
-                <template #label="item"> -{{ 10-item.index }}s </template>
+                <template #label="item"> -{{ props.maxSecondsScale-item.index }}s </template>
             </v-sparkline>
         </template>
         
