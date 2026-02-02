@@ -4,7 +4,8 @@ const props = defineProps({
     backgroundColor: { type: String, default: "surface" },
     textColor: { type: String, default: "on-surface" },
     borderColor: { type: String },
-    titleClasses: { type: String, default: "" }
+    titleClasses: { type: String, default: "" },
+    textClasses: { type: String, default: "" }
 });
 </script>
 
@@ -18,13 +19,15 @@ const props = defineProps({
             :border="borderColor ? 'md' : 'sm'"
         >
             <v-card-title
-                class="flex-grow-1"
-                :class="titleClasses" v-if="$slots.title"
+                v-if="$slots.title"
+                :class="titleClasses ? titleClasses : `flex-grow-1`"
             >
                 <slot name="title"></slot>
             </v-card-title>
 
-            <v-card-text class="flex-grow-1">
+            <v-card-text
+                :class="textClasses ? textClasses : `flex-grow-1`"
+            >
                 <slot name="text"></slot>
             </v-card-text>
 

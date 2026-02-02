@@ -1,14 +1,17 @@
 import { defineStore } from "pinia";
 import { socket } from "@/socket";
 
-const timeOutDelay = 3000;
-const enableDebugging = import.meta.env.VITE_ENABLE_DEBUGGING === 'true';
+const TIMEOUT_DELAY = 3000;
+const LOG_BUFFER = 50; // lines of log
+const ENABLE_DEBUGGING = import.meta.env.VITE_ENABLE_DEBUGGING === 'true';
 
 export const useSimulationControlStore = defineStore("simulation-control", {
 
     state: () => ({
         isRunning: false,
-        selectedCircuit: null
+        selectedCircuit: null,
+        serverLogs: [],
+        isJoined: false
     }),
 
     actions: {
@@ -18,7 +21,7 @@ export const useSimulationControlStore = defineStore("simulation-control", {
             this.isRunning = !!data.isRunning;
             this.selectedCircuit = data.selectedCircuit || null;
             
-            if (enableDebugging) {
+            if (ENABLE_DEBUGGING) {
                 console.log(`[Sim-Store] State updated: Running=${this.isRunning}, Circuit=${this.selectedCircuit}`);
             }
         },
@@ -28,9 +31,17 @@ export const useSimulationControlStore = defineStore("simulation-control", {
                 this.updateState(data);
             });
 
+            socket.on("sim:log", (log) => {
+                this.serverLogs.push(log);
+
+                if (this.serverLogs.length > LOG_BUFFER) {
+                    this.serverLogs.shift(); 
+                }
+            });
+
             if (!socket.connected) socket.connect();
             
-            socket.timeout(timeOutDelay).emit("sim:status", (err, response) => {
+            socket.timeout(TIMEOUT_DELAY).emit("sim:status", (err, response) => {
                 if (!err && response) {
                     this.updateState(response);
                 } else {
@@ -39,10 +50,34 @@ export const useSimulationControlStore = defineStore("simulation-control", {
             });
         },
 
+        subscribeToSimLogs() {
+            if (!socket.connected) socket.connect();
+
+            socket.timeout(TIMEOUT_DELAY).emit("sim:join", {}, (err, response) => {
+                this.handleRequestResponse(err, response);
+                
+                if (!err && !response?.error) {
+                    this.isJoined = true;
+                    this.updateState(response); 
+                }
+            });
+        },
+
+        unsubscribeToSimLogs() {
+            socket.timeout(TIMEOUT_DELAY).emit("sim:leave", {}, (err, response) => {
+                this.handleRequestResponse(err, response);
+                
+                if (!err) {
+                    this.isJoined = false;
+                    this.serverLogs = [];
+                }
+            });
+        },
+
         emitStartRequest(circuit) {
             if (!socket.connected) socket.connect();
 
-            socket.timeout(timeOutDelay).emit("sim:start", circuit, (err, response) => {
+            socket.timeout(TIMEOUT_DELAY).emit("sim:start", circuit, (err, response) => {
                 this.handleRequestResponse(err, response);
                 
                 if (!err && !response?.error) {
@@ -54,7 +89,7 @@ export const useSimulationControlStore = defineStore("simulation-control", {
         emitStopRequest() {
             if (!socket.connected) socket.connect();
 
-            socket.timeout(timeOutDelay).emit("sim:stop", (err, response) => {
+            socket.timeout(TIMEOUT_DELAY).emit("sim:stop", (err, response) => {
                 this.handleRequestResponse(err, response);
 
                 if (!err && !response?.error) {
@@ -65,14 +100,18 @@ export const useSimulationControlStore = defineStore("simulation-control", {
 
         handleRequestResponse(err, response) {
             if (err) {
-                console.error("[Simulation-Store]:", err);
+                console.error("[Simulation-Store] Timeout/Socket Error:", err);
             } else if (response?.error) {
-                console.error("[Simulation-Store] Server:", response.error);
+                console.error("[Simulation-Store] Server Error:", response.error);
             } else {
-                if (enableDebugging) {
+                if (ENABLE_DEBUGGING) {
                     console.log("[Simulation-Store] Action Success");
                 }
             }
+        },
+
+        clearLogs() {
+            this.serverLogs = [];
         }
     }
 });

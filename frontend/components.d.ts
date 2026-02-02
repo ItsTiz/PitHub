@@ -33,6 +33,7 @@ declare module 'vue' {
     SemiCircularGauge: typeof import('./src/components/pages-components/SemiCircularGauge.vue')['default']
     Sheet: typeof import('./src/components/containers/Sheet.vue')['default']
     SimulationControl: typeof import('./src/components/pages-components/sysadmin/SimulationControl.vue')['default']
+    SimulationTerminal: typeof import('./src/components/pages-components/sysadmin/SimulationTerminal.vue')['default']
     Switch: typeof import('./src/components/controls/Switch.vue')['default']
     TeamAppNav: typeof import('./src/components/sections/TeamAppNav.vue')['default']
     Tires: typeof import('./src/components/pages-components/control-room/car-telemetry/Tires.vue')['default']

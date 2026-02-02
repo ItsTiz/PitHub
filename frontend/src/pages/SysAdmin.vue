@@ -1,3 +1,20 @@
+<script setup>
+import { onMounted, onUnmounted } from 'vue';
+import { useSimulationControlStore } from '../stores/simulation';
+
+const simStore = useSimulationControlStore();
+
+onMounted(() => {
+    simStore.subscribeToSimLogs();
+});
+
+
+onUnmounted(() => {
+    simStore.unsubscribeToSimLogs();
+});
+
+</script>
+
 <template>
     <RouterView/>
 </template>

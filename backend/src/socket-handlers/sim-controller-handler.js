@@ -30,6 +30,29 @@ const registerSimulationHandlers = (io, socket) => {
         }
     }
 
+    const joinSimulation = (payload, callback) => {
+        if (!checkUserAuthentication(callback)) return;
+
+        socket.join(SimulationEvent.ROOM_PREFIX);
+        console.log(`[${socket.id}] Admin ${socket.user.email} joined simulation control.`);
+
+        if (typeof callback === 'function') {
+            callback({
+                message: "Joined simulation room",
+                ...toSendData()
+            });
+        }
+    }
+
+    const leaveSimulation = (payload, callback) => {
+        socket.leave(SimulationEvent.ROOM_PREFIX);
+        console.log(`[${socket.id}] Left simulation control.`);
+
+        if (typeof callback === 'function') {
+            callback({ message: "Left simulation room" });
+        }
+    }
+
     const startSimulationLoop = async (circuitArg, callback) => {
 
         if (!checkUserAuthentication(callback)) return;
@@ -71,6 +94,8 @@ const registerSimulationHandlers = (io, socket) => {
         }
     };
 
+    socket.on(SimulationEvent.JOIN, joinSimulation);
+    socket.on(SimulationEvent.LEAVE, leaveSimulation);
     socket.on(SimulationEvent.START, startSimulationLoop);
     socket.on(SimulationEvent.STOP, stopSimulationLoop);
     socket.on(SimulationEvent.STATUS, sendSimulationStatus);

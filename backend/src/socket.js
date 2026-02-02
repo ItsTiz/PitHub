@@ -3,6 +3,7 @@ import { socketAuthMiddleware } from "./middleware/auth.js";
 import { registerTelemetryHandlers } from "./socket-handlers/telemetry-handler.js";
 import { registerSimulationHandlers } from "./socket-handlers/sim-controller-handler.js";
 import { registerRaceHandlers } from "./socket-handlers/race-handler.js";
+import { enableRemoteLogging } from "./simulation/remote-logger.js";
 
 let io;
 const enableDebuggingLog = false;
@@ -15,8 +16,12 @@ const initIoServer = (httpServer) => {
                 // TODO Vue frontend, can it be changed?
                 origin: "http://localhost:5173"
             }
-        });
+        }
+    );
 
+    //remote logging - overriding std output and error
+    enableRemoteLogging(io);
+        
     // we attach the socket.io middleware to embed the user in the requests
     // and of course to check authentication beforehand
     io.use(socketAuthMiddleware);

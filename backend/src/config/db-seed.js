@@ -27,7 +27,6 @@ const driverSchema = new mongoose.Schema({
     team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
 });
 
-// Car Schema (Your version + the new driver link we discussed)
 const carSchema = new mongoose.Schema({
     model: { type: String, required: true },
     engine_manufacturer: { type: String, required: true },
@@ -178,7 +177,6 @@ const seedDB = async () => {
         await mongoose.connect(MONGO_URI);
         console.log('Connected.');
 
-        // Clear existing data
         await Car.deleteMany({});
         await Driver.deleteMany({});
         await Team.deleteMany({});
@@ -202,7 +200,6 @@ const seedDB = async () => {
             // Logic: Convert "Toto Wolff" -> "toto.wolff@pithub.com"
             const principalEmail = data.team.team_principal.toLowerCase().replace(/\s+/g, '.') + '@pithub.com';
             
-            // Hash password once to speed up seed process
             const teamPassword = await bcrypt.hash(data.team.name.toLowerCase().replaceAll(' ', '').concat(data.team.joined_year.toString()),10);
 
             await User.create({

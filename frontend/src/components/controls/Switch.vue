@@ -23,6 +23,7 @@ const emits = defineEmits(['modelChanged']);
         :color="color"
         hide-details
         inset
+        v-bind="$attrs" 
         @update:model-value="$emit('modelChanged')"
     >
     </v-switch>

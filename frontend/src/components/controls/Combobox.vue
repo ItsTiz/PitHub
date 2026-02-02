@@ -14,5 +14,6 @@ const emits = defineEmits(['modelChanged']);
      <v-combobox
         :label="props.label"
         :items="props.model"
+        v-bind="$attrs" 
      ></v-combobox>
 </template>
