@@ -8,9 +8,12 @@ export async function generateNotifications(cars) {
   if (now - lastRun < 5000) return;
   lastRun = now;
 
-  // Esempio eventi semplici – adatta alle tue logiche reali
-  const events = [];
+  if (!Array.isArray(cars) || cars.length === 0) {
+    console.log('[NOTIF] cars non è array o vuoto:', cars);
+    return;
+  }
 
+  const events = [];
   cars.forEach(car => {
     if (car.oldProgress > 90 && car.progress < 10) {
       events.push({
@@ -88,6 +91,7 @@ export async function generateNotifications(cars) {
 
   if (events.length === 0) return;
 
+  console.log('[NOTIF] Generated events:', events);  // ← aggiungi qui
 
   const users = await User.find().lean().select('_id role team');
 
@@ -98,6 +102,11 @@ export async function generateNotifications(cars) {
       if (user.role === 'team' && user.team?.toString() === car.team?.toString()) return true;
       return false;
     });
+
+    if (relevant.length > 0) {
+      console.log(`[NOTIF] Sending to ${user.role} (${user._id}):`, relevant);
+    }
+    
 
     relevant.forEach(ev => sendToUser(user._id.toString(), ev));
   });
