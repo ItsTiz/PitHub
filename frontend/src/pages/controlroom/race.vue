@@ -61,7 +61,7 @@ provide('selectedItem', activeCar)
                 <Sheet class="h-100" :elevation="5">
                     <template v-slot:default>
                         <RightSidePanel
-                        :selectedItem="selectedCar"
+                            :selectedItem="selectedCar"
                         />
                     </template>
                 </Sheet>

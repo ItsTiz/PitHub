@@ -14,9 +14,12 @@ const pageIndex = ref(0)
 
 const views = ['telemetry', 'race', 'comms', 'profile']
 
+const isAdminLogged = computed(() => {
+    return auth.user?.role === 'admin';
+});
 
 const activeTeamName = computed(() => {
-    if (auth.user?.role === 'team') {
+    if (!isAdminLogged.value) {
         return auth.user.team?.name;
     }
 
@@ -62,7 +65,7 @@ const selectView = (index) => {
 
     router.push({
         path: `/controlroom/${view}`,
-        query: activeTeamName.value ? { team: activeTeamName.value } : undefined
+        query: isAdminLogged.value ? { team: activeTeamName.value } : undefined
     });
 }
 
@@ -116,7 +119,7 @@ onMounted(() => {
                     v-else
                     :src="imagePath"
                 /> 
-                <!-- TODO  put al here-->
+                <!-- TODO put al here-->
             </v-avatar>
         </div>
         <v-divider></v-divider>
@@ -167,14 +170,9 @@ onMounted(() => {
 }
 
 .logo {
-  /* The color of the icon */
   background-color: white; 
-  
-  /* Standard & Webkit Mask */
   -webkit-mask: v-bind(maskImage) no-repeat center;
   mask: v-bind(maskImage) no-repeat center;
-
-  /* Recommended: keeps the logo aspect ratio */
   -webkit-mask-size: contain;
   mask-size: contain;
 }

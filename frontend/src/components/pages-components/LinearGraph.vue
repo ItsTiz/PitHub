@@ -29,7 +29,7 @@ const latestTemp = computed(() => {
 
 <template>
     <v-card
-        :class="`w-100 rounded-lg border-${props.borderColor} border-opacity-100`"
+        :class="`rounded-lg border-${props.borderColor} border-opacity-100`"
         :elevation="6"
         border="md"
     >
@@ -49,7 +49,6 @@ const latestTemp = computed(() => {
             <strong v-if="avg">{{ uom }}</strong>
         </template>
 
-        <!-- :key="String(avg)" -->
         <template #text> 
             <v-sparkline
                 :fill="true"
@@ -57,6 +56,7 @@ const latestTemp = computed(() => {
                 :gradient="gradient"
                 :line-width="line_width"
                 :smooth="16"
+                :height="50"
                 stroke-linecap="round"
             >
                 <template #label="item"> -{{ 10-item.index }}s </template>

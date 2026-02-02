@@ -41,7 +41,27 @@ const teamHex = computed(() => {
 <template>
     <Card class="h-100" :borderColor="props.teamTheme">
         <template #title>
-            <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">Tire Health</div>
+            <div class="d-flex flew-row align-center justify-center">
+                <span class="ml-4 text-subtitle-1 text-secondary text-uppercase font-weight-bold">Tires</span>
+                <span class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">
+                    <v-chip
+                        :color="'success'"
+                        variant="tonal"
+                        size="small"
+                        class="text-subtitle-1 text-secondary text-uppercase font-weight-bold flex-grow-0"
+                    >
+                        <template #prepend>
+                            <v-icon
+                                icon="mdi-tire"
+                                start
+                            ></v-icon>
+                        </template> 
+                        <template #default>
+                            TIRE_TYPE
+                        </template>
+                    </v-chip>
+                </span>
+            </div>
         </template>
 
         <template #text>
@@ -79,7 +99,7 @@ const teamHex = computed(() => {
                         <div>
                             <svg
                                 :viewBox="carImage.viewBox"
-                                class="w-66 h-66"
+                                class="w-50 h-50"
                             >
                                 <path
                                     :d="carImage.path"

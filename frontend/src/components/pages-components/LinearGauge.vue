@@ -5,7 +5,6 @@ const props = defineProps({
     uom: { type: String, default: "" },
     min: { type: Number, default: 0 },
     max: { type: Number, default: 100 },
-    size: { type: Number, default: 100 },
     thickness: { type: Number, default: 20 }
 });
 
@@ -16,7 +15,7 @@ const color = useGaugeColor(percentage);
 
 <template>
     <div class="d-flex flex-column justify-space-between w-100 h-100">
-        <div>
+        <div class="w-100 h-100">
             <span class="text-h4 font-weight-black" v-text="input || '--'"></span>
             <strong v-if="input">{{ uom }}</strong>
         </div>
@@ -28,6 +27,7 @@ const color = useGaugeColor(percentage);
             :color="color"
             :height="thickness"
             rounded="sm"
+            v-bind="$attrs"
         >
     </v-progress-linear>
     </div>

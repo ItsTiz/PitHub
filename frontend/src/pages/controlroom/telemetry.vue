@@ -46,7 +46,7 @@ const teamColor = computed(() => {
 
         <v-row class="flex-grow-1">
             <v-col :cols="cols[0]">
-                <Sheet class="h-100 ma-2" :="5">
+                <Sheet class="h-100 ma-2" :elevation="5">
                     <template v-slot:default>
                         <Odometer 
                             :speed="carData.speed"
@@ -60,10 +60,29 @@ const teamColor = computed(() => {
             <v-col :cols="cols[1]">
                 <Sheet class="h-100 ma-2" :elevation="5">
                     <template v-slot:default>
-                        <OilTempGraph
-                            :oil_temp_array="oil_temp_values"
-                            :teamTheme="teamColor"
-                        />
+                        <v-container fluid class="d-flex flex-column h-100">
+                            
+                            <v-row no-gutters class="flex-grow-1 flex-shrink-1 w-100" style="min-height: 0;">
+                                <v-col cols="12" class="h-100">
+                                    <OilTempGraph
+                                        class="pa-0 ma-0"
+                                        :oil_temp_array="oil_temp_values"
+                                        :teamTheme="teamColor"
+                                    />
+                                </v-col>
+                            </v-row>
+
+                            <v-row no-gutters class="h-25 flex-grow-0 flex-shrink-0 w-100">
+                                <v-col cols="12" class="h-100">
+                                    <OilPressure
+                                        class="pa-0 ma-0"
+                                        :oil_pressure="carData.oil_pressure"
+                                        :teamTheme="teamColor"
+                                    />
+                                </v-col>
+                            </v-row>
+
+                        </v-container>
                     </template>
                 </Sheet>
             </v-col>

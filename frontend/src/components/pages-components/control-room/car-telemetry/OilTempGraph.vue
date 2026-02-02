@@ -44,7 +44,6 @@ const gradientColors = computed(() => {
 
 <template>
     <LinearGraph
-        class="ma-4"
         :name="'Oil Temperature'"
         :input_model="oil_temp_array"        
         :gradient="gradientColors" 

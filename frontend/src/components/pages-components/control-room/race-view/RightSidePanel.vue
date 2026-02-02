@@ -29,7 +29,7 @@ const imagePath = computed(()=>{
             <CarProfileCard
                 class="pa-1"
                 v-show="isCarSelected"
-                height="350px"
+                height="400px"
                 :driver-name="selectedItem?.driver.full_name || ''"
                 :team-name="selectedItem?.team.full_name || ''"
                 :driver-number="selectedItem?.driver.number"
