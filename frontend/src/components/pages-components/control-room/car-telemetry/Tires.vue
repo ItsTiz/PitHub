@@ -27,6 +27,15 @@ const carImage = computed(() => {
     return cars['top_view'] || { viewBox: '0 0 500 500', path: '' };
 });
 
+const teamHex = computed(() => {
+    if(auth.user?.role === "team"){
+        return getTeamHex(theme, auth.user?.team?.name, true)
+    }
+    else{
+        return getTeamHex(theme, props.teamTheme, true)
+    }
+});
+
 </script>
 
 <template>
@@ -75,7 +84,7 @@ const carImage = computed(() => {
                                 <path
                                     :d="carImage.path"
                                     ref="path"
-                                     :fill="getTeamHex(theme, auth.user?.team.name, true)" 
+                                    :fill="teamHex" 
                                 />
                             </svg>
                         </div>

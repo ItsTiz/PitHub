@@ -1,10 +1,12 @@
 <script setup>
 import { watch, computed, ref } from 'vue'
+import { useRoute } from 'vue-router' 
 import { useTelemetryStore } from "@/stores/car-telemetry";
 import { useDisplay } from 'vuetify'
 import { getTeamColor } from '../../composables/utils/teams-colors'
 import { useAuthStore } from '../../stores/auth';
 const auth = useAuthStore()
+const route = useRoute();
 
 const { smAndDown } = useDisplay()
 const telemetryStore = useTelemetryStore();
@@ -28,9 +30,14 @@ watch(getOilTemp, (temp, _) => {
     oil_temp_values.value.push(temp);
 })
 
-
-const teamColor = computed(() => getTeamColor(auth.user?.team?.name));
-const teamColorDarkened = computed(() => getTeamColor(auth.user?.team?.name, true));
+const teamColor = computed(() => {
+    if(auth.user?.role === "team"){
+        return getTeamColor(auth.user?.team?.name)
+    }
+    else{
+        return getTeamColor(route.query?.team)
+    }
+});
 </script>
 
 

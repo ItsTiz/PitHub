@@ -1,85 +1,69 @@
 import TelemetryEvent from "../simulation/events/telemetry-events.js";
 import UserRole from "../middleware/user-roles.js";
+import { getTeamDocument } from "../simulation/data-fetcher.js";
+
+// Helper to normalize strings exactly like your getRoomName does
 
 const registerTelemetryHandlers = (io, socket) => {
-
-    const joinTelemetry = (payload, callback) => {
-        const user = socket.user; //we assume the middleare has done its job. hopefully. 
-
-        if (!user) {
-            //never say never
-            return callback({ error: "Authentication missing" });
-        }
-
-        let targetTeamId = null;
+    const getAuthorizedTeamId = async (payload) => {
+        const user = socket.user; 
+        
+        if (!user) throw "Authentication missing";
 
         switch (user.role) {
-            case UserRole.USER: {
-                return callback({ error: "Unauthorized access" });
-            }
-            case UserRole.TEAM: {
-                if (!user.team) return callback({ error: "Team reference missing for user." });
+            case UserRole.USER:
+                throw "Unauthorized access";
 
-                targetTeamId = TelemetryEvent.getRoomName(user.team);
+            case UserRole.TEAM:
+                if (!user.team) throw "Team reference missing for user";
+                return TelemetryEvent.getRoomName(user.team);
 
-                if (!targetTeamId) return callback({ error: "User is not linked to a valid team." });
+            case UserRole.ADMIN:
+                if (!payload?.teamName) throw "Admin must specify a teamId";
+                const team = await getTeamDocument(payload.teamName);
+                return TelemetryEvent.getRoomName(team)
 
-                break;
-            }
-            case UserRole.ADMIN: {
-                targetTeamId = payload?.teamId;
-
-                if (!targetTeamId) {
-                    return callback({ error: "Admin must specify a teamId" });
-                }
-                break;
-            }
+            default:
+                throw "Unknown role";
         }
-
-        const roomName = TelemetryEvent.ROOM_PREFIX + targetTeamId;
-
-        if (socket.rooms.has(roomName)) {
-            return callback({ message: "Already in room" });
-        }
-
-        socket.join(roomName);
-        console.log(`[${socket.id}] ${user.role} (${user.email}) joined ${roomName}`);
-
-        callback({ message: `[${socket.id}] joined telemetry ROOM ${roomName}` });
     };
 
-    const leaveTelemetry = (payload, callback) => {
-        const user = socket.user;
-        let targetTeamId = null;
+    const joinTelemetry = async (payload, callback) => {
+        try {
+            const teamId = await getAuthorizedTeamId(payload);
+            const user = socket.user;
 
-        if (!user) {
-            return callback({ error: "Authentication missing" });
+            const roomName = TelemetryEvent.ROOM_PREFIX + teamId;
+
+            if (socket.rooms.has(roomName)) {
+                if (callback) callback({ message: "Already in room" });
+                return;
+            }
+
+            socket.join(roomName);
+            console.log(`[${socket.id}] ${user.role} (${user.email}) joined ${roomName}`);
+
+            if (callback) callback({ message: `Joined telemetry ROOM ${roomName}` });
+
+        } catch (errorMsg) {
+            if (callback) callback({ error: errorMsg });
         }
+    };
 
-        switch (user.role) {
-            case UserRole.USER: {       
-                return callback({ error: "Unauthorized access" });
-            }
-            case UserRole.TEAM: {
-                if (!user.team) return callback({ error: "Team reference missing for user." });
-    
-                targetTeamId = TelemetryEvent.getRoomName(user.team);
-                break;
-            }
-            case UserRole.ADMIN: {
-                targetTeamId = payload?.teamId;
-                break;
-            }
-        }
+    const leaveTelemetry = async (payload, callback) => {
+        try {
+            const teamId = await getAuthorizedTeamId(payload);
+            const roomName = TelemetryEvent.ROOM_PREFIX + teamId;
 
-        if (targetTeamId) {
-            const roomName = TelemetryEvent.ROOM_PREFIX + targetTeamId;
             if (socket.rooms.has(roomName)) {
                 socket.leave(roomName);
-                return callback({ message: `[${socket.id}] left telemetry ROOM ${targetTeamId}` });
+                if (callback) callback({ message: `Left telemetry ROOM ${roomName}` });
             } else {
-                return callback({ error: `[${socket.id}] not in ROOM ${targetTeamId}` });
+                if (callback) callback({ error: `Not currently in ROOM ${roomName}` });
             }
+
+        } catch (errorMsg) {
+            if (callback) callback({ error: errorMsg });
         }
     };
 

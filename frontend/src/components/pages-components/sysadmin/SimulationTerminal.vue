@@ -82,7 +82,7 @@ watch(serverLogs, async () => {
 }
 
 .terminal-body {
-    max-height: 510px;
+    max-height: 680px;
 }
 
 .log-line {

@@ -25,24 +25,24 @@ export const useTelemetryStore = defineStore("telemetry", {
 
             this.isListening = true;
         },
-        subscribeToTeam(targetTeamId = null) {
+        subscribeToTeam(targetTeamName = null) {
             if (!socket.connected) {
                 socket.connect();
             }
 
-            const payload = targetTeamId ? { teamId: targetTeamId } : {};
+            const payload = targetTeamName ? { teamName: targetTeamName } : {};
 
             socket.timeout(timeOutDelay).emit("telemetry:join", payload, (err, response) => {
                 this.handleRequestResponse(err, response);
             });
         },
 
-        unsubscribeFromTeam(targetTeamId = null) {
+        unsubscribeFromTeam(targetTeamName = null) {
             if (!socket.connected) {
                 socket.connect();
             }
 
-            const payload = targetTeamId ? { teamId: targetTeamId } : {};
+            const payload = targetTeamName ? { teamName: targetTeamName } : {};
 
             socket.timeout(timeOutDelay).emit("telemetry:leave", payload, (err, response) => {
                 this.handleRequestResponse(err, response);

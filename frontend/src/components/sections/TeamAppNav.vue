@@ -1,14 +1,46 @@
 <script setup>
-import { computed, onMounted } from 'vue';
-import { useRouter } from 'vue-router'
+import { ref, computed, onMounted } from 'vue'; // Added 'ref' to imports
+import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '../../stores/app';
 import { useAuthStore } from '@/stores/auth'
 import { getLogoForTeam } from '../../composables/utils/teams-logos'
 import { getTeamColor } from '../../composables/utils/teams-colors'
+
 const appStore = useAppStore();
 const auth = useAuthStore()
+const route = useRoute()
 const router = useRouter()
 const pageIndex = ref(0)
+
+const views = ['telemetry', 'race', 'comms', 'profile']
+
+
+const activeTeamName = computed(() => {
+    if (auth.user?.role === 'team') {
+        return auth.user.team?.name;
+    }
+
+    return route.query?.team;
+});
+
+const getImageUrl = (path) => {
+  return new URL(`../../assets/teams/${path}`, import.meta.url).href
+}
+
+const imagePath = computed(() => {   
+    const logoname = getLogoForTeam(activeTeamName.value);
+    return getImageUrl(logoname)
+});
+
+const maskImage = computed(() => `url('${imagePath.value}')`);
+
+const teamColor = computed(() => {
+    return getTeamColor(activeTeamName.value);
+});
+
+const teamColorDarkened = computed(() => {
+    return getTeamColor(activeTeamName.value, true);
+});
 
 const logout = () => {
   auth.logout()
@@ -19,40 +51,30 @@ const toggleTheme = () => {
     appStore.toggleTheme();
 }
 
-const views = ['telemetry', 'race', 'comms', 'profile']
-
 const selectView = (index) => {
-  pageIndex.value = index
-  const view = views[index] || 'telemetry'
-  if(view === 'profile')
-    router.push(`/profile`)
-  else router.push(`/controlroom/${view}`)
+    pageIndex.value = index
+    const view = views[index] || 'telemetry'
+    
+    if(view === 'profile') {
+        router.push(`/profile`)
+        return;
+    }
+
+    router.push({
+        path: `/controlroom/${view}`,
+        query: activeTeamName.value ? { team: activeTeamName.value } : undefined
+    });
 }
 
 const getIcon = (index) => {
-    switch(index){
-        case 0:
-            return 'mdi-gauge-low';
-        case 1:
-            return 'mdi-go-kart-track';
-        case 2:
-            return 'mdi-radio-tower';
-        case 3: 
-            return 'mdi-account-circle';
-    }
+    const icons = [
+        'mdi-gauge-low', 
+        'mdi-go-kart-track', 
+        'mdi-radio-tower', 
+        'mdi-account-circle'
+    ];
+    return icons[index] || 'mdi-help-circle';
 }
-
-const getImageUrl = (path) => {
-  return new URL(`../../assets/teams/${path}`, import.meta.url).href
-}
-
-const imagePath = computed(()=>{    
-    const logoname = getLogoForTeam(auth.user?.team?.name);
-    return getImageUrl(logoname)
-});
-
-const teamColor = computed(() => getTeamColor(auth.user?.team?.name));
-const teamColorDarkened = computed(() => getTeamColor(auth.user?.team?.name, true));
 
 onMounted(() => {
     const path = router.currentRoute.value.path;
@@ -89,9 +111,10 @@ onMounted(() => {
                 :class="`mb-4 bg-${teamColor}`"
                 :image="imagePath"
             >
+                <div v-if="activeTeamName !== 'ferrari'" class="w-100 h-100 logo"></div>
                 <img
+                    v-else
                     :src="imagePath"
-                    :color="'white'"
                 /> 
                 <!-- TODO  put al here-->
             </v-avatar>
@@ -141,5 +164,18 @@ onMounted(() => {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+}
+
+.logo {
+  /* The color of the icon */
+  background-color: white; 
+  
+  /* Standard & Webkit Mask */
+  -webkit-mask: v-bind(maskImage) no-repeat center;
+  mask: v-bind(maskImage) no-repeat center;
+
+  /* Recommended: keeps the logo aspect ratio */
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 </style>
