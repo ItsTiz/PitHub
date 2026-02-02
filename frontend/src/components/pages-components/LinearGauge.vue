@@ -1,7 +1,7 @@
 <script setup>
 import { useGaugeColor, usePercentage } from '../../composables/utils/use-percentage-color';
 const props = defineProps({
-    input: { type: String, default: 0 },
+    input: { type: Number, default: 0 },
     uom: { type: String, default: "" },
     min: { type: Number, default: 0 },
     max: { type: Number, default: 100 },

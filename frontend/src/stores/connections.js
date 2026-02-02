@@ -1,8 +1,6 @@
 import { defineStore } from "pinia";
 import { socket } from "@/socket";
 
-const enableDebuggingLog = true;
-
 export const useConnectionStore = defineStore("connection", {
     state: () => ({
         isConnected: false,
@@ -18,7 +16,7 @@ export const useConnectionStore = defineStore("connection", {
                 this.isConnected = false;
             });
 
-            if (enableDebuggingLog) {
+            if (import.meta.env.VITE_ENABLE_DEBUGGING==='true') {
                 this.enableErrorDebugging();
             }
 

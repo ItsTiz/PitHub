@@ -27,8 +27,8 @@ declare module 'vue-router/auto-routes' {
     '/controlroom/telemetry': RouteRecordInfo<'/controlroom/telemetry', '/controlroom/telemetry', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
     '/profile': RouteRecordInfo<'/profile', '/profile', Record<never, never>, Record<never, never>>,
-    '/race': RouteRecordInfo<'/race', '/race', Record<never, never>, Record<never, never>>,
-    '/signup': RouteRecordInfo<'/signup', '/signup', Record<never, never>, Record<never, never>>,
+    '/Race': RouteRecordInfo<'/Race', '/Race', Record<never, never>, Record<never, never>>,
+    '/Signup': RouteRecordInfo<'/Signup', '/Signup', Record<never, never>, Record<never, never>>,
     '/sysadmin': RouteRecordInfo<'/sysadmin', '/sysadmin', Record<never, never>, Record<never, never>, '/sysadmin/' | '/sysadmin/simulation' | '/sysadmin/users'>,
     '/sysadmin/': RouteRecordInfo<'/sysadmin/', '/sysadmin', Record<never, never>, Record<never, never>>,
     '/sysadmin/simulation': RouteRecordInfo<'/sysadmin/simulation', '/sysadmin/simulation', Record<never, never>, Record<never, never>>,
@@ -82,12 +82,12 @@ declare module 'vue-router/auto-routes' {
       routes: '/profile'
       views: never
     }
-    'src/pages/race.vue': {
-      routes: '/race'
+    'src/pages/Race.vue': {
+      routes: '/Race'
       views: never
     }
-    'src/pages/signup.vue': {
-      routes: '/signup'
+    'src/pages/Signup.vue': {
+      routes: '/Signup'
       views: never
     }
     'src/pages/sysadmin.vue': {

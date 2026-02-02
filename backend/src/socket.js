@@ -1,10 +1,12 @@
 import { Server } from "socket.io";
+import { socketAuthMiddleware } from "./middleware/auth.js";
 import { registerTelemetryHandlers } from "./socket-handlers/telemetry-handler.js";
 import { registerSimulationHandlers } from "./socket-handlers/sim-controller-handler.js";
 import { registerRaceHandlers } from "./socket-handlers/race-handler.js";
+import { enableRemoteLogging } from "./simulation/remote-logger.js";
 
 let io;
-const enableDebuggingLog = true;
+const enableDebuggingLog = false;
 
 const initIoServer = (httpServer) => {
     io = new Server(
@@ -12,10 +14,17 @@ const initIoServer = (httpServer) => {
         {
             cors: {
                 // TODO Vue frontend, can it be changed?
-                origin: "http://localhost:5173", 
-                // methods: ["GET", "POST"]
+                origin: "http://localhost:5173"
             }
-        });
+        }
+    );
+
+    //remote logging - overriding std output and error
+    enableRemoteLogging(io);
+        
+    // we attach the socket.io middleware to embed the user in the requests
+    // and of course to check authentication beforehand
+    io.use(socketAuthMiddleware);
 
     io.on("connection", onConnection);
 
@@ -36,12 +45,14 @@ const getIO = () => {
 const onConnection = (socket) => {
     console.log(`[${socket.id}] Client connected`);
 
-    const role = socket.handshake.auth?.role || 'user';
-    const teamId = socket.handshake.auth?.teamId || null;
+    const user = socket.user; // reading from middleware-attached user
 
-    if (role === 'user')   socket.join('users');
-    if (role === 'admin')  socket.join('admin');
-    if (role === 'team' && teamId) socket.join(`team-${teamId}`);
+    if(!user){
+        console.log(`[${socket.id}] Could not identify user.`);
+    }
+
+    const role = user.role || 'user';
+    console.log(`[${socket.id}] Identified with role: ${role}.`);
 
     registerTelemetryHandlers(io, socket);
     registerSimulationHandlers(io, socket);

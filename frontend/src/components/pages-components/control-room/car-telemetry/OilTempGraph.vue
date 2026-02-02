@@ -1,13 +1,13 @@
 <script setup>
 import { computed } from 'vue'
-import { useTheme } from 'vuetify' // 1. Import useTheme
+import { useTheme } from 'vuetify'
 import LinearGraph from '../../LinearGraph.vue'
 
 const props = defineProps({
-    oil_temp_array: { type: Array, default: () => [] } // Fixed default syntax
+    oil_temp_array: { type: Array, default: () => [] },
+    teamTheme: { type: String } 
 });
 
-// 2. Access the theme engine
 const theme = useTheme();
 
 const latestTemp = computed(() => {
@@ -16,7 +16,6 @@ const latestTemp = computed(() => {
 });
 
 const temperatureColor = computed(() => {
-    // Note: Use .value for latestTemp inside computed
     if (latestTemp.value < 90) return 'info'
     if (latestTemp.value < 150) return 'success'
     if (latestTemp.value < 185) return 'warning'
@@ -49,6 +48,7 @@ const gradientColors = computed(() => {
         :name="'Oil Temperature'"
         :input_model="oil_temp_array"        
         :gradient="gradientColors" 
+        :borderColor="props.teamTheme"
         :uom="'C°'"
         :icon="'mdi-oil-temperature'"
     />

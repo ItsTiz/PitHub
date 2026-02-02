@@ -8,9 +8,7 @@ const telemetryStore = useTelemetryStore();
 const raceStore = useRaceStore();
 
 onMounted(() => {
-    //TODO auth here too;
-    const token = "";
-    telemetryStore.subscribeToTeam(token);
+    telemetryStore.subscribeToTeam();
     raceStore.subscribeToRace();
 });
 

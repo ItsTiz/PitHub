@@ -2,47 +2,62 @@ import { defineStore } from "pinia";
 import { socket } from "@/socket";
 
 const timeOutDelay = 5000;
-const enableDebugging = false;
 
 export const useTelemetryStore = defineStore("telemetry", {
 
     state: () => ({
         carData: {},
-        isListening: false
+        isListening: false // prevents double-binding
     }),
 
     actions: {
         initListeners() {
-            // This prevents double-binding
-            if (this.isListening) return;
+
+            if (this.isListening) {
+                if (import.meta.env.VITE_ENABLE_DEBUGGING === 'true') console.log("[telemetry-store] Already binded. Aborting.");
+                return;
+            }
 
             socket.on("telemetry:update", (data) => {
-                if(enableDebugging) console.log("[telemetry-store] received data: ", data);
+                if (import.meta.env.VITE_ENABLE_DEBUGGING === 'true') console.log("[telemetry-store] received data: ", data);
                 this.carData = data;
             });
 
             this.isListening = true;
         },
-        subscribeToTeam(token) {
+        subscribeToTeam(targetTeamId = null) {
             if (!socket.connected) {
-                // Try reconnecting if disconnected for some reason
                 socket.connect();
             }
 
-            // Request to join the room on a timeout
-            socket.timeout(timeOutDelay).emit("telemetry:join", token, (err, response) => {
+            const payload = targetTeamId ? { teamId: targetTeamId } : {};
+
+            socket.timeout(timeOutDelay).emit("telemetry:join", payload, (err, response) => {
                 this.handleRequestResponse(err, response);
             });
         },
-        unsubscribeFromTeam() {
-            socket.emit("telemetry:leave");
+
+        unsubscribeFromTeam(targetTeamId = null) {
+            if (!socket.connected) {
+                socket.connect();
+            }
+
+            const payload = targetTeamId ? { teamId: targetTeamId } : {};
+
+            socket.timeout(timeOutDelay).emit("telemetry:leave", payload, (err, response) => {
+                this.handleRequestResponse(err, response);
+            });
+
             this.carData = {};
         },
+
         handleRequestResponse(err, response) {
             if (err) {
-                console.log(err);
+                console.error("[Telemetry]: ", err);
+            } else if (response?.error) {
+                console.error("[Telemetry] Server:", response.error);
             } else {
-                console.log(response.message);
+                if (import.meta.env.VITE_ENABLE_DEBUGGING === 'true') console.log("[Telemetry]: ", response.message);
             }
         }
     }

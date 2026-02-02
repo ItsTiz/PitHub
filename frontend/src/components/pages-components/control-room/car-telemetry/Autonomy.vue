@@ -3,14 +3,15 @@ import LinearGauge from '../../LinearGauge.vue';
 
 const props = defineProps({
     fuel: { type: Number, default: 0 },
-    esr_percentage: { type: Number, default: 0 }
+    esr_percentage: { type: Number, default: 0 },
+    teamTheme: { type: String}
 });
 </script>
 
 
 <template>
     <div class="d-flex flex-row align-center w-100">
-        <Card class="h-100">
+        <Card class="h-100" :borderColor="props.teamTheme">
             <template #title>
                 <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">Fuel</div>
             </template>
@@ -22,7 +23,7 @@ const props = defineProps({
             </template>
         </Card>
 
-        <Card class="h-100">
+        <Card class="h-100" :borderColor="props.teamTheme">
             <template #title>
                 <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">ESR</div>
             </template>

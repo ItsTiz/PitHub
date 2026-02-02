@@ -1,37 +1,83 @@
 import SimulationEvent from "../simulation/events/simulation-events.js";
 import { startSimulation, stopSimulation, isAlive } from "../simulation/simulation.js"
+import UserRole from "../middleware/user-roles.js";
 
-// Module-level variables: shared by ALL clients
 let isSimulationRunning = isAlive();
-let currentCircuit = null; // Store the circuit here so late-joiners can see it
+let currentCircuit = null; // store the circuit here so late-joiners can see it
 
 const registerSimulationHandlers = (io, socket) => {
 
-    const startSimulationLoop = async (circuitArg, callback) => {
-        currentCircuit = circuitArg;
+    const checkUserAuthentication = (callback) => {
+        const user = socket.user;
 
-        const toSend = { 
-            selectedCircuit: currentCircuit,
-            isRunning: true 
+        if (!user) {
+            callback({ error: "Authentication missing" });
+            return false;
         }
 
+        if (user.role !== UserRole.ADMIN) {
+            callback({ error: "Unauthorized access" });
+            return false;
+        }
+
+        return true;
+    }
+
+    const toSendData = () => {
+        return {
+            selectedCircuit: currentCircuit,
+            isRunning: isSimulationRunning
+        }
+    }
+
+    const joinSimulation = (payload, callback) => {
+        if (!checkUserAuthentication(callback)) return;
+
+        socket.join(SimulationEvent.ROOM_PREFIX);
+        console.log(`[${socket.id}] Admin ${socket.user.email} joined simulation control.`);
+
+        if (typeof callback === 'function') {
+            callback({
+                message: "Joined simulation room",
+                ...toSendData()
+            });
+        }
+    }
+
+    const leaveSimulation = (payload, callback) => {
+        socket.leave(SimulationEvent.ROOM_PREFIX);
+        console.log(`[${socket.id}] Left simulation control.`);
+
+        if (typeof callback === 'function') {
+            callback({ message: "Left simulation room" });
+        }
+    }
+
+    const startSimulationLoop = async (circuitArg, callback) => {
+
+        if (!checkUserAuthentication(callback)) return;
+
+        currentCircuit = circuitArg;
+
         if (isSimulationRunning) {
-            console.log(`[${socket.id}] tried to start, but sim is already running.`);
-            if (typeof callback === 'function') { callback(toSend); }
+            console.log(`[${socket.id}] Simulatiuon is already running.`);
+            if (typeof callback === 'function') { callback(toSendData()); }
             return;
         }
 
         await startSimulation(io);
         isSimulationRunning = true;
 
-        console.log(`[${socket.id}] Starting simulation on:`, circuitArg);
-        
-        if (typeof callback === 'function') { callback(toSend); }
-        //Also broadcasting to every other socket
-        io.emit(SimulationEvent.STATUS, toSend);
+        console.log(`[${socket.id}] Starting simulation on:`, currentCircuit);
+
+        if (typeof callback === 'function') { callback(toSendData()); }
+        io.emit(SimulationEvent.STATUS, toSendData()); //broadcasting to every other socket
     };
 
-    const stopSimulationLoop = () => {
+    const stopSimulationLoop = (callback) => {
+
+        if (!checkUserAuthentication(callback)) return;
+
         if (!isSimulationRunning) return;
 
         stopSimulation();
@@ -39,18 +85,17 @@ const registerSimulationHandlers = (io, socket) => {
         isSimulationRunning = false;
         currentCircuit = null;
 
-        io.emit(SimulationEvent.STATUS, isSimulationRunning);
+        io.emit(SimulationEvent.STATUS, toSendData());
     };
 
     const sendSimulationStatus = (callback) => {
         if (typeof callback === 'function') {
-            callback({ 
-                isRunning: isSimulationRunning,
-                selectedCircuit: currentCircuit 
-            });
+            callback(toSendData());
         }
     };
 
+    socket.on(SimulationEvent.JOIN, joinSimulation);
+    socket.on(SimulationEvent.LEAVE, leaveSimulation);
     socket.on(SimulationEvent.START, startSimulationLoop);
     socket.on(SimulationEvent.STOP, stopSimulationLoop);
     socket.on(SimulationEvent.STATUS, sendSimulationStatus);

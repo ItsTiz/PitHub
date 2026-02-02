@@ -7,6 +7,7 @@ const props = defineProps({
     uom: { type: String, default: "" },
     icon: { type: String, default: "" },
     icon_color: { type: String, default: "text" },
+    borderColor: { type: String },
     gradient: { type: Array, default: ["primary", "primary-darken-1"] },
     line_width: { type: Number, default: 3 }
 });
@@ -28,9 +29,9 @@ const latestTemp = computed(() => {
 
 <template>
     <v-card
-        class="w-100 rounded-lg "
+        :class="`w-100 rounded-lg border-${props.borderColor} border-opacity-100`"
         :elevation="6"
-        border="sm"    
+        border="md"
     >
         <template #prepend>
             <v-icon

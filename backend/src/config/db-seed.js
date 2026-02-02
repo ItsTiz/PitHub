@@ -27,7 +27,6 @@ const driverSchema = new mongoose.Schema({
     team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
 });
 
-// Car Schema (Your version + the new driver link we discussed)
 const carSchema = new mongoose.Schema({
     model: { type: String, required: true },
     engine_manufacturer: { type: String, required: true },
@@ -46,7 +45,8 @@ const carSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
    email: {type: String, required: true, unique: true, lowercase: true, trim: true},
     password: {type: String, required: true, minlength: 6, select: false},
-    role: {type: String, enum: ['user', 'admin', 'team'], default: 'user'}
+    role: {type: String, enum: ['user', 'admin', 'team'], default: 'user'},
+    team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
 });
 
 // --- 3. MODELS ---
@@ -177,14 +177,13 @@ const seedDB = async () => {
         await mongoose.connect(MONGO_URI);
         console.log('Connected.');
 
-        // Clear existing data
         await Car.deleteMany({});
         await Driver.deleteMany({});
         await Team.deleteMany({});
         await User.deleteMany({});
         console.log('Database cleared.');
 
-        let totalTeams = 0, totalDrivers = 0, totalCars = 0;
+        let totalTeams = 0, totalDrivers = 0, totalCars = 0, totalUsers = 0;
 
         const admin = {
             email: 'admin@f1.com',
@@ -197,6 +196,19 @@ const seedDB = async () => {
             // 1. Create Team
             const team = await Team.create(data.team);
             totalTeams++;
+
+            // Logic: Convert "Toto Wolff" -> "toto.wolff@pithub.com"
+            const principalEmail = data.team.team_principal.toLowerCase().replace(/\s+/g, '.') + '@pithub.com';
+            
+            const teamPassword = await bcrypt.hash(data.team.name.toLowerCase().replaceAll(' ', '').concat(data.team.joined_year.toString()),10);
+
+            await User.create({
+                email: principalEmail,
+                password: teamPassword,
+                role: 'team',
+                team: team._id // Connect User to Team ID
+            });
+            totalUsers++;
 
             // 2. Loop Drivers
             for (const driverInfo of data.drivers) {
@@ -226,7 +238,7 @@ const seedDB = async () => {
             }
         }
         console.log(`\nReady.`);
-        console.log(`Stats: ${totalTeams} Teams | ${totalDrivers} Drivers | ${totalCars} Cars`);
+        console.log(`Stats: ${totalTeams} Teams | ${totalDrivers} Drivers | ${totalCars} Cars | ${totalUsers} Users`);
         mongoose.connection.close();
 
     } catch (err) {
