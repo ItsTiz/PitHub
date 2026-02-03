@@ -33,40 +33,54 @@
 
     async function deleteUser(id) {
         if (!confirm('Confirm delete?')) return
+        console.log(id)
         try {
-            await axios.delete(`/v1/users/${id}`)
+            await axios.delete(`http://localhost:3000/v1/users/${id}`)
             users.value = users.value.filter(u => u._id !== id)
         } catch (err) {
             console.error(err)
         }
     }
 
-    function goToSignup() {
-        router.push('/signup')
+    const showAddDialog = ref(false)
+
+    async function fetchUsers() {
+    loading.value = true
+    try {
+        const res = await axios.get('http://localhost:3000/v1/users')
+        users.value = res.data
+    } catch (err) {
+        console.error(err)
+    } finally {
+        loading.value = false
+    }
     }
 
-    async function confirmReset() {
-        if (!tempPassword.value || tempPassword.value.length < 6) return alert('Password to short')
-        console.log(currentUserId.value)
-    
-        console.log(tempPassword.value)
+    async function handleReset(newPassword) {
         try {
             await axios.post('http://localhost:3000/v1/users/admin-reset-password', {
-                userId: currentUserId.value,
-                tempPassword: tempPassword.value
+            userId: currentUserId.value,
+            tempPassword: newPassword
             })
-    
-            alert('Password changed')
+            showToast('Password changed', 'success')
             resetDialog.value = false
         } catch (err) {
-            alert('Errore: ' + (err.response?.data?.message || 'Errore'))
+            showToast('Error: ' + (err.response?.data?.message || 'Error'), 'error')
         }
     }
+    const toastMessage = ref('')
+    const toastType = ref('info')
+
+    function showToast(msg, type = 'info') {
+      toastMessage.value = msg
+      toastType.value = type
+    }
+    
 </script>
 
 <template>
     <v-container fluid>
-        <v-card>
+        <UiSheet :sheetClasses="'pa-4 mb-6'">
             <v-card-title class="d-flex align-center">
                 Users
                 <v-spacer />
@@ -75,11 +89,11 @@
                     :icon-only="false"
                     :icon="'mdi-plus'"
                     :background-color="'primary'"
-                    @clicked="goToSignup"
+                    @clicked="showAddDialog = true"
                 />
             </v-card-title>
-
-            <v-card-text>
+        </UiSheet>
+        <UiSheet :sheetClasses="'pa-0'">   
                 <v-data-table
                     :headers="[
                         { title: 'Email', key: 'email' },
@@ -96,6 +110,7 @@
                             :icon-only="true"
                             :background-color="'error'"
                             :variant="'outlined'"
+                            size="x-small"
                             class="mr-4"
                             @clicked="deleteUser(item._id)"
                         />
@@ -104,42 +119,14 @@
                             :icon-only="true"
                             :background-color="'warning'"
                             :variant="'outlined'"
+                            size="x-small"
                             @clicked="openReset(item._id)"
                         />
-
-                        <v-dialog
-                            v-model="resetDialog"
-                            max-width="400"
-                        >
-                            <v-card>
-                                <v-card-title>Reset Password</v-card-title>
-                                <v-card-text>
-                                    <v-text-field
-                                        v-model="tempPassword"
-                                        label="New temporary password"
-                                        type="password"
-                                        :rules="[v => !!v || 'Required', v => v.length >= 6 || 'Min 6 characters']"
-                                    />
-                                </v-card-text>
-                                <v-card-actions>
-                                    <v-spacer />
-                                    <v-btn
-                                        text
-                                        @click="resetDialog = false"
-                                    >
-                                        Back
-                                    </v-btn>
-                                    <UiButton
-                                        title="Confirm"
-                                        background-color="primary"
-                                        @clicked="confirmReset"
-                                    />
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
                     </template>
                 </v-data-table>
-            </v-card-text>
-        </v-card>
+        </UiSheet>
     </v-container>
+    <AddUserDialog v-model="showAddDialog" @added="fetchUsers" />
+    <Toast :message="toastMessage" :type="toastType" />
+    <ResetPasswordDialog v-model="resetDialog" :user-id="currentUserId" @confirm="handleReset"/>
 </template>

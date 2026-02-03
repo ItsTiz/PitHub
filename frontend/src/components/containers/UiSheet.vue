@@ -16,6 +16,10 @@
         roundedRadius: {
             type: String,
             default: "lg"
+        },
+        sheetClasses: {
+            type: String,
+            default: ""
         }
     });
 
@@ -23,7 +27,7 @@
 
 <template>
     <v-sheet
-        class="d-flex align-center justify-center flex-wrap text-center"
+        :class="sheetClasses? sheetClasses : 'd-flex align-center justify-center flex-wrap text-center'"
         :elevation="elevation"
         :rounded="roundedRadius"
         :color="backgroundColor"
