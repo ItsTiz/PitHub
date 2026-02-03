@@ -121,5 +121,5 @@ const changePassword = async () => {
 <route lang="yaml">
 meta:
   requiresAuth: true
-  layout: authlayout          
+  layout: profilelayout          
 </route>

@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import EventsLog from '../../components/pages-components/EventsLog.vue';
+
+</script>
+
 <template>
     <v-container fluid class="h-100 d-flex flex-column bg-background">
         <v-row class="flex-grow-0">
@@ -22,7 +27,7 @@
             <v-col :cols="5">
                 <Sheet class="h-100" :elevation="5">
                     <template v-slot:default>
-
+                        <EventsLog />
                     </template>
                 </Sheet>
             </v-col>

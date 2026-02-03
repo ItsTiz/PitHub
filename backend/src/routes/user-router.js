@@ -22,5 +22,12 @@ usersRouter.route('/:id')
 usersRouter.route('/change-password')
     .post(authMiddleware, controller.changePassword);    
 
+
+usersRouter.route('/admin-reset-password')
+    .post(authMiddleware, controller.adminResetPassword);
+
+usersRouter.route('/:id')
+    .delete(authMiddleware, controller.deleteElement);   
+
 export default usersRouter;
 

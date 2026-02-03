@@ -1,6 +1,7 @@
 <script setup>
 import { inject } from 'vue'
 import { getCarForTeam } from '../../../../composables/utils/cars-images';
+import EventsLog from '../../EventsLog.vue';
 const props = defineProps({
     selectedItem: { type: String }
 });
@@ -49,7 +50,7 @@ const imagePath = computed(()=>{
             :elevation="5"
         >
             <template #text>
-                    <p class="mb-4">Events view/notifications</p>
+                   <EventsLog />
             </template>
         </Card>
 

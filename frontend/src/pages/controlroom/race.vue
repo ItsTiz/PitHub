@@ -4,6 +4,7 @@ import { useDisplay } from 'vuetify'
 import RaceView from '../../components/pages-components/control-room/race-view/RaceView.vue';
 import Leaderboard from '../../components/pages-components/control-room/race-view/Leaderboard.vue';
 import { useRaceStore } from '@/stores/race'
+import EventsLog from '../../components/pages-components/EventsLog.vue';
 const { smAndDown } = useDisplay()
 const raceStore = useRaceStore()
 const { cars } = storeToRefs(raceStore)
@@ -63,6 +64,7 @@ provide('selectedItem', activeCar)
                         <RightSidePanel
                         :selectedItem="selectedCar"
                         />
+                       
                     </template>
                 </Sheet>
             </v-col>

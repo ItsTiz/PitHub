@@ -19,6 +19,8 @@ declare module 'vue' {
     Card: typeof import('./src/components/containers/Card.vue')['default']
     CarProfileCard: typeof import('./src/components/pages-components/control-room/race-view/CarProfileCard.vue')['default']
     Combobox: typeof import('./src/components/controls/Combobox.vue')['default']
+    EventsList: typeof import('./src/components/pages-components/EventsList.vue')['default']
+    EventsLog: typeof import('./src/components/pages-components/EventsLog.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
     Leaderboard: typeof import('./src/components/pages-components/control-room/race-view/Leaderboard.vue')['default']
     LinearGauge: typeof import('./src/components/pages-components/LinearGauge.vue')['default']
