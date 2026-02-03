@@ -29,7 +29,10 @@ declare module 'vue-router/auto-routes' {
     '/profile': RouteRecordInfo<'/profile', '/profile', Record<never, never>, Record<never, never>>,
     '/race': RouteRecordInfo<'/race', '/race', Record<never, never>, Record<never, never>>,
     '/signup': RouteRecordInfo<'/signup', '/signup', Record<never, never>, Record<never, never>>,
-    '/sysadmin': RouteRecordInfo<'/sysadmin', '/sysadmin', Record<never, never>, Record<never, never>>,
+    '/sysadmin': RouteRecordInfo<'/sysadmin', '/sysadmin', Record<never, never>, Record<never, never>, '/sysadmin/' | '/sysadmin/simulation' | '/sysadmin/users'>,
+    '/sysadmin/': RouteRecordInfo<'/sysadmin/', '/sysadmin', Record<never, never>, Record<never, never>>,
+    '/sysadmin/simulation': RouteRecordInfo<'/sysadmin/simulation', '/sysadmin/simulation', Record<never, never>, Record<never, never>>,
+    '/sysadmin/users': RouteRecordInfo<'/sysadmin/users', '/sysadmin/users', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -88,7 +91,19 @@ declare module 'vue-router/auto-routes' {
       views: never
     }
     'src/pages/sysadmin.vue': {
-      routes: '/sysadmin'
+      routes: '/sysadmin' | '/sysadmin/' | '/sysadmin/simulation' | '/sysadmin/users'
+      views: 'default'
+    }
+    'src/pages/sysadmin/index.vue': {
+      routes: '/sysadmin/'
+      views: never
+    }
+    'src/pages/sysadmin/simulation.vue': {
+      routes: '/sysadmin/simulation'
+      views: never
+    }
+    'src/pages/sysadmin/users.vue': {
+      routes: '/sysadmin/users'
       views: never
     }
   }
