@@ -33,14 +33,9 @@
                 </UiSheet>
             </v-col>
 
-            <v-col :cols="5">
-                <UiSheet
-                    class="h-100"
-                    :elevation="5"
-                >
-                    <template #default>
-                        <EventsLog />
-                    </template>
+            <v-col :cols="5" class="d-flex">
+                <UiSheet class="h-100 w-100" :elevation="5">
+                    <EventsLog class="h-100 w-100" />
                 </UiSheet>
             </v-col>
         </v-row>

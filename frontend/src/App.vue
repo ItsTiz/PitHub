@@ -6,12 +6,14 @@
     import { useSimulationControlStore } from "@/stores/simulation";
     import { useRaceStore } from "@/stores/race";
     import { socket } from "@/socket";
+    import { useNotificationsStore } from '@/stores/notifications'
 
     const appStore = useAppStore();
     const connectionStore = useConnectionStore();
     const raceStore = useRaceStore();
     const simulationStore = useSimulationControlStore();
     const telemetryStore = useTelemetryStore();
+    const notifStore = useNotificationsStore()
 
     onMounted(() => {
         connectionStore.initListeners();
@@ -20,6 +22,7 @@
         raceStore.initListeners();
 
         connectionStore.connect();
+        notifStore.connect('test-user')
     });
 
     onUnmounted(() => {

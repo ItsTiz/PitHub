@@ -19,7 +19,7 @@ const startSimulation = async (io) => {
         
         broadcastTelemetryData(io);
                 
-        //generateNotifications(carsRacing);
+        generateNotifications(carsRacing);
 
     }, process.env.INTERVAL);
 }
