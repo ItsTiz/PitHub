@@ -45,8 +45,8 @@ const assembleTelemetryData = () => {
         speed: getRandomBetween(0, 378), // km/h – 0 (pit/standstill) to ~378 (absolute top speed record)
         rpms: getRandomBetween(3000, 15000), // Current engines limited to 15,000 rpm redline
 
-        tire_health_fl: getRandomBetween(0, 100), // TODO we'll see these ones
-        tire_health_fr: getRandomBetween(0, 100), // if we can decrease them over time
+        tire_health_fl: getRandomBetween(0, 100),
+        tire_health_fr: getRandomBetween(0, 100),
         tire_health_rl: getRandomBetween(0, 100),
         tire_health_rr: getRandomBetween(0, 100),
 
@@ -56,7 +56,8 @@ const assembleTelemetryData = () => {
         brake_temperature: getRandomBetween(200, 1100),  // °C – operating range
         engine_oil_temp: getRandomBetween(90, 200),  // °C – ideal operating range
 
-        oil_pressure: getRandomBetween(3, 8) // bar
+        oil_pressure: getRandomBetween(3, 8), // bar
+        tire_type: getRandomBetween(0, 4)
     };
 
     return data;

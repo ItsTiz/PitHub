@@ -7,5 +7,13 @@ class CarController extends BaseController {
         super(schema);
         this.findCarsByEngineManufacturer = this._searchByParameter("engine_manufacturer");
     }
+
+    getElementsAsJsArray = async () => {
+        return await this._schemaModel
+            .find()
+            .populate('team')
+            .populate('driver')
+            .lean();
+    }
 }
 export default new CarController(carModel);

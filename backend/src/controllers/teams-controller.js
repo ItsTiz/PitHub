@@ -8,6 +8,13 @@ class TeamController extends BaseController {
 
         this.findTeamByYearJoined = this._searchByParameter("joined_year")
         this.findTeamByNationality = this._searchByParameter("nationality")
+        this.findTeamByName = this._searchByParameter("name")
+    }
+
+    getElementsAsJsArray = async () => {
+        return await this._schemaModel
+            .find()
+            .lean();
     }
 }
 export default new TeamController(teamModel);

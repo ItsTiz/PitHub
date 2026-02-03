@@ -13,15 +13,13 @@ const startSimulation = async (io) => {
     console.log("Starting simulation...")
     carsRacing = await getCars();
     timeout = setInterval(() => {
-        const now = Date.now();
+        //const now = Date.now();
         
         broadcastRacingData(io);
         
         broadcastTelemetryData(io);
-        
-        console.log('carsRacing:', carsRacing);
-        
-        generateNotifications(carsRacing);
+                
+        //generateNotifications(carsRacing);
 
     }, process.env.INTERVAL);
 }

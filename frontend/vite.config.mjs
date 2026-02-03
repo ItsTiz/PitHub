@@ -1,7 +1,6 @@
 // Plugins
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import Fonts from 'unplugin-fonts/vite'
 import Layouts from 'vite-plugin-vue-layouts-next'
 import Vue from '@vitejs/plugin-vue'
 import VueRouter from 'unplugin-vue-router/vite'
@@ -13,79 +12,67 @@ import VueDevTools from 'vite-plugin-vue-devtools'
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    VueRouter(),
-    Layouts(),
-    Vue({
-      template: { transformAssetUrls },
-    }),
-    VueDevTools(),
-    // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
-    Vuetify({
-      autoImport: true,
-      styles: {
-        configFile: 'src/styles/settings.scss',
-      },
-    }),
-    Components(),
-    Fonts({
-      google: {
-        families: [{
-          name: 'Roboto',
-          styles: 'wght@100;300;400;500;700;900',
-        }],
-      },
-    }),
-    AutoImport({
-      imports: [
-        'vue',
-        VueRouterAutoImports,
-        {
-          pinia: ['defineStore', 'storeToRefs'],
-        },
-      ],
-      eslintrc: {
-        enabled: false,
-      },
-      vueTemplate: true,
-    }),
-  ],
-  optimizeDeps: {
-    exclude: [
-      'vuetify',
-      'vue-router',
-      'unplugin-vue-router/runtime',
-      'unplugin-vue-router/data-loaders',
-      'unplugin-vue-router/data-loaders/basic',
+    plugins: [
+        VueRouter(),
+        AutoImport({
+            imports: ['vue', VueRouterAutoImports, { pinia: ['defineStore', 'storeToRefs'] }],
+            eslintrc: { enabled: false },
+            vueTemplate: true,
+            dts: './auto-imports.d.ts',
+        }),
+        Components({
+            dts: './components.d.ts'
+        }),
+        VueRouter({
+            dts: './typed-router.d.ts'
+        }),
+        Layouts(),
+        Vue({
+            template: { transformAssetUrls },
+        }),
+        VueDevTools(),
+        Vuetify({
+            autoImport: true,
+            styles: {
+                configFile: 'src/styles/settings.scss',
+            },
+        }),
     ],
-  },
-  define: { 'process.env': {} },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('src', import.meta.url)),
+    optimizeDeps: {
+        exclude: [
+            'vuetify',
+            'vue-router',
+            'unplugin-vue-router/runtime',
+            'unplugin-vue-router/data-loaders',
+            'unplugin-vue-router/data-loaders/basic',
+        ],
     },
-    extensions: [
-      '.js',
-      '.json',
-      '.jsx',
-      '.mjs',
-      '.ts',
-      '.tsx',
-      '.vue',
-    ],
-  },
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true
-      },
-      '/socket.io': {
-        target: 'http://localhost:3000',
-        ws: true
-      },
-    }
-  },
+    define: { 'process.env': {} },
+    resolve: {
+        alias: {
+            '@': fileURLToPath(new URL('src', import.meta.url)),
+        },
+        extensions: [
+            '.js',
+            '.json',
+            '.jsx',
+            '.mjs',
+            '.ts',
+            '.tsx',
+            '.vue',
+        ],
+    },
+    server: {
+        proxy: {
+            '/api': {
+                target: 'http://localhost:3000',
+                changeOrigin: true
+            },
+            '/socket.io': {
+                target: 'http://localhost:3000',
+                ws: true
+            },
+        }
+    },
 })

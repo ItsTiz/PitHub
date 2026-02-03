@@ -1,10 +1,13 @@
 <template>
-  <AdminAppNav />
-  <v-main>
-    <Transition name="fade-view" mode="out-in">
-      <RouterView />
-    </Transition>
-  </v-main>
+    <AdminAppNav />
+    <v-main>
+        <Transition
+            name="fade-view"
+            mode="out-in"
+        >
+            <RouterView />
+        </Transition>
+    </v-main>
 </template>
 
 <style scoped>

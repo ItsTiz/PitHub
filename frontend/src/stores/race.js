@@ -65,8 +65,9 @@ export const useRaceStore = defineStore("race", {
         },
         handleRequestResponse(err, response, targetState) {
             if (err) {
-                console.error("[Socket]:", err);
-            } else {
+                console.error("[Race-store]:", err);
+            } else if(response) {
+                console.error("[Race-store]:", response);
                 this.isConnectedToRoom = targetState;
             }
         }
