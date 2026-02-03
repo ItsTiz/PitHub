@@ -30,21 +30,18 @@ const registerSimulationHandlers = (io, socket) => {
         }
     }
 
-    const joinSimulation = (payload, callback) => {
+    const joinSimulation = (callback) => {
         if (!checkUserAuthentication(callback)) return;
 
         socket.join(SimulationEvent.ROOM_PREFIX);
         console.log(`[${socket.id}] Admin ${socket.user.email} joined simulation control.`);
 
         if (typeof callback === 'function') {
-            callback({
-                message: "Joined simulation room",
-                ...toSendData()
-            });
+            callback(toSendData());
         }
     }
 
-    const leaveSimulation = (payload, callback) => {
+    const leaveSimulation = (callback) => {
         socket.leave(SimulationEvent.ROOM_PREFIX);
         console.log(`[${socket.id}] Left simulation control.`);
 

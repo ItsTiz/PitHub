@@ -1,25 +1,25 @@
 <script setup>
-import { useSimulationControlStore } from "@/stores/simulation";
-import { storeToRefs } from "pinia";
-import { nextTick, watch, useTemplateRef } from "vue";
+    import { useSimulationControlStore } from "@/stores/simulation";
+    import { storeToRefs } from "pinia";
+    import { nextTick, watch, useTemplateRef } from "vue";
 
-const store = useSimulationControlStore();
-const { serverLogs } = storeToRefs(store);
-const terminalBody = useTemplateRef('terminal-body');
+    const store = useSimulationControlStore();
+    const { serverLogs } = storeToRefs(store);
+    const terminalBody = useTemplateRef('terminal-body');
 
-watch(serverLogs, async () => {
-    await nextTick();
-    if (terminalBody.value) {
-        terminalBody.value.scrollTop = terminalBody.value.scrollHeight;
-    }
-}, { deep: true });
+    watch(serverLogs, async () => {
+        await nextTick();
+        if (terminalBody.value) {
+            terminalBody.value.scrollTop = terminalBody.value.scrollHeight;
+        }
+    }, { deep: true });
 </script>
 
 <template>
-    <Card 
+    <UiCard 
         class="h-100 w-100 font-monospace"
-        :titleClasses="'pa-0 flex-grow-0'"
-        :textClasses="'pa-0 flex-grow-1'" 
+        :title-classes="'pa-0 flex-grow-0'"
+        :text-classes="'pa-0 flex-grow-1'" 
     >
         <template #title>
             <div 
@@ -31,9 +31,9 @@ watch(serverLogs, async () => {
                          pl-5 pr-5 pt-2 pb-2`"
             >
                 <span>Server:\</span>
-                <Button
+                <UiButton
                     :icon="'mdi-delete'"
-                    :iconOnly="true"
+                    :icon-only="true"
                     size="x-small"
                     variant="text"
                     color="grey"
@@ -71,7 +71,7 @@ watch(serverLogs, async () => {
                 </div>
             </div>
         </template>
-    </Card>
+    </UiCard>
 </template>
 
 <style scoped>
@@ -86,14 +86,13 @@ watch(serverLogs, async () => {
 }
 
 .log-line {
-    width: 100%; /* Ensure row takes full width */
+    width: 100%;
 }
 
 .log-message {
-    /* CRITICAL FOR WRAPPING: */
-    white-space: pre-wrap;      /* Preserves newlines but wraps text */
-    word-break: break-word;     /* Breaks long words/hashes if they don't fit */
-    overflow-wrap: anywhere;    /* Modern browser support for unbreakable strings */
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 .animate-pulse {
@@ -113,4 +112,3 @@ watch(serverLogs, async () => {
     }
 }
 </style>
-

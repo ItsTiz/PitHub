@@ -1,6 +1,6 @@
 import { computed, toValue } from 'vue'
 
-const useGaugeColor = (sourceValue, thresholds = [50, 75, 95], reversed = false) => {
+const useGaugeColor = (sourceValue, thresholds = [50, 75, 95]) => {
     return computed(() => {
         const val = toValue(sourceValue);
 

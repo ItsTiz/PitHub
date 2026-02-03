@@ -1,27 +1,27 @@
 <script setup>
-import { onMounted, onUnmounted } from 'vue';
-import { useSimulationControlStore } from '../stores/simulation';
+    import { onMounted, onUnmounted } from 'vue';
+    import { useSimulationControlStore } from '../stores/simulation';
 
-const simStore = useSimulationControlStore();
+    const simStore = useSimulationControlStore();
 
-onMounted(() => {
-    simStore.subscribeToSimLogs();
-});
+    onMounted(() => {
+        simStore.subscribeToSimLogs();
+    });
 
 
-onUnmounted(() => {
-    simStore.unsubscribeToSimLogs();
-});
+    onUnmounted(() => {
+        simStore.unsubscribeToSimLogs();
+    });
 
 </script>
 
 <template>
-    <RouterView/>
+    <RouterView />
 </template>
 
 <route lang="yaml">
 meta:
-  layout: sysadminlayout
+  layout: SysadminLayout
   requiresAuth: true
   minRole: 'admin'
   guestOnly: false

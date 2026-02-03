@@ -1,28 +1,30 @@
 <script setup>
-const props = defineProps({
-    speed: {
-        type: Number,
-        default: 0
-    },
-    rpms: {
-        type: Number,
-        default: 0
-    },
-    teamTheme: {
-        type: String,
-        default: ""
-    },
-});
+    defineProps({
+        speed: {
+            type: Number,
+            default: 0
+        },
+        rpms: {
+            type: Number,
+            default: 0
+        },
+        teamTheme: {
+            type: String,
+            default: ""
+        },
+    });
 </script>
 
 <template>
     <div class="d-flex flex-row align-center justify-space-around w-100 h-100">
-        <Card
+        <UiCard
             class="h-100"
-            :borderColor="props.teamTheme"
+            :border-color="teamTheme"
         >
             <template #title>
-                <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">RPMs</div>
+                <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">
+                    RPMs
+                </div>
             </template>
             <template #text>
                 <SemiCircularGauge
@@ -35,18 +37,20 @@ const props = defineProps({
                     :max="15000"
                 />
             </template>
-        </Card>
+        </UiCard>
 
-        <Card
+        <UiCard
             class="h-100"
-            :borderColor="props.teamTheme"
+            :border-color="teamTheme"
         >
             <template #title>
-                <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">Speed</div>
+                <div class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">
+                    Speed
+                </div>
             </template>
 
             <template #text>
-               <SemiCircularGauge
+                <SemiCircularGauge
                     class="w-100"
                     :input="speed"
                     :uom="'km/h'"
@@ -56,7 +60,6 @@ const props = defineProps({
                     :max="378"
                 />
             </template>
-        </Card>
-
+        </UiCard>
     </div>
 </template>

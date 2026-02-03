@@ -1,11 +1,11 @@
 <script setup>
-import { definePage } from 'vue-router/auto'
+    import { definePage } from 'vue-router/auto'
 
-definePage({
-  redirect: to => {
-    return '/controlroom/telemetry'
-  }
-})
+    definePage({
+        redirect: () => {
+            return '/controlroom/telemetry'
+        }
+    })
 </script>
 
 <route lang="yaml">

@@ -1,36 +1,35 @@
 <script setup>
-import { computed } from 'vue'
-import { getTeamColor } from '../../../../composables/utils/teams-colors.js'
+    import { computed } from 'vue'
+    import { getTeamColor } from '../../../../composables/utils/teams-colors.js'
 
-const props = defineProps({
-    driverName: { type: String, required: true },
-    teamName: { type: String, required: true },
-    imgSrc: { type: String },
-    currentSpeed : { type: Number, default: 0 },
-    maxSpeed: { type: [Number, String], default: '-' },
-    driverNumber: { type: [String, Number], default: '' },
-    engineManufacturer: { type: String, default: 'Unknown' },
-    acceleration: { type: [Number, String], default: '-' },
-    reliability: { type: Number, default: 0 },
-    downforce: { type: Number, default: 0 }
-});
+    const props = defineProps({
+        driverName: { type: String, required: true },
+        teamName: { type: String, required: true },
+        imgSrc: { type: String, default:"" },
+        currentSpeed : { type: Number, default: 0 },
+        maxSpeed: { type: [Number, String], default: '-' },
+        driverNumber: { type: [String, Number], default: '' },
+        engineManufacturer: { type: String, default: 'Unknown' },
+        acceleration: { type: [Number, String], default: '-' },
+        reliability: { type: Number, default: 0 },
+        downforce: { type: Number, default: 0 }
+    });
 
-const getImageUrl = (path) => {
-  return new URL(`../../../../assets/cars/${path}`, import.meta.url).href
-}
+    const getImageUrl = (path) => {
+        return new URL(`../../../../assets/cars/${path}`, import.meta.url).href
+    }
 
-const teamColor = computed(() => getTeamColor(props.teamName));
-const teamColorDarkened = computed(() => getTeamColor(props.teamName, true));
-const imagePath = computed(() => {
-    const ret = getImageUrl(props.imgSrc)
-    return ret
-});
+    const teamColor = computed(() => getTeamColor(props.teamName));
+    const imagePath = computed(() => {
+        const ret = getImageUrl(props.imgSrc)
+        return ret
+    });
 </script>
 
 <template>
-    <Card
+    <UiCard
         :elevation="5"
-        :titleClasses="'pa-0'" 
+        :title-classes="'pa-0'" 
     >
         <template #title>
             <div 
@@ -65,54 +64,82 @@ const imagePath = computed(() => {
 
         <template #text>
             <div class="d-flex flex-column fill-height">
-                
                 <div class="d-flex justify-center pt-4 mb-4">
                     <v-img
                         :src="imagePath"
-                        alt="Car Image"
+                        :alt="`${teamName} car image`"
                         max-height="160"
                         width="100%"
                         cover
                         class="rounded-lg"
                     >
-                        <template v-slot:placeholder>
+                        <template #placeholder>
                             <div class="d-flex align-center justify-center fill-height">
-                                <v-progress-circular indeterminate color="grey-lighten-4" />
+                                <v-progress-circular
+                                    indeterminate
+                                    color="grey-lighten-4"
+                                />
                             </div>
                         </template>
                     </v-img>
                 </div>
 
-                <v-divider class="mb-3"></v-divider>
+                <v-divider class="mb-3" />
                 
                 <v-row dense>
                     <v-col cols="6">
-                        <div class="text-caption text-medium-emphasis">Current Speed</div>
+                        <div class="text-caption text-medium-emphasis">
+                            Current Speed
+                        </div>
                         <div class="font-weight-bold text-body-2">
-                            <v-icon icon="mdi-speedometer" size="x-small" class="mr-1"></v-icon>
+                            <v-icon
+                                icon="mdi-speedometer"
+                                size="x-small"
+                                class="mr-1"
+                            />
                             {{ currentSpeed }} km/h
                         </div>
                     </v-col>
 
                     <v-col cols="6">
-                        <div class="text-caption text-medium-emphasis">Top Speed</div>
+                        <div class="text-caption text-medium-emphasis">
+                            Top Speed
+                        </div>
                         <div class="font-weight-bold text-body-2">
-                            <v-icon icon="mdi-car-speed-limiter" size="x-small" class="mr-1"></v-icon>
+                            <v-icon
+                                icon="mdi-car-speed-limiter"
+                                size="x-small"
+                                class="mr-1"
+                            />
                             {{ maxSpeed }} km/h
                         </div>
                     </v-col>
                 </v-row>
                 <v-row dense>
-                    <v-col cols="6" class="mt-2">
-                        <div class="text-caption text-medium-emphasis">Engine</div>
+                    <v-col
+                        cols="6"
+                        class="mt-2"
+                    >
+                        <div class="text-caption text-medium-emphasis">
+                            Engine
+                        </div>
                         <div class="font-weight-bold text-body-2">
-                            <v-icon icon="mdi-engine" size="x-small" class="mr-1"></v-icon>
+                            <v-icon
+                                icon="mdi-engine"
+                                size="x-small"
+                                class="mr-1"
+                            />
                             {{ engineManufacturer }}
                         </div>
                     </v-col>
 
-                     <v-col cols="6" class="mt-2">
-                        <div class="text-caption text-medium-emphasis">Reliability</div>
+                    <v-col
+                        cols="6"
+                        class="mt-2"
+                    >
+                        <div class="text-caption text-medium-emphasis">
+                            Reliability
+                        </div>
                         <div class="font-weight-bold text-body-2 mt-2">
                             <v-progress-linear 
                                 :model-value="reliability" 
@@ -120,24 +147,36 @@ const imagePath = computed(() => {
                                 height="6" 
                                 rounded 
                                 class=""
-                            ></v-progress-linear>
+                            />
                         </div>
                     </v-col>
-
-                    
                 </v-row>
 
                 <v-row dense>
-                    <v-col cols="6" class="mt-2">
-                        <div class="text-caption text-medium-emphasis">0-100 km/h</div>
+                    <v-col
+                        cols="6"
+                        class="mt-2"
+                    >
+                        <div class="text-caption text-medium-emphasis">
+                            0-100 km/h
+                        </div>
                         <div class="font-weight-bold text-body-2">
-                            <v-icon icon="mdi-timer-outline" size="x-small" class="mr-1"></v-icon>
+                            <v-icon
+                                icon="mdi-timer-outline"
+                                size="x-small"
+                                class="mr-1"
+                            />
                             {{ acceleration }} s
                         </div>
                     </v-col>
 
-                    <v-col cols="6" class="mt-2">
-                        <div class="text-caption text-medium-emphasis">Downforce rating</div>
+                    <v-col
+                        cols="6"
+                        class="mt-2"
+                    >
+                        <div class="text-caption text-medium-emphasis">
+                            Downforce rating
+                        </div>
                         <div class="font-weight-bold text-body-2 mt-2">
                             <v-progress-linear 
                                 :model-value="downforce" 
@@ -145,22 +184,21 @@ const imagePath = computed(() => {
                                 height="6" 
                                 rounded 
                                 class=""
-                            ></v-progress-linear>
+                            />
                         </div>
                     </v-col>
                 </v-row>
-
             </div>
         </template>
-    </Card>
+    </UiCard>
 </template>
 
 <style scoped>
-.driver-number {
-  text-shadow: 
+    .driver-number {
+    text-shadow: 
     -1px -1px 0 #ffffff,  
-     1px -1px 0 #ffffff,
+    1px -1px 0 #ffffff,
     -1px  1px 0 #ffffff,
-     1px  1px 0 #ffffff;
-}
+    1px  1px 0 #ffffff;
+    }
 </style>
