@@ -98,6 +98,6 @@
 <route lang="yaml">
 meta:
   guestOnly: true
-  layout: AuthLayout
+  layout: authlayout
   requiresAuth: false
 </route>

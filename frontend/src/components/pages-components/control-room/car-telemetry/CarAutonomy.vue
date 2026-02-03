@@ -3,7 +3,7 @@ import LinearGauge from '../../LinearGauge.vue';
 
 const props = defineProps({
     fuel: { type: Number, default: 0 },
-    esr_percentage: { type: Number, default: 0 },
+    esrPercentage: { type: Number, default: 0 },
     teamTheme: { type: String}
 });
 </script>
@@ -49,7 +49,7 @@ const props = defineProps({
 
             <template #text>
                 <LinearGauge
-                    :input="esr-percentage"
+                    :input="esrPercentage"
                     :uom="'%'"
                 />
             </template>

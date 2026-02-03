@@ -21,7 +21,7 @@
 
 <route lang="yaml">
 meta:
-  layout: SysadminLayout
+  layout: sysadminlayout
   requiresAuth: true
   minRole: 'admin'
   guestOnly: false

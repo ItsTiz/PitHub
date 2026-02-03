@@ -178,5 +178,5 @@
 meta:
   guestOnly: true   # ← only applies to public /signup; admin can still access if you have /admin/signup or similar
   requiresAuth: false
-  layout: AuthLayout
+  layout: authlayout
 </route>

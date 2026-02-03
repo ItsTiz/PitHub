@@ -65,6 +65,7 @@
                 :height="graphHeight"
                 v-bind="$attrs"
                 stroke-linecap="round"
+                class="text-caption"
             >
                 <template #label="item"> -{{ props.maxSecondsScale-item.index }}s </template>
             </v-sparkline>
