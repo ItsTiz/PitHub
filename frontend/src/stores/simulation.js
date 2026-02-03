@@ -53,7 +53,7 @@ export const useSimulationControlStore = defineStore("simulation-control", {
         subscribeToSimLogs() {
             if (!socket.connected) socket.connect();
 
-            socket.timeout(TIMEOUT_DELAY).emit("sim:join", {}, (err, response) => {
+            socket.timeout(TIMEOUT_DELAY).emit("sim:join", (err, response) => {
                 this.handleRequestResponse(err, response);
                 
                 if (!err && !response?.error) {
@@ -64,7 +64,7 @@ export const useSimulationControlStore = defineStore("simulation-control", {
         },
 
         unsubscribeToSimLogs() {
-            socket.timeout(TIMEOUT_DELAY).emit("sim:leave", {}, (err, response) => {
+            socket.timeout(TIMEOUT_DELAY).emit("sim:leave", (err, response) => {
                 this.handleRequestResponse(err, response);
                 
                 if (!err) {

@@ -1,45 +1,54 @@
 <script setup>
-import { useRaceStore } from '@/stores/race';
-import { getTeamColor } from '../../../../composables/utils/teams-colors';
-const raceStore = useRaceStore();
-const { cars } = storeToRefs(raceStore);
+    import { useRaceStore } from '@/stores/race';
+    import { getTeamColor } from '../../../../composables/utils/teams-colors';
+    import { storeToRefs } from "pinia";
+    import { computed } from 'vue';
+    const raceStore = useRaceStore();
+    const { cars } = storeToRefs(raceStore);
 
-const emits = defineEmits(['driverClicked']);
+    defineEmits(['driverClicked']);
 
-const getColor = (name) =>{
-    return getTeamColor(name) + " md"
-}
+    const getColor = (name) =>{
+        return getTeamColor(name) + " md"
+    }
 
-const loading = computed(() => {
-    return !cars.value || cars.value.length == 0;
-})
+    const loading = computed(() => {
+        return !cars.value || cars.value.length == 0;
+    })
 
 </script>
 
 <template>
     <v-list class="pa-1 w-100 bg-transparent">
-         <v-skeleton-loader
-            v-if="loading"
-            v-for="n in 22"
-            type="list-item"
-            max-height="30px"
-        ></v-skeleton-loader>
+        <TransitionGroup v-if="loading">
+            <v-skeleton-loader
+                v-for="n in 22"
+                
+                :key="n"
+                type="list-item"
+                max-height="30px"
+            />
+        </TransitionGroup>
         
-        <TransitionGroup v-else name="flip-list" tag="ul">
+        <TransitionGroup
+            v-else
+            name="flip-list"
+            tag="ul"
+        >
             <v-list-item
-                rounded="xl"
-                lines="two" 
                 v-for="(car, index) in cars"
-                    :class="`${index % 2 == 0 ? 'bg-surface' : 'bg-background'} super-compact rounded-lg ma-1 elevation-2 border-opacity-75`"
-                    :key="car._id" 
+                :key="car._id" 
+                rounded="xl"
+                lines="two"
+                :class="`${index % 2 == 0 ? 'bg-surface' : 'bg-background'} super-compact rounded-lg ma-1 elevation-2 border-opacity-75`" 
                     
-                    @click="$emit('driverClicked', car._id)"
+                @click="$emit('driverClicked', car._id)"
             >
                 <template #prepend>
                     <div class="d-flex justify-space-around align-center">
                         <v-avatar 
                             :color="index === 0 ? 'warning' : 'grey-lighten-1'"
-                            size="16"
+                            size="25"
                             class="font-weight-bold text-caption"
                         >
                             {{ index + 1 }}
@@ -51,23 +60,21 @@ const loading = computed(() => {
                         thickness="5"
                         vertical
                         opacity="1.0"
-                        >
-                    </v-divider>
+                    />
                 </template> 
 
                 <v-list-item-title
-                    class="font-weight-bold text-caption text-uppercase align-left"
+                    class="text-caption font-weight-bold text-uppercase"
                 >
                     {{ `${car.driver.full_name.split(" ")[1].substr(0, 3)}` }}
                 </v-list-item-title>
 
                 <template #append>
-                    <div class="text-caption">
+                    <div class="mr-2">
                         lap: {{ car.lapCount || 0 }}
                     </div>
                 </template>
             </v-list-item>
-            
         </TransitionGroup>
     </v-list>
 </template>
@@ -75,7 +82,7 @@ const loading = computed(() => {
 <style scoped>
 
 .super-compact {
-  min-height: 25px !important; 
+  min-height: 30px !important; 
   padding: 2px 4px !important; 
 }
 

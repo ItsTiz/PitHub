@@ -1,11 +1,11 @@
 <script setup>
-import { definePage } from 'vue-router/auto'
+    import { definePage } from 'vue-router/auto'
 
-definePage({
-  redirect: to => {
-    return '/sysadmin/simulation'
-  }
-})
+    definePage({
+        redirect: () => {
+            return '/sysadmin/simulation'
+        }
+    })
 </script>
 
 <route lang="yaml">

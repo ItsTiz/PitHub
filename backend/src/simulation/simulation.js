@@ -2,7 +2,7 @@ import TelemetryEvent from "./events/telemetry-events.js";
 import RaceEvent from "./events/race-events.js";
 import { assembleTelemetryData, injectCarRaceData, sortCars } from "./mock-simulator.js";
 import { getCars } from "./data-fetcher.js";
-//import { generateNotifications } from "./notification.js";
+import { generateNotifications } from "./notification.js";
 
 let timeout;
 let carsRacing = [];
@@ -18,11 +18,8 @@ const startSimulation = async (io) => {
         broadcastRacingData(io);
         
         broadcastTelemetryData(io);
-        
-        // if (now - lastNotificationTime > NOTIFICATION_INTERVAL) {
-        //     generateNotifications(io, carsRacing);
-        //     lastNotificationTime = now;
-        // }
+                
+        //generateNotifications(carsRacing);
 
     }, process.env.INTERVAL);
 }

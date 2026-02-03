@@ -84,6 +84,7 @@ export const useAuthStore = defineStore('auth', () => {
             user.value = data.user
             localStorage.setItem('user', JSON.stringify(data.user))
         } catch (err) {
+            console.log(err);
             clearAuth()
         }
     }
@@ -92,10 +93,10 @@ export const useAuthStore = defineStore('auth', () => {
         console.log('Token prima della chiamata:', token.value)
         console.log('Bearer header:', axios.defaults.headers.common['Authorization'])
         try {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
-           await axios.post(`${API_BASE}/v1/users/change-password`, 
-            { current_password: currentPassword, password: newPassword },
-            { headers: { Authorization: `Bearer ${token.value}` } }
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
+            await axios.post(`${API_BASE}/v1/users/change-password`, 
+                { current_password: currentPassword, password: newPassword },
+                { headers: { Authorization: `Bearer ${token.value}` } }
             )
         } catch (err) {
             console.log(err)

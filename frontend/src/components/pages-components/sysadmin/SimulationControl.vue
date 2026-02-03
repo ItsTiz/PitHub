@@ -1,29 +1,34 @@
 <script setup>
-import { ref } from 'vue'
-import { useSimulationControlStore } from '@/stores/simulation';
-import { useConnectionStore } from '@/stores/connections';
-import Combobox from '../../controls/Combobox.vue'
-const simControl = useSimulationControlStore();
-const socketConnection = useConnectionStore();
-const selectedCircuit = ref('Imola')
-const circuits = ['Imola', 'Monza', 'Monaco', 'Zandvoort']
+    import { ref } from 'vue'
+    import { useSimulationControlStore } from '@/stores/simulation';
+    import { useConnectionStore } from '@/stores/connections';
+    const simControl = useSimulationControlStore();
+    const socketConnection = useConnectionStore();
+    const selectedCircuit = ref('Imola')
+    const circuits = ['Imola', 'Monza', 'Monaco', 'Zandvoort']
 
-const handleStartClicked = (circuit) => {
-    simControl.emitStartRequest(circuit);
-}
+    const handleStartClicked = (circuit) => {
+        simControl.emitStartRequest(circuit);
+    }
 
-const handleStopClicked = () => {
-    simControl.emitStopRequest();
-}
+    const handleStopClicked = () => {
+        simControl.emitStopRequest();
+    }
 
 </script>
 
 <template>
     <v-container fluid>
-        <Sheet elevation="3" rounded="lg" class="pa-2 d-flex align-center gap-4">
-
-            <div class="flex-grow-1" style="max-width: 400px;">
-                <Combobox
+        <UiSheet
+            elevation="3"
+            rounded="lg"
+            class="pa-2 d-flex align-center gap-4"
+        >
+            <div
+                class="flex-grow-1"
+                style="max-width: 400px;"
+            >
+                <UiCombobox
                     v-model="selectedCircuit"
                     :items="circuits"
                     label="Circuit"
@@ -32,10 +37,10 @@ const handleStopClicked = () => {
                     variant="solo-filled"
                     hide-details
                     bg-color="surface"
-                ></Combobox>
+                />
             </div>
 
-            <v-spacer></v-spacer>
+            <v-spacer />
 
             <v-chip
                 :color="socketConnection.isConnected ? 'success' : 'error'"
@@ -48,31 +53,32 @@ const handleStopClicked = () => {
                         icon="mdi-circle-medium"
                         :class="{ 'animate-pulse': socketConnection.isConnected }"
                         start
-                    ></v-icon>
+                    />
                 </template>SOCKET
             </v-chip>
 
             <v-divider
-                vertical class="mx-2"
-            ></v-divider>
+                vertical
+                class="mx-2"
+            />
 
             <v-tooltip
                 :text="simControl.isRunning ? 'Stop simulation' : 'Start simulation'"
                 location="top"
             >
-                <template v-slot:activator="{ props }">
-                    <Button
+                <template #activator="{ props }">
+                    <UiButton
                         v-bind="props"
                         :icon="simControl.isRunning ? 'mdi-stop': 'mdi-play'"
                         :color="simControl.isRunning ? 'error' : 'success'"
                         :variant="simControl.isRunning ? 'tonal' : 'flat'"
-                        :iconOnly="true"
+                        :icon-only="true"
                         size="small"
                         @click="simControl.isRunning ? handleStopClicked() : handleStartClicked(selectedCircuit)"
                     />
                 </template>
             </v-tooltip>
-        </Sheet>
+        </UiSheet>
     </v-container>
 </template>
 

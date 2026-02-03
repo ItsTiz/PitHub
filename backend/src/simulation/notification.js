@@ -1,5 +1,5 @@
-import { sendToUser } from '../config/sse.js';
 import User from '../models/user.js';
+import { eventSenders, sendToUser } from '../config/sse.js';
 
 let lastRun = 0;
 
@@ -8,8 +8,12 @@ export async function generateNotifications(cars) {
     if (now - lastRun < 5000) return;
     lastRun = now;
 
-    const events = [];
+  if (!Array.isArray(cars) || cars.length === 0) {
+    console.log('[NOTIFY] cars non è array o vuoto:', cars);
+    return;
+  }
 
+  const events = [];
     cars.forEach(car => {
         if (car.oldProgress > 90 && car.progress < 10) {
             events.push({
@@ -85,19 +89,35 @@ export async function generateNotifications(cars) {
         }
     });
 
+
     if (events.length === 0) return;
 
+    console.log('[NOTIF] Generated events:', events);
 
-    const users = await User.find().lean().select('_id role team');
 
-    users.forEach(user => {
-        const relevant = events.filter(ev => {
-            if (user.role === 'admin') return true;
-            if (user.role === 'user' && ev.type === 'lap_completed') return true;
-            if (user.role === 'team' && user.team?.toString() === car.team?.toString()) return true;
-            return false;
-        });
-
-        relevant.forEach(ev => sendToUser(user._id.toString(), ev));
+    events.forEach(ev => {
+        for (const [userId, sender] of eventSenders.entries()) {
+        sender(ev);
+        }
     });
+
+    // const users = await User.find().lean().select('_id role team');
+
+    // users.forEach(user => {
+    //     let relevant = events.filter(ev => {
+    //         if (user.role === 'admin') return true;
+    //         if (user.role === 'user' && ev.type === 'lap_completed') return true;
+    //         return false;
+    // });
+
+    //     if (user.role === 'team' && user.team) {
+    //         const teamEv = teamEvents[user.team.toString()] || [];
+    //         relevant = [...relevant, ...teamEv];
+    //     }
+
+    //     if (relevant.length > 0) {
+    //         console.log(`[NOTIF] Sending to ${user.role} (${user._id}):`, relevant);
+    //         relevant.forEach(ev => sendToUser(user._id.toString(), ev));
+    //     }
+    // });
 }

@@ -4,6 +4,7 @@ import { registerTelemetryHandlers } from "./socket-handlers/telemetry-handler.j
 import { registerSimulationHandlers } from "./socket-handlers/sim-controller-handler.js";
 import { registerRaceHandlers } from "./socket-handlers/race-handler.js";
 import { enableRemoteLogging } from "./simulation/remote-logger.js";
+import UserRole from "./middleware/user-roles.js";
 
 let io;
 const enableDebuggingLog = false;
@@ -51,13 +52,16 @@ const onConnection = (socket) => {
         console.log(`[${socket.id}] Could not identify user.`);
     }
 
-    const role = user.role || 'user';
+    const role = user.role || UserRole.USER;
     console.log(`[${socket.id}] Identified with role: ${role}.`);
 
-    registerTelemetryHandlers(io, socket);
+
+    if(role === UserRole.ADMIN || role === UserRole.TEAM){
+        registerTelemetryHandlers(io, socket);
+    }
+    
     registerSimulationHandlers(io, socket);
     registerRaceHandlers(io, socket);
-
     socket.on("disconnect", () => {
         console.log(`[${socket.id}] Client disconnected`);
     });

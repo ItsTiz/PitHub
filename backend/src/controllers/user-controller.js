@@ -3,26 +3,26 @@ import BaseController from './base-controller.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-export const authMiddleware = async (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Token mancante o non valido' });
-  }
+// export const authMiddleware = async (req, res, next) => {
+//   const authHeader = req.headers.authorization;
+//   if (!authHeader || !authHeader.startsWith('Bearer ')) {
+//     return res.status(401).json({ message: 'Token mancante o non valido' });
+//   }
 
-  const token = authHeader.split(' ')[1];
+//   const token = authHeader.split(' ')[1];
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await userModel.findById(decoded.id);
-    if (!req.user) {
-      return res.status(401).json({ message: 'Utente non trovato' });
-    }
-    next();
-  } catch (err) {
-    console.error('JWT error:', err.message);
-    return res.status(401).json({ message: 'Token non valido o scaduto' });
-  }
-};
+//   try {
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     req.user = await userModel.findById(decoded.id);
+//     if (!req.user) {
+//       return res.status(401).json({ message: 'Utente non trovato' });
+//     }
+//     next();
+//   } catch (err) {
+//     console.error('JWT error:', err.message);
+//     return res.status(401).json({ message: 'Token non valido o scaduto' });
+//   }
+// };
 
 
 class UserController extends BaseController {
@@ -33,6 +33,7 @@ class UserController extends BaseController {
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
         this.changePassword = this.changePassword.bind(this);
+        this.adminResetPassword = this.adminResetPassword.bind(this);
     }
 
     async register(req, res) {
@@ -137,6 +138,27 @@ class UserController extends BaseController {
             res.status(200).json({ message: 'Password updated.' });
         } catch (error) {
             res.status(500).json({ message: error.message });
+        }
+    }
+
+    async adminResetPassword(req, res) {
+        try {
+            if (!req.user || req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Only admin' });
+            }
+
+            const { userId, tempPassword } = req.body;
+            if (!userId || !tempPassword) return res.status(400).json({ message: 'userId e tempPassword required' });
+
+            const user = await this._schemaModel.findById(userId);
+            if (!user) return res.status(404).json({ message: 'User not found' });
+
+            user.password = await bcrypt.hash(tempPassword, 10);
+            await user.save();
+
+            res.json({ message: 'Password reseted' });
+        } catch (err) {
+            res.status(500).json({ message: err.message });
         }
     }
 

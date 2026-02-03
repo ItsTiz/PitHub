@@ -1,25 +1,25 @@
 <script setup>
-const props = defineProps({
-    speed: {
-        type: Number,
-        default: 0
-    },
-    rpms: {
-        type: Number,
-        default: 0
-    },
-    teamTheme: {
-        type: String,
-        default: ""
-    },
-});
+    defineProps({
+        speed: {
+            type: Number,
+            default: 0
+        },
+        rpms: {
+            type: Number,
+            default: 0
+        },
+        teamTheme: {
+            type: String,
+            default: ""
+        },
+    });
 </script>
 
 <template>
     <div class="d-flex flex-row align-center justify-space-around w-100 h-100">
-        <Card 
+        <UiCard
             class="h-100"
-            :borderColor="props.teamTheme"
+            :border-color="teamTheme"
             :textClasses="'flex-grow-1'"
         >
             <template #title>
@@ -47,11 +47,11 @@ const props = defineProps({
                     />
                 </div>
             </template>
-        </Card>
+        </UiCard>
 
-        <Card 
+        <UiCard
             class="h-100"
-            :borderColor="props.teamTheme"
+            :border-color="teamTheme"
             :textClasses="'flex-grow-1'"
         >
             <template #title>
@@ -67,7 +67,7 @@ const props = defineProps({
                 </div>
             </template>
             <template #text>
-               <SemiCircularGauge
+                <SemiCircularGauge
                     class="w-100"
                     :input="speed"
                     :uom="'km/h'"
@@ -77,7 +77,6 @@ const props = defineProps({
                     :max="378"
                 />
             </template>
-        </Card>
-
+        </UiCard>
     </div>
 </template>

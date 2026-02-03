@@ -1,30 +1,47 @@
+<script setup lang="ts">
+    import EventsLog from '../../components/pages-components/EventsLog.vue';
+
+</script>
+
 <template>
-    <v-container fluid class="h-100 d-flex flex-column bg-background">
+    <v-container
+        fluid
+        class="h-100 d-flex flex-column bg-background"
+    >
         <v-row class="flex-grow-0">
             <v-col :cols="12">
-                <Sheet class="h-100" :elevation="5">
-                    <template v-slot:default>
+                <UiSheet
+                    class="h-100"
+                    :elevation="5"
+                >
+                    <template #default>
                         <SimulationControl />
                     </template>
-                </Sheet>
+                </UiSheet>
             </v-col>
         </v-row>
 
         <v-row class="flex-grow-1">
             <v-col :cols="7">
-                <Sheet class="h-100" :elevation="5">
-                    <template v-slot:default>
+                <UiSheet
+                    class="h-100"
+                    :elevation="5"
+                >
+                    <template #default>
                         <SimulationTerminal />
                     </template>
-                </Sheet>
+                </UiSheet>
             </v-col>
 
             <v-col :cols="5">
-                <Sheet class="h-100" :elevation="5">
-                    <template v-slot:default>
-
+                <UiSheet
+                    class="h-100"
+                    :elevation="5"
+                >
+                    <template #default>
+                        <EventsLog />
                     </template>
-                </Sheet>
+                </UiSheet>
             </v-col>
         </v-row>
     </v-container>
