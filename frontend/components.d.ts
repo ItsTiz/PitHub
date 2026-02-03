@@ -22,7 +22,6 @@ declare module 'vue' {
     LinearGraph: typeof import('./src/components/pages-components/LinearGraph.vue')['default']
     NotFound: typeof import('./src/components/NotFound.vue')['default']
     OilPressure: typeof import('./src/components/pages-components/control-room/car-telemetry/OilPressure.vue')['default']
-    OilPressure: typeof import('./src/components/pages-components/control-room/car-telemetry/OilPressure.vue')['default']
     RaceLeaderboard: typeof import('./src/components/pages-components/control-room/race-view/RaceLeaderboard.vue')['default']
     RacePage: typeof import('./src/components/RacePage.vue')['default']
     RaceView: typeof import('./src/components/pages-components/control-room/race-view/RaceView.vue')['default']

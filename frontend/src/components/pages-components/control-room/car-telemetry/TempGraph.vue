@@ -5,19 +5,19 @@
 
     const props = defineProps({
         tempsArray: { type: Array, default: () => [] },
-        teamTheme: { type: String, default: "secondary" } 
-    icon: { type: String, default: "" },
-    belowLevelThreshold: { type: Number, default: 90 },
-    normalLevelThreshold: { type: Number, default: 150 },
-    overLevelThreshold: { type: Number, default: 185 },
-    graph_height: { type: Number, default: 50 },
-    maxSecondsScale: { type: Number, default: 10 },
+        teamTheme: { type: String, default: "secondary" } ,
+        icon: { type: String, default: "" },
+        belowLevelThreshold: { type: Number, default: 90 },
+        normalLevelThreshold: { type: Number, default: 150 },
+        overLevelThreshold: { type: Number, default: 185 },
+        graphHeight: { type: Number, default: 50 },
+        maxSecondsScale: { type: Number, default: 10 },
     });
 
     const theme = useTheme();
 
     const latestTemp = computed(() => {
-    if(props.tempsArrayy.length === 0) return 0;
+    if(props.tempsArray.length === 0) return 0;
     return props.tempsArray[props.tempsArray.length - 1];
     });
 

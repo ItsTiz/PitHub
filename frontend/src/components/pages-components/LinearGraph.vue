@@ -10,8 +10,8 @@
         borderColor: { type: String, default:"black" },
     	graphHeight: { type: Number, default: 50 },
         gradient: { type: Array, default: () => ["primary", "primary-darken-1"] },
-        lineWidth: { type: Number, default: 3 }
-    maxSecondsScale: { type: Number, default: 10 }
+        lineWidth: { type: Number, default: 3 },
+        maxSecondsScale: { type: Number, default: 10 }
     });
 
     const avg = computed(() => {
@@ -67,8 +67,6 @@
                 stroke-linecap="round"
             >
                 <template #label="item"> -{{ props.maxSecondsScale-item.index }}s </template>
-                    -{{ 10-item.index }}s
-                </template>
             </v-sparkline>
         </template>
     </v-card>

@@ -91,7 +91,6 @@
     });
 
     onMounted(() => {
-        console.log("prontooooooooooooooooo")
         mountMainAnimation();
     });
 

@@ -75,36 +75,38 @@ const teamColor = computed(() => {
             </v-col>
 
             <v-col :cols="cols[1]">
-                <UiSheet
-                    class="h-100 ma-2"
-                        <v-container fluid class="d-flex flex-column h-100">
-                            
-                            <v-row no-gutters class="flex-grow-1 flex-shrink-1 w-100" style="min-height: 0;">
-                                <v-col cols="12" class="h-100">
-                                    <TempGraph
-                                        class="pa-0 ma-0"
-                                        :name="'Oil Temperature'"
-                                        :icon="'mdi-oil-temperature'"
-                                        :uom="'C°'"
-                                        :temps-array="oil_temp_values"
-                                        :team-theme="teamColor"
-                                    />
-                                </v-col>
-                            </v-row>
+                <template #default>
+                    <UiSheet
+                        class="h-100 ma-2"
+                    >
+                            <v-container fluid class="d-flex flex-column h-100">
+                                
+                                <v-row no-gutters class="flex-grow-1 flex-shrink-1 w-100" style="min-height: 0;">
+                                    <v-col cols="12" class="h-100">
+                                        <TempGraph
+                                            class="pa-0 ma-0"
+                                            :name="'Oil Temperature'"
+                                            :icon="'mdi-oil-temperature'"
+                                            :uom="'C°'"
+                                            :temps-array="oil_temp_values"
+                                            :team-theme="teamColor"
+                                        />
+                                    </v-col>
+                                </v-row>
 
-                            <v-row no-gutters class="h-25 flex-grow-0 flex-shrink-0 w-100">
-                                <v-col cols="12" class="h-100">
-                                    <OilPressure
-                                        class="pa-0 ma-0"
-                                        :oil_pressure="carData.oil_pressure"
-                                        :teamTheme="teamColor"
-                                    />
-                                </v-col>
-                            </v-row>
+                                <v-row no-gutters class="h-25 flex-grow-0 flex-shrink-0 w-100">
+                                    <v-col cols="12" class="h-100">
+                                        <OilPressure
+                                            class="pa-0 ma-0"
+                                            :oil-pressure="carData.oil_pressure"
+                                            :teamTheme="teamColor"
+                                        />
+                                    </v-col>
+                                </v-row>
 
-                        </v-container>
-                    </template>
-                </UiSheet>
+                            </v-container>
+                        </UiSheet>
+                </template>
             </v-col>
         </v-row>
 
@@ -118,8 +120,9 @@ const teamColor = computed(() => {
                         <TiresStatus 
                             :front-left-health="carData.tire_health_fl"
                             :front-right-health="carData.tire_health_fr"
-                            :tire-type="carData.tire_type"
+                            :rear-left-health="carData.tire_health_rl"
                             :rear-right-health="carData.tire_health_rr"
+                            :tire-type="carData.tire_type"
                             :team-theme="teamColor"
                         />
                     </template>
@@ -127,20 +130,22 @@ const teamColor = computed(() => {
             </v-col>
 
             <v-col :cols="cols[1]">
+                <template #default> 
                 <UiSheet
                     class="h-100 ma-2"
+                >
                         <div class="d-flex flex-row align-items w-100">
                             <TempGraph
                                 class="flex-grow-1 w-100 ma-4"
                                 :name="'Brake Temperature'"
                                 :icon="'mdi-car-brake-temperature'"
                                 :uom="'C°'"
-                                :temp_array="brake_temp_values"
-                                :teamTheme="teamColor"
-                                :graph_height="100"
-                                :below_level_threshold="300"
-                                :normal_level_threshold="500"
-                                :over_level_threshold="900"
+                                :temps-array="brake_temp_values"
+                                :team-theme="teamColor"
+                                :graph-height="100"
+                                :below-level-threshold="300"
+                                :normal-level-threshold="500"
+                                :over-level-threshold="900"
                                 :maxSecondsScale="5"
                             />
     
@@ -151,8 +156,8 @@ const teamColor = computed(() => {
                                 :team-theme="teamColor"
                             />
                         </div>
-                    </template>
-                </UiSheet>
+                    </UiSheet>
+                </template>
             </v-col>
         </v-row>
     </v-container>
