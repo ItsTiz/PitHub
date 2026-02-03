@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 
 export const useNotificationsStore = defineStore('notifications', () => {
   const notifications = ref([])
@@ -25,12 +26,15 @@ export const useNotificationsStore = defineStore('notifications', () => {
     notifications.value = notifications.value.filter(n => n.timestamp !== timestamp)
 }
 
-  function connect(userId) {
-    const es = new EventSource(`http://localhost:3000/notifications?userId=${userId}`)
-    es.onmessage = e => add(JSON.parse(e.data))
-    es.onerror = () => es.close()
-    return es
-  }
+function connect() {
+  const token = useAuthStore().token
+  if (!token) return
+
+  const es = new EventSource(`http://localhost:3000/notifications?token=${token}`)
+  es.onmessage = e => add(JSON.parse(e.data))
+  es.onerror = () => es.close()
+  return es
+}
 
   return {
     notifications,

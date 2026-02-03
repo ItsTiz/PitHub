@@ -1,8 +1,17 @@
+import jwt from 'jsonwebtoken';
 const eventSenders = new Map();
 
 const sseMiddleware = (req, res, next) => {
-  req.user = { _id: req.query.userId || 'test-user' };
-  next();
+  const token = req.query.token || req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).end('Unauthorized');
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = { _id: decoded.id };
+    next();
+  } catch (err) {
+    res.status(401).end('Invalid token');
+  }
 };
 
 const handleSSE = (req, res) => {

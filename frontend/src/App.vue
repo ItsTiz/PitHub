@@ -7,7 +7,9 @@
     import { useRaceStore } from "@/stores/race";
     import { socket } from "@/socket";
     import { useNotificationsStore } from '@/stores/notifications'
+    import { useAuthStore } from '@/stores/auth'
 
+    const auth = useAuthStore()
     const appStore = useAppStore();
     const connectionStore = useConnectionStore();
     const raceStore = useRaceStore();
@@ -22,7 +24,9 @@
         raceStore.initListeners();
 
         connectionStore.connect();
-        notifStore.connect('test-user')
+        if (auth.isAuthenticated && auth.token) {
+            notifStore.connect();
+        }
     });
 
     onUnmounted(() => {
