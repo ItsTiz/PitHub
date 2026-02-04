@@ -4,10 +4,7 @@
 </script>
 
 <template>
-    <v-container
-        fluid
-        class="h-100 d-flex flex-column bg-background"
-    >
+   <v-container fluid class="h-100 d-flex flex-column bg-background overflow-hidden">
         <v-row class="flex-grow-0">
             <v-col :cols="12">
                 <UiSheet
@@ -21,7 +18,7 @@
             </v-col>
         </v-row>
 
-        <v-row class="flex-grow-1">
+        <v-row class="flex-grow-1 fill-height overflow-hidden">
             <v-col :cols="7">
                 <UiSheet
                     class="h-100"
@@ -33,14 +30,9 @@
                 </UiSheet>
             </v-col>
 
-            <v-col :cols="5">
-                <UiSheet
-                    class="h-100"
-                    :elevation="5"
-                >
-                    <template #default>
-                        <EventsLog />
-                    </template>
+            <v-col :cols="5" class="d-flex flex-column overflow-hidden">
+                <UiSheet class="flex-grow-1 overflow-y-auto" :elevation="5">
+                   <EventsLog class="h-100 w-100 overflow-y-auto" style="max-height: 100%;" />
                 </UiSheet>
             </v-col>
         </v-row>

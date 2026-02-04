@@ -1,6 +1,6 @@
 <script setup>
     import { computed, onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router'
+    import { useRoute, useRouter } from 'vue-router'
     import { useAppStore } from '../../stores/app';
     import { useAuthStore } from '@/stores/auth'
     import { getLogoForTeam } from '../../composables/utils/teams-logos'
@@ -8,11 +8,11 @@ import { useRoute, useRouter } from 'vue-router'
 
     const appStore = useAppStore();
     const auth = useAuthStore()
-const route = useRoute()
-    const router = useRouter()
+    const route = useRoute()
+    const router = useRouter()  
     const pageIndex = ref(0)
 
-const views = ['telemetry', 'race', 'comms', 'profile']
+const views = ['telemetry', 'telemetry2', 'race', 'profile']
 
 const isAdminLogged = computed(() => {
     return auth.user?.role === 'admin';
@@ -54,43 +54,55 @@ const teamColorDarkened = computed(() => {
         appStore.toggleTheme();
     }
 
-    const selectView = (index) => {
+const selectView = (index) => {
         pageIndex.value = index
         const view = views[index] || 'telemetry'
+
+        if (view === 'profile') {
+            router.push(`/profile`)
+            return;
+        }
+
+        router.push({
+            path: `/controlroom/${view}`,
+            query: isAdminLogged.value ? { team: activeTeamName.value } : undefined
+        });
+    }
+
+const navItems = computed(() => {
+    const items = [];
+
+    const cars = (auth.user?.cars || [])
+
+
+items.push({
+                type: 'car0',
+                icon: typeof cars[0].number === 'number'  ? `mdi-numeric-${cars[0].number}-circle-outline` : 'mdi-car'
+            });
+            items.push({
+                type: 'car1',
+                icon: typeof cars[1].number === 'number'  ? `mdi-numeric-${cars[1].number}-circle-outline` : 'mdi-car'
+            });
+        items.push({ type: 'race', icon: 'mdi-go-kart-track' })
+        items.push({ type: 'profile', icon: 'mdi-account-circle' })
+    console.log(items);
+    return items;
     
-    if(view === 'profile') {
-        router.push(`/profile`)
-        return;
-    }
-
-    router.push({
-        path: `/controlroom/${view}`,
-        query: isAdminLogged.value ? { team: activeTeamName.value } : undefined
-    });
-    }
-
-const getIcon = (index) => {
-    const icons = [
-        'mdi-gauge-low', 
-        'mdi-go-kart-track', 
-        'mdi-radio-tower', 
-        'mdi-account-circle'
-    ];
-    return icons[index] || 'mdi-help-circle';
-    }
+})
 
     onMounted(() => {
         const path = router.currentRoute.value.path;
         const splitted = path.split("/")
         const last = splitted[splitted.length - 1];
-        switch(last){
+        
+        switch(last){ 
             case "telemetry":
                 pageIndex.value = 0;
                 return;
-            case "race":
+            case "telemetry2":
                 pageIndex.value = 1;
-                return;
-            case "comms":
+                return;    
+            case "race":
                 pageIndex.value = 2;
                 return;
             case "profile":
@@ -126,15 +138,15 @@ const getIcon = (index) => {
             <v-divider />
 
             <div class="flex-grow-1 d-flex flex-column align-center justify-center">
-                <v-avatar
-                    v-for="n in 4"
-                    :key="n"
-                    :color="n === (pageIndex + 1) ? 'surface ': 'surface-variant'"
-                    :size="n === (pageIndex + 1 )? 48 : 38"
-                    :icon="getIcon(n-1)"
+               <v-avatar
+                    v-for="(item, index) in navItems"
+                    :key="index"
+                    :color="pageIndex === index ? 'surface' : 'surface-variant'"
+                    :size="pageIndex === index ? 48 : 38"
+                    :icon="item.icon"
                     class="mb-8 cursor-pointer bg-background"
-                    @click="selectView(n-1)"
-                />
+                    @click="selectView(index)"
+                    />
             </div>
 
             <div class="d-flex justify-center">

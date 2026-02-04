@@ -7,6 +7,7 @@ export const useTelemetryStore = defineStore("telemetry", {
 
     state: () => ({
         carData: {},
+        carData2: {},
         isListening: false // prevents double-binding
     }),
 
@@ -20,7 +21,8 @@ export const useTelemetryStore = defineStore("telemetry", {
 
             socket.on("telemetry:update", (data) => {
                 if (import.meta.env.VITE_ENABLE_DEBUGGING === 'true') console.log("[telemetry-store] received data: ", data);
-                this.carData = data;
+                this.carData = data.carData1;
+                this.carData2 = data.carData2;
             });
 
             this.isListening = true;
@@ -49,6 +51,7 @@ export const useTelemetryStore = defineStore("telemetry", {
             });
 
             this.carData = {};
+            this.carData2 = {};
         },
 
         handleRequestResponse(err, response) {

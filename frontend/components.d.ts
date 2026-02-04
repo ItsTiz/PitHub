@@ -11,6 +11,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AddUserDialog: typeof import('./src/components/pages-components/sysadmin/AddUserDialog.vue')['default']
     AdminAppNav: typeof import('./src/components/sections/AdminAppNav.vue')['default']
     AppFooter: typeof import('./src/components/sections/AppFooter.vue')['default']
     AppHeader: typeof import('./src/components/sections/AppHeader.vue')['default']
@@ -25,6 +26,7 @@ declare module 'vue' {
     RaceLeaderboard: typeof import('./src/components/pages-components/control-room/race-view/RaceLeaderboard.vue')['default']
     RacePage: typeof import('./src/components/RacePage.vue')['default']
     RaceView: typeof import('./src/components/pages-components/control-room/race-view/RaceView.vue')['default']
+    ResetPasswordDialog: typeof import('./src/components/pages-components/sysadmin/ResetPasswordDialog.vue')['default']
     RightSidePanel: typeof import('./src/components/pages-components/control-room/race-view/RightSidePanel.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -34,6 +36,7 @@ declare module 'vue' {
     TeamAppNav: typeof import('./src/components/sections/TeamAppNav.vue')['default']
     TempGraph: typeof import('./src/components/pages-components/control-room/car-telemetry/TempGraph.vue')['default']
     TiresStatus: typeof import('./src/components/pages-components/control-room/car-telemetry/TiresStatus.vue')['default']
+    Toast: typeof import('./src/components/Toast.vue')['default']
     UiButton: typeof import('./src/components/controls/UiButton.vue')['default']
     UiCard: typeof import('./src/components/containers/UiCard.vue')['default']
     UiCombobox: typeof import('./src/components/controls/UiCombobox.vue')['default']
