@@ -89,7 +89,7 @@ const teamColor = computed(() => {
 
                 <v-divider class="my-6" />
 
-                <v-card-subtitle class="text-h6 mb-4">
+                <v-card-subtitle class="text-h6 mb-4"> 
                     Change password
                 </v-card-subtitle>
 

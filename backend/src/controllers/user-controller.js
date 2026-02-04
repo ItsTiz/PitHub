@@ -2,6 +2,8 @@ import userModel from '../models/user.js';
 import BaseController from './base-controller.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import Car from '../models/car.js';
+import Driver from '../models/driver.js';
 
 // export const authMiddleware = async (req, res, next) => {
 //   const authHeader = req.headers.authorization;
@@ -84,34 +86,72 @@ class UserController extends BaseController {
 
 
     async login(req, res) {
-        try {
-            const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
+    const user = await this._schemaModel.findOne({ email })
+      .select('+password +role')
+      .populate('team');
+    if (!user) return res.status(401).json({ message: 'Invalid credentials' });
 
-            const user = await this._schemaModel.findOne({ email }).select('+password +role').populate('team');
-            if (!user) return res.status(401).json({ message: 'Invalid credentials' });
-            const isMatch = await bcrypt.compare(password, user.password);
-            if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
 
-            const token = jwt.sign(
-                { id: user._id, email: user.email, role: user.role },
-                process.env.JWT_SECRET,
-                { expiresIn: '1d' }
-            );
-
-            res.json({
-                message: 'Login successful',
-                token,
-                user: {
-                    id: user._id,
-                    email: user.email,
-                    role: user.role,
-                    team: user.team
-                }
-            });
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
+    let cars = [];
+    try {
+      cars = await Car.find({ team: user.team?._id }).lean();
+      console.log('Cars found:', cars);
+    } catch (carErr) {
+      console.error('Errore Car.find:', carErr);
     }
+
+    let drivers = [];
+    const driverIds = cars.map(c => c.driver).filter(id => id);
+    if (driverIds.length > 0) {
+      try {
+        drivers = await Driver.find({ _id: { $in: driverIds } }).lean();
+        console.log('Drivers found:', drivers);
+      } catch (driverErr) {
+        console.error('Errore Driver.find:', driverErr);
+      }
+    }
+
+   const driverMap = new Map(drivers.map(d => [d._id.toString(), d]));
+    console.log(driverMap)
+
+    const enrichedCars = cars.map(car => {
+      const driver = driverMap.get(car.driver.toString());
+      return {
+        ...car,
+        number: driver?.number || 'N/A',
+        driverName: driver?.full_name || 'Unknown'
+      };
+    });
+
+    const token = jwt.sign(
+      { id: user._id, name: user.name, email: user.email, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+
+    console.log('Enriched cars:', enrichedCars);
+
+    res.json({
+      message: 'Login successful',
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        team: user.team,
+        cars: enrichedCars
+      }
+    });
+  } catch (error) {
+    console.error('Errore in login:', error);
+    res.status(500).json({ message: error.message });
+  }
+}
 
     async changePassword(req, res) {
         try {

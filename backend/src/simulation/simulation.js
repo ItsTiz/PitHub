@@ -32,7 +32,7 @@ const stopSimulation = () => {
 const broadcastTelemetryData = (io) => {
     const teams = [...new Set(carsRacing.map(car => car.team))];
     teams.forEach(team => {
-        const teamTelemetry = assembleTelemetryData();
+        const teamTelemetry = {carData1: assembleTelemetryData(), carData2: assembleTelemetryData()};
         const room = TelemetryEvent.ROOM_PREFIX + TelemetryEvent.getRoomName(team);
         io.to(room).emit(TelemetryEvent.UPDATE, teamTelemetry);
     });
