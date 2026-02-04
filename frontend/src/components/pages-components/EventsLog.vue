@@ -42,10 +42,11 @@ function getColor(type) {
 
 <template>
   <UiSheet
-    :elevation="2"
-    :backgroundColor="'surface'"
-    :roundedRadius="'lg'"
-    :sheetClasses="'h-100 w-100 d-flex flex-column pa-3 overflow-y-auto'"
+   :elevation="2"
+  :backgroundColor="'surface'"
+  :roundedRadius="'lg'"
+  :sheetClasses="'w-100 d-flex flex-column pa-3 overflow-hidden'"
+  style="height:100%; min-height:0;"
   >
     <div class="d-flex align-center mb-2">
       <v-icon start color="primary">mdi-history</v-icon>
@@ -62,7 +63,7 @@ function getColor(type) {
 
     <v-divider class="mb-2" />
 
-    <v-list density="compact" class="flex-grow-1 overflow-y-auto">
+   <v-list density="compact" class="flex-grow-1 overflow-y-auto"  style="max-height: 1000px;">
       <v-list-item
         v-for="ev in events"
         :key="ev.timestamp"

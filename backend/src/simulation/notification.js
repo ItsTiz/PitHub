@@ -103,8 +103,6 @@ export async function generateNotifications(cars) {
 
   if (events.length === 0) return;
 
-  console.log('[NOTIF] Generated events:', events);
-
   const users = await User.find().lean().select('_id role team');
 
   users.forEach(user => {
@@ -115,12 +113,12 @@ export async function generateNotifications(cars) {
         return ['lap_completed', 'incident', 'safety_car', 'red_flag', 'pit_stop', 'overtake'].includes(ev.type);
       }
 
-      if (user.role === 'team') {
-        return ev.carId && cars.some(c => 
-          c._id.toString() === ev.carId && 
-          c.team?.toString() === user.team?.toString()
+     if (user.role === 'team') {
+        return ev.carId && cars.some(c =>
+            c._id.toString() === ev.carId &&
+            c.team?._id.toString() === user.team?.toString()
         );
-      }
+        }
 
       return false;
     });
