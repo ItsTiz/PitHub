@@ -1,11 +1,9 @@
 <script setup>
     import { ref, onMounted } from 'vue'
-    import { useRouter } from 'vue-router'
     import axios from 'axios'
 
     const users = ref([])
     const loading = ref(false)
-    const router = useRouter()
 
     onMounted(async () => {
         loading.value = true
@@ -96,7 +94,9 @@
         <UiSheet :sheetClasses="'pa-0'">   
                 <v-data-table
                     :headers="[
+                        { title: 'Name', key: 'name' },
                         { title: 'Email', key: 'email' },
+                        { title: 'Team', key: 'team' },
                         { title: 'Role', key: 'role' },
                         { title: 'Actions', key: 'actions', sortable: false }
                     ]"

@@ -43,7 +43,8 @@ const carSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
-   email: {type: String, required: true, unique: true, lowercase: true, trim: true},
+    name: { type: String, required: true, unique: true, trim: true },
+    email: {type: String, required: true, unique: true, lowercase: true, trim: true},
     password: {type: String, required: true, minlength: 6, select: false},
     role: {type: String, enum: ['user', 'admin', 'team'], default: 'user'},
     team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
@@ -186,6 +187,7 @@ const seedDB = async () => {
         let totalTeams = 0, totalDrivers = 0, totalCars = 0, totalUsers = 0;
 
         const admin = {
+            name: 'Admin',
             email: 'admin@f1.com',
             password: await bcrypt.hash('password', 10),
             role: 'admin'
@@ -199,10 +201,12 @@ const seedDB = async () => {
 
             // Logic: Convert "Toto Wolff" -> "toto.wolff@pithub.com"
             const principalEmail = data.team.team_principal.toLowerCase().replace(/\s+/g, '.') + '@pithub.com';
+            const principalName = data.team.team_principal;
             
             const teamPassword = await bcrypt.hash(data.team.name.toLowerCase().replaceAll(' ', '').concat(data.team.joined_year.toString()),10);
 
             await User.create({
+                name: principalName,
                 email: principalEmail,
                 password: teamPassword,
                 role: 'team',
