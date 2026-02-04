@@ -11,7 +11,10 @@
         auth.logout()
         router.push('/login')
     }
-
+    const profile = () => {
+           router.push('/profile')
+            return;
+        }
 </script>
 
 <template>
@@ -20,6 +23,14 @@
         height="45"
     > 
         <v-toolbar-title> {{ title }}</v-toolbar-title>
+        <UiButton 
+            :background-color="'primary'"
+            :text-color="'on-surface'"
+            :icon="'mdi-account-circle'"
+            :icon-only="true"
+            :variant="'text'"
+            @click="profile()"
+        />
         <UiButton 
             :background-color="'primary'"
             :text-color="'on-surface'"

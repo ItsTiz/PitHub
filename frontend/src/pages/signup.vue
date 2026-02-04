@@ -6,6 +6,7 @@
     const auth = useAuthStore()
     const router = useRouter()
 
+    const name = ref('')
     const email = ref('')
     const password = ref('')
     const confirmPassword = ref('')
@@ -36,6 +37,7 @@
             loading.value = true
 
             const payload = {
+                name: name.value,
                 email: email.value.trim(),
                 password: password.value
             }
@@ -52,8 +54,8 @@
                 auth.redirectByRole(router)
             } else {
                 success.value = `User ${email.value} created successfully with role: ${role.value}`
-                // Todo optional
                 router.push('/sysadmin')
+                name.value= ''
                 email.value = ''
                 password.value = ''
                 confirmPassword.value = ''
@@ -85,6 +87,16 @@
                 lazy-validation
                 @submit.prevent="submit"
             >
+             <v-text-field
+                    v-model="name"
+                    label="Name"
+                    type="name"
+                    prepend-inner-icon="mdi-text"
+                    :rules="[
+                        v => !!v || 'Name is required'
+                    ]"
+                    required
+                />
                 <v-text-field
                     v-model="email"
                     label="Email"
