@@ -52,11 +52,12 @@
 </script>
 
 <template>
-    <v-container>
+    <v-container fluid class="d-flex justify-center align-center h-100">
         <UiSheet   :elevation="2"
             :backgroundColor="'surface'"
             :roundedRadius="'lg'"
-            :sheetClasses="'w-100 d-flex flex-column pa-3 overflow-hidden'">
+            :sheetClasses="'w-100 d-flex flex-column pa-3 overflow-hidden'"
+            style="max-width: 1000px;">
              
             <v-card>
                 <v-card-title class="text-h5 mb-6">
