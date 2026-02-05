@@ -4,7 +4,7 @@
             type: Number,
             default: 0
         },
-        rpms: {
+        rpm: {
             type: Number,
             default: 0
         },
@@ -30,15 +30,15 @@
                             size="25"
                         />
                     </span>
-                    <span class="ml-2 text-subtitle-1 text-secondary text-uppercase font-weight-bold">RPMS</span>
+                    <span class="ml-2 text-subtitle-1 text-secondary text-uppercase font-weight-bold">RPM</span>
                 </div>
             </template>
             <template #text>
                 <div class="d-flex align-center justify-center">
                     <SemiCircularGauge
                         class="w-100"
-                        :input="rpms"
-                        :uom="'rpms'"
+                        :input="rpm"
+                        :uom="'rpm'"
                         :size="350"
                         :width="35"
                         :min="3000"

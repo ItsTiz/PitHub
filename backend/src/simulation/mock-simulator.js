@@ -43,7 +43,7 @@ const assembleTelemetryData = () => {
 
     const data = {
         speed: getRandomBetween(0, 378), // km/h – 0 (pit/standstill) to ~378 (absolute top speed record)
-        rpms: getRandomBetween(3000, 15000), // Current engines limited to 15,000 rpm redline
+        rpm: getRandomBetween(3000, 15000), // Current engines limited to 15,000 rpm redline
 
         tire_health_fl: getRandomBetween(0, 100),
         tire_health_fr: getRandomBetween(0, 100),

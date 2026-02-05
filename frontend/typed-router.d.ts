@@ -36,6 +36,7 @@ declare module 'vue-router/auto-routes' {
     '/sysadmin/profile': RouteRecordInfo<'/sysadmin/profile', '/sysadmin/profile', Record<never, never>, Record<never, never>>,
     '/sysadmin/simulation': RouteRecordInfo<'/sysadmin/simulation', '/sysadmin/simulation', Record<never, never>, Record<never, never>>,
     '/sysadmin/users': RouteRecordInfo<'/sysadmin/users', '/sysadmin/users', Record<never, never>, Record<never, never>>,
+    '/teams': RouteRecordInfo<'/teams', '/teams', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -119,6 +120,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/sysadmin/users.vue': {
       routes: '/sysadmin/users'
+      views: never
+    }
+    'src/pages/teams.vue': {
+      routes: '/teams'
       views: never
     }
   }

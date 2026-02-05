@@ -67,7 +67,7 @@
                     <template #default>
                         <CarOdometer 
                             :speed="carData.speed"
-                            :rpms="carData.rpms"
+                            :rpm="carData.rpm"
                             :team-theme="teamColor"
                         />
                     </template>
