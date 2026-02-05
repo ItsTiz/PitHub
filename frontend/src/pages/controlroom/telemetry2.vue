@@ -7,7 +7,7 @@
 
 <template>
     <TelemetryPage
-        :carData="carData2"
+        :car-data="carData2"
     />
 </template>
 

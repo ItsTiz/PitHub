@@ -1,11 +1,9 @@
 <script setup>
     import { watch, computed, ref } from 'vue'
     import { useRoute } from 'vue-router' 
-    import { useTelemetryStore } from "@/stores/car-telemetry";
     import { useDisplay } from 'vuetify'
     import { getTeamColor } from '../../composables/utils/teams-colors'
     import { useAuthStore } from '../../stores/auth';
-    import { storeToRefs } from "pinia";
     const auth = useAuthStore()
     const route = useRoute();
 
