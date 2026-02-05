@@ -21,7 +21,7 @@
 
     onMounted(async () => {
         try {
-            const res = await axios.get('http://localhost:3000/v1/teams')
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/v1/teams`)
             teams.value = res.data
         } catch (err) {
             console.error(err)
@@ -41,12 +41,12 @@
         loading.value = true
 
         try {
-            await axios.post('http://localhost:3000/v1/users', {
+            await axios.post(`${import.meta.env.VITE_API_URL}/v1/users`, {
                 email: email.value,
                 password: password.value,
                 role: role.value,
                 team: role.value === 'team' ? teamId.value : undefined
-            })
+            });
             showToast('User added successfully', 'success')
             emit('added')
             emit('update:modelValue', false)

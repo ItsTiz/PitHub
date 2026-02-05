@@ -1,0 +1,62 @@
+services:
+
+  mongo:
+    image: mongo:7
+    container_name: pithub-mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pithub
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      - ./backend/db/import:/docker-entrypoint-initdb.d:ro
+    command: ["mongod", "--bind_ip_all"]
+
+  mongo-express:
+    depends_on:
+      - mongo
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://root:pithub@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+
+  seeder:
+    build: ./backend
+    container_name: pithub-seeder
+    depends_on:
+      - mongo
+    environment:
+      DB_URI: mongodb://root:pithub@mongo:27017/pithub?authSource=admin
+    command: ["node", "src/config/db-seed.js"]
+
+  backend:
+    build: ./backend
+    container_name: pithub-backend
+    restart: always
+    env_file:
+      - ./backend/.env
+    environment:
+      DB_URI: mongodb://root:pithub@mongo:27017/pithub?authSource=admin
+    ports:
+      - "3000:3000"
+    depends_on:
+      - seeder
+
+  frontend:
+    build: ./frontend
+    container_name: pithub-frontend
+    restart: always
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:

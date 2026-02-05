@@ -9,8 +9,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-       - mongo-data:/data/db 
-       - ./import:/docker-entrypoint-initdb.d:ro
+       - mongo-data:/data/db
 
   mongo-express:
     depends_on:

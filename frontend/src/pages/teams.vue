@@ -20,7 +20,7 @@
     }
     onMounted(async () => {
         try {
-            const res = await axios.get('http://localhost:3000/v1/teams')
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/v1/teams`)
             teams.value = res.data
         } catch (err) {
             console.error('Errore caricamento teams:', err)

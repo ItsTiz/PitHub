@@ -73,7 +73,7 @@
 
     const getTeamByName = async () => {
         try {
-            const res = await axios.get(`http://localhost:3000/v1/teams/search/name/${activeTeamName.value}`);
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/v1/teams/search/name/${activeTeamName.value}`);
             return res.data
         } catch (err) {
             console.error(err)
@@ -87,7 +87,7 @@
             const team = await getTeamByName();
             let res;
             if(team){
-                res = await axios.get(`http://localhost:3000/v1/cars/search/team/${team._id}`);
+                res = await axios.get(`${import.meta.env.VITE_API_URL}/v1/cars/search/team/${team._id}`);
             } 
 
             return res?.data

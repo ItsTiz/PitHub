@@ -1,10 +1,10 @@
 import { io } from "socket.io-client";
 import { useAuthStore } from './stores/auth'
 
-//add the notification 
-
-export const socket = io(import.meta.env.VITE_SERVER_URL, {  
-    autoConnect: false ,
+export const socket = io({ 
+    path: '/socket.io',
+    autoConnect: false,
+    transports: ['websocket', 'polling'],
     auth: (callBack) => {
         const auth = useAuthStore()
         callBack({ token: auth.token })    

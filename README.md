@@ -1,33 +1,18 @@
 # PitHub
 Applications and Web Services exam project.
 
-## Project Setup
+## Project Setup & Deployment
 
-In both folders ```./backend``` and ```./frontend``` run:
+The entire application stack (Frontend, Backend, Database, and Admin Tools) is containerized using Docker.
 
-```sh
-npm install
-```
+### Prerequisites
 
-### Starting the DB
+* **Docker Desktop** (or Docker Engine + Docker Compose plugin) installed and running.
 
-Navigate to ```./backend/db``` and run:
+### Quick Start (Recommended)
 
-```sh
-docker compose up
-```
-
-### Starting Backend Server
-To start the server, navigate to ```./backend``` and run:
+1.  Open your terminal in the project root folder.
+2.  Run the command:
 
 ```sh
-npm run start
-```
-
-### Starting Client - compile and hot-reload for development
-
-For the frontend side, navigate to ```./frontend``` and run:
-
-```sh
-npm run dev
-```
+docker compose up --build

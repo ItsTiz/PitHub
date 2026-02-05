@@ -27,12 +27,13 @@ export const useNotificationsStore = defineStore('notifications', () => {
     }
 
     function connect() {
+        console.log(token)
         const token = useAuthStore().token
         if (!token) return
 
-        const es = new EventSource(`http://localhost:3000/notifications?token=${token}`)
-        es.onmessage = e => add(JSON.parse(e.data))
-        es.onerror = () => es.close()
+        const es = new EventSource(`/notifications?token=${token}`)
+        es.onmessage = e => {add(JSON.parse(e.data))}
+        es.onerror = () => {es.close()}
         return es
     }
 
