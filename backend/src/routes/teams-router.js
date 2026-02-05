@@ -4,7 +4,7 @@ import controller from '../controllers/teams-controller.js';
 const teamsRouter = express.Router();
 
 teamsRouter.route('/')
-    .get(controller.listElements)
+    .get(controller.listTeamsWithDrivers)
     .post(controller.createElements);
 
 teamsRouter.route('/:id')
