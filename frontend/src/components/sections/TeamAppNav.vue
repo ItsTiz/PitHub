@@ -121,7 +121,7 @@
 
         items.push({ type: 'race', icon: 'mdi-go-kart-track' })
         if(!isAdminLogged.value){
-             items.push({ type: 'profile', icon: 'mdi-account-circle' })
+            items.push({ type: 'profile', icon: 'mdi-account-circle' })
         }
         return items;
     
