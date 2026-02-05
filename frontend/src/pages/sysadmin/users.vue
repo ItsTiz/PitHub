@@ -10,7 +10,7 @@
     onMounted(async () => {
         loading.value = true
         try {
-            const res = await axios.get('http://localhost:3000/v1/users', {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/v1/users`, {
                 headers: { 'Cache-Control': 'no-cache' }
             })
             users.value = res.data
@@ -34,12 +34,9 @@
 
     async function deleteUser() {
         try {
-            await axios.delete(`http://localhost:3000/v1/users/${userToDelete.value}`)
-
-            users.value = users.value.filter(u => u._id !== userToDelete.value)
-
-            showToast('User deleted', 'success')
-
+            await axios.delete(`${import.meta.env.VITE_API_URL}/v1/users/${id}`)
+            users.value = users.value.filter(u => u._id !== id)
+             showToast('User deleted', 'success')
         } catch (err) {
             console.error(err)
             showToast('Error deleting user', 'error')
@@ -55,7 +52,7 @@
     async function fetchUsers() {
         loading.value = true
         try {
-            const res = await axios.get('http://localhost:3000/v1/users')
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/v1/users`)
             users.value = res.data
         } catch (err) {
             console.error(err)
@@ -70,7 +67,7 @@
 
     async function handleReset(newPassword) {
         try {
-            await axios.post('http://localhost:3000/v1/users/admin-reset-password', {
+            await axios.post(`${import.meta.env.VITE_API_URL}/v1/users/admin-reset-password`, {
                 userId: currentUserId.value,
                 tempPassword: newPassword
             })

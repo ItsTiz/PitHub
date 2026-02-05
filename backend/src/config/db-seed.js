@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 // --- 1. CONFIGURATION ---
-const MONGO_URI = 'mongodb://root:pithub@localhost:27017/pithub?authSource=admin';
+const MONGO_URI = 'mongodb://root:pithub@mongo:27017/pithub?authSource=admin';
 
-// --- 2. SCHEMAS (Strictly matching your provided definitions) ---
+// --- 2. SCHEMAS ---
 
 const teamSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -67,7 +67,7 @@ const User = mongoose.model('User', userSchema);
 const gridData = [
     {
         // Ferrari
-        team: { name: 'Ferrari', full_name: 'Scuderia Ferrari HP', joined_year: 1950, nationality: 'Italian', headquarters: 'Maranello', team_principal: 'Frédéric Vasseur' },
+        team: { name: 'Ferrari', full_name: 'Scuderia Ferrari HP', joined_year: 1950, nationality: 'Italian', headquarters: 'Maranello', team_principal: 'Frederic Vasseur' },
         car: { model: 'SF-26', engine: 'Ferrari' },
         drivers: [
             { full_name: 'Charles Leclerc', number: 16, dob: 1997, nationality: 'Monegasque', height: 180, weight: 69 },
@@ -221,23 +221,19 @@ const seedDB = async () => {
             });
             totalUsers++;
 
-            // 2. Loop Drivers
             for (const driverInfo of data.drivers) {
 
-                // Create Driver linked to Team
                 const driver = await Driver.create({
-                    ...driverInfo, // full_name, dob, nationality, height, weight
+                    ...driverInfo,
                     team: team._id
                 });
                 totalDrivers++;
 
-                // Create Car linked to Team AND Driver
                 await Car.create({
                     model: data.car.model,
                     engine_manufacturer: data.car.engine,
                     team: team._id,
                     driver: driver._id,
-                    // Use default weights from Schema, set specific specs
                     specs: {
                         max_speed_kmh: data.perf.speed,
                         acceleration_0_100_s: data.perf.accel,

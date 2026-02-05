@@ -14,9 +14,9 @@ const initIoServer = (httpServer) => {
         httpServer,
         {
             cors: {
-                // TODO Vue frontend, can it be changed?
-                origin: "http://localhost:5173"
-            }
+                origin: "*"
+            },
+            transports: ['websocket', 'polling']
         }
     );
 
