@@ -27,11 +27,10 @@ export const useNotificationsStore = defineStore('notifications', () => {
     }
 
     function connect() {
-        console.log(token)
         const token = useAuthStore().token
         if (!token) return
 
-        const es = new EventSource(`/notifications?token=${token}`)
+        const es = new EventSource(`${import.meta.env.VITE_API_URL}/notifications?token=${token}`)
         es.onmessage = e => {add(JSON.parse(e.data))}
         es.onerror = () => {es.close()}
         return es

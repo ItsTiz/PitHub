@@ -14,7 +14,8 @@
     "license": "MIT",
     "description": "Backend API for PitHub - Formula1 Simulator with Express.js and MongoDB",
     "scripts": {
-        "start": "node main.js"
+        "start": "node main.js",
+        "dev": "nodemon main.js"
     },
     "dependencies": {
         "axios": "^1.13.2",

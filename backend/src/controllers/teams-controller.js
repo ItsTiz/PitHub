@@ -18,7 +18,7 @@ class TeamController extends BaseController {
             .lean();
     }
 
-     listTeamsWithDrivers = async (_, res) => {
+    listTeamsWithDrivers = async (_, res) => {
         try {
             const cars = await Car.find()
                 .select('team driver')
@@ -42,7 +42,6 @@ class TeamController extends BaseController {
                         drivers: []
                     };
                 }
-
             
                 const alreadyPresent = teamsMap[teamId].drivers
                     .some(d => d.number === car.driver.number);
@@ -53,7 +52,6 @@ class TeamController extends BaseController {
             });
 
             const result = Object.values(teamsMap);
-            console.log(result);
             res.json(result);
 
         } catch (err) {
