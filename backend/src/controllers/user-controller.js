@@ -182,6 +182,22 @@ class UserController extends BaseController {
         }
     }
 
+    listUsersWithTeams = async (_, res) => {
+        try {
+            const users = await userModel.find()
+                .populate({
+                    path: 'team',
+                    select: 'name -_id'
+                })
+                .lean();
+
+            const result = Object.values(users);
+            res.json(result);
+
+        } catch (err) {
+            this._genericServerError(res, err);
+        }}
+
 }
 
 export default new UserController(userModel);

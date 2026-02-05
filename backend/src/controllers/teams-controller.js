@@ -53,7 +53,6 @@ class TeamController extends BaseController {
             });
 
             const result = Object.values(teamsMap);
-            console.log(result);
             res.json(result);
 
         } catch (err) {

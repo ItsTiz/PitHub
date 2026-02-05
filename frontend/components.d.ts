@@ -18,6 +18,7 @@ declare module 'vue' {
     CarAutonomy: typeof import('./src/components/pages-components/control-room/car-telemetry/CarAutonomy.vue')['default']
     CarOdometer: typeof import('./src/components/pages-components/control-room/car-telemetry/CarOdometer.vue')['default']
     CarProfileCard: typeof import('./src/components/pages-components/control-room/race-view/CarProfileCard.vue')['default']
+    DeleteUserDialog: typeof import('./src/components/pages-components/sysadmin/DeleteUserDialog.vue')['default']
     EventsLog: typeof import('./src/components/pages-components/EventsLog.vue')['default']
     LinearGauge: typeof import('./src/components/pages-components/LinearGauge.vue')['default']
     LinearGraph: typeof import('./src/components/pages-components/LinearGraph.vue')['default']

@@ -11,7 +11,7 @@ usersRouter.route('/login')
     .post(controller.login);
 
 usersRouter.route('/')
-    .get(controller.listElements)
+    .get(controller.listUsersWithTeams)
     .post(controller.createElements);
 
 usersRouter.route('/:id')

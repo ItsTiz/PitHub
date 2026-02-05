@@ -4,6 +4,8 @@
 
     const users = ref([])
     const loading = ref(false)
+    const deleteDialog = ref(false)
+    const userToDelete = ref('')
 
     onMounted(async () => {
         loading.value = true
@@ -12,6 +14,7 @@
                 headers: { 'Cache-Control': 'no-cache' }
             })
             users.value = res.data
+            console.log(users.value)
         } catch (err) {
             console.error(err)
         } finally {
@@ -29,16 +32,23 @@
         resetDialog.value = true
     }
 
-    async function deleteUser(id) {
-        if (!confirm('Confirm delete?')) return
-        console.log(id)
+    async function deleteUser() {
         try {
-            await axios.delete(`http://localhost:3000/v1/users/${id}`)
-            users.value = users.value.filter(u => u._id !== id)
+            await axios.delete(`http://localhost:3000/v1/users/${userToDelete.value}`)
+
+            users.value = users.value.filter(u => u._id !== userToDelete.value)
+
+            showToast('User deleted', 'success')
+
         } catch (err) {
             console.error(err)
+            showToast('Error deleting user', 'error')
+        } finally {
+            deleteDialog.value = false
+            userToDelete.value = ''
         }
     }
+
 
     const showAddDialog = ref(false)
 
@@ -52,6 +62,10 @@
         } finally {
             loading.value = false
         }
+    }
+    function openDelete(id) {
+        userToDelete.value = id
+        deleteDialog.value = true
     }
 
     async function handleReset(newPassword) {
@@ -96,7 +110,7 @@
                 :headers="[
                     { title: 'Name', key: 'name' },
                     { title: 'Email', key: 'email' },
-                    { title: 'Team', key: 'team' },
+                    { title: 'Team', key: 'team.name' },
                     { title: 'Role', key: 'role' },
                     { title: 'Actions', key: 'actions', sortable: false }
                 ]"
@@ -112,7 +126,7 @@
                         :variant="'outlined'"
                         size="x-small"
                         class="mr-4"
-                        @clicked="deleteUser(item._id)"
+                        @clicked="openDelete(item._id)"
                     />
                     <UiButton
                         :icon="'mdi-lock-reset'"
@@ -139,4 +153,10 @@
         :user-id="currentUserId"
         @confirm="handleReset"
     />
+    <DeleteUserDialog
+        v-model="deleteDialog"
+        :user-id="userToDelete"
+        @confirm="deleteUser"
+    />
+
 </template>
