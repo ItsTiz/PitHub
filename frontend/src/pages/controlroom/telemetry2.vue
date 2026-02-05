@@ -1,20 +1,20 @@
 <script setup>
     import { watch, computed, ref } from 'vue'
-import { useRoute } from 'vue-router' 
+    import { useRoute } from 'vue-router' 
     import { useTelemetryStore } from "@/stores/car-telemetry";
     import { useDisplay } from 'vuetify'
     import { getTeamColor } from '../../composables/utils/teams-colors'
     import { useAuthStore } from '../../stores/auth';
     import { storeToRefs } from "pinia";
     const auth = useAuthStore()
-const route = useRoute();
+    const route = useRoute();
 
     const { smAndDown } = useDisplay()
     const telemetryStore = useTelemetryStore();
     const { carData2 } = storeToRefs(telemetryStore);
 
     const oil_temp_values = ref([]);
-const brake_temp_values = ref([]);
+    const brake_temp_values = ref([]);
 
     const cols = computed(() => {
         return smAndDown.value ? [12, 12] : [6, 6]
@@ -24,9 +24,9 @@ const brake_temp_values = ref([]);
         return telemetryStore.carData2?.engine_oil_temp
     });
 
-const brakeTemp = computed(() => {
-    return telemetryStore.carData2?.brake_temperature
-});
+    const brakeTemp = computed(() => {
+        return telemetryStore.carData2?.brake_temperature
+    });
 
     watch(getOilTemp, (temp) => {
         if(oil_temp_values.value.length == 11){
@@ -35,21 +35,21 @@ const brakeTemp = computed(() => {
         oil_temp_values.value.push(temp);
     })
 
-watch(brakeTemp, (temp, _) => {
-    if(brake_temp_values.value.length == 6){
-        brake_temp_values.value.splice(0, 1);
-    }
-    brake_temp_values.value.push(temp);
-})
+    watch(brakeTemp, (temp) => {
+        if(brake_temp_values.value.length == 6){
+            brake_temp_values.value.splice(0, 1);
+        }
+        brake_temp_values.value.push(temp);
+    })
 
-const teamColor = computed(() => {
-    if(auth.user?.role === "team"){
-        return getTeamColor(auth.user?.team?.name)
-    }
-    else{
-        return getTeamColor(route.query?.team)
-    }
-});
+    const teamColor = computed(() => {
+        if(auth.user?.role === "team"){
+            return getTeamColor(auth.user?.team?.name)
+        }
+        else{
+            return getTeamColor(route.query?.team)
+        }
+    });
 </script>
 
 
@@ -79,33 +79,47 @@ const teamColor = computed(() => {
                     <UiSheet
                         class="h-100 ma-2"
                     >
-                            <v-container fluid class="d-flex flex-column h-100">
-                                
-                                <v-row no-gutters class="flex-grow-1 flex-shrink-1 w-100" style="min-height: 0;">
-                                    <v-col cols="12" class="h-100">
-                                        <TempGraph
-                                            class="pa-0 ma-0"
-                                            :name="'Oil Temperature'"
-                                            :icon="'mdi-oil-temperature'"
-                                            :uom="'C°'"
-                                            :temps-array="oil_temp_values"
-                                            :team-theme="teamColor"
-                                        />
-                                    </v-col>
-                                </v-row>
+                        <v-container
+                            fluid
+                            class="d-flex flex-column h-100"
+                        >
+                            <v-row
+                                no-gutters
+                                class="flex-grow-1 flex-shrink-1 w-100"
+                                style="min-height: 0;"
+                            >
+                                <v-col
+                                    cols="12"
+                                    class="h-100"
+                                >
+                                    <TempGraph
+                                        class="pa-0 ma-0"
+                                        :name="'Oil Temperature'"
+                                        :icon="'mdi-oil-temperature'"
+                                        :uom="'C°'"
+                                        :temps-array="oil_temp_values"
+                                        :team-theme="teamColor"
+                                    />
+                                </v-col>
+                            </v-row>
 
-                                <v-row no-gutters class="h-25 flex-grow-0 flex-shrink-0 w-100">
-                                    <v-col cols="12" class="h-100">
-                                        <OilPressure
-                                            class="pa-0 ma-0"
-                                            :oil-pressure="carData2.oil_pressure"
-                                            :teamTheme="teamColor"
-                                        />
-                                    </v-col>
-                                </v-row>
-
-                            </v-container>
-                        </UiSheet>
+                            <v-row
+                                no-gutters
+                                class="h-25 flex-grow-0 flex-shrink-0 w-100"
+                            >
+                                <v-col
+                                    cols="12"
+                                    class="h-100"
+                                >
+                                    <OilPressure
+                                        class="pa-0 ma-0"
+                                        :oil-pressure="carData2.oil_pressure"
+                                        :team-theme="teamColor"
+                                    />
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </UiSheet>
                 </template>
             </v-col>
         </v-row>
@@ -131,9 +145,9 @@ const teamColor = computed(() => {
 
             <v-col :cols="cols[1]">
                 <template #default> 
-                <UiSheet
-                    class="h-100 ma-2"
-                >
+                    <UiSheet
+                        class="h-100 ma-2"
+                    >
                         <div class="d-flex flex-row align-items w-100">
                             <TempGraph
                                 class="flex-grow-1 w-100 ma-4"
@@ -146,7 +160,7 @@ const teamColor = computed(() => {
                                 :below-level-threshold="300"
                                 :normal-level-threshold="500"
                                 :over-level-threshold="900"
-                                :maxSecondsScale="5"
+                                :max-seconds-scale="5"
                             />
     
                             <CarAutonomy

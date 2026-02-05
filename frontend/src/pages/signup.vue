@@ -87,7 +87,7 @@
                 lazy-validation
                 @submit.prevent="submit"
             >
-             <v-text-field
+                <v-text-field
                     v-model="name"
                     label="Name"
                     type="name"

@@ -12,9 +12,9 @@
         router.push('/login')
     }
     const profile = () => {
-           router.push('/profile')
-            return;
-        }
+        router.push('/profile')
+        return;
+    }
 </script>
 
 <template>
@@ -31,7 +31,7 @@
             :icon-only="true"
             :variant="'text'"
             @click="router.currentRoute.value.fullPath.includes('profile') ? router.push('/race') : profile()"
-            />
+        />
         <UiButton 
             :background-color="'primary'"
             :text-color="'on-surface'"

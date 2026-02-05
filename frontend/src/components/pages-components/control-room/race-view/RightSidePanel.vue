@@ -29,7 +29,7 @@
                     <CarProfileCard
                         v-show="isCarSelected"
                         class="pa-1"
-                height="400px"
+                        height="400px"
                         :driver-name="selectedItem?.driver.full_name || ''"
                         :team-name="selectedItem?.team.full_name || ''"
                         :driver-number="selectedItem?.driver.number"

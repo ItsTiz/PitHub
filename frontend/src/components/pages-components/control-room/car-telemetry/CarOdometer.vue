@@ -20,16 +20,15 @@
         <UiCard
             class="h-100"
             :border-color="teamTheme"
-            :textClasses="'flex-grow-1'"
+            :text-classes="'flex-grow-1'"
         >
             <template #title>
                 <div class="d-flex flew-row align-center justify-center">
                     <span class="ml-2">
                         <v-icon
-                        icon="mdi-speedometer-slow"
-                        size="25"
-                        >
-                    </v-icon>
+                            icon="mdi-speedometer-slow"
+                            size="25"
+                        />
                     </span>
                     <span class="ml-2 text-subtitle-1 text-secondary text-uppercase font-weight-bold">RPMS</span>
                 </div>
@@ -52,16 +51,15 @@
         <UiCard
             class="h-100"
             :border-color="teamTheme"
-            :textClasses="'flex-grow-1'"
+            :text-classes="'flex-grow-1'"
         >
             <template #title>
                 <div class="d-flex flew-row align-center justify-center">
                     <span class="ml-2">
                         <v-icon
-                        icon="mdi-speedometer"
-                        size="25"
-                        >
-                    </v-icon>
+                            icon="mdi-speedometer"
+                            size="25"
+                        />
                     </span>
                     <span class="ml-2 text-subtitle-1 text-secondary text-uppercase font-weight-bold">Speed</span>
                 </div>

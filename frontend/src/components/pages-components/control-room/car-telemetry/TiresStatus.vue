@@ -28,36 +28,39 @@
         return cars['top_view'] || { viewBox: '0 0 500 500', path: '' };
     });
 
-const teamHex = computed(() => {
-    if(auth.user?.role === "team"){
-        return getTeamHex(theme, auth.user?.team?.name, true)
-    }
-    else{
-        return getTeamHex(theme, props.teamTheme, true)
-    }
-});
+    const teamHex = computed(() => {
+        if(auth.user?.role === "team"){
+            return getTeamHex(theme, auth.user?.team?.name, true)
+        }
+        else{
+            return getTeamHex(theme, props.teamTheme, true)
+        }
+    });
 
-const getTireData = computed(() => {
-    switch(props.tireType){
-        case 0:
-            return {color: 'error', name: 'SOFT'};
-        case 1:
-            return {color: 'warning', name: 'MEDIUM'};
-        case 2:
-            return {color: 'white', name: 'HARD'};
-        case 3:
-            return {color: 'success', name: 'INTERMEDIATE'};
-        case 4:
-            return {color: 'williams-darken-1', name: 'WET'};
-        default:
-            return {color: 'white', name: '--'};
-    }
-});
+    const getTireData = computed(() => {
+        switch(props.tireType){
+            case 0:
+                return {color: 'error', name: 'SOFT'};
+            case 1:
+                return {color: 'warning', name: 'MEDIUM'};
+            case 2:
+                return {color: 'white', name: 'HARD'};
+            case 3:
+                return {color: 'success', name: 'INTERMEDIATE'};
+            case 4:
+                return {color: 'williams-darken-1', name: 'WET'};
+            default:
+                return {color: 'white', name: '--'};
+        }
+    });
 
 </script>
 
 <template>
-    <UiCard class="h-100" :borderColor="teamTheme">
+    <UiCard
+        class="h-100"
+        :border-color="teamTheme"
+    >
         <template #title>
             <div class="d-flex flew-row align-center justify-center">
                 <span class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">
@@ -71,7 +74,7 @@ const getTireData = computed(() => {
                             <v-icon
                                 icon="mdi-tire"
                                 start
-                            ></v-icon>
+                            />
                         </template> 
                         <template #default>
                             {{ getTireData.name }}
@@ -82,12 +85,18 @@ const getTireData = computed(() => {
         </template>
 
         <template #text>
-            <v-container fluid class="h-100 d-flex flex-row ma-0 pa-0">
-
-                <v-row no-gutters class="flex-grow-1" justify="center">
+            <v-container
+                fluid
+                class="h-100 d-flex flex-row ma-0 pa-0"
+            >
+                <v-row
+                    no-gutters
+                    class="flex-grow-1"
+                    justify="center"
+                >
                     <v-col :cols="cols[0]">
                         <div class="d-flex flex-column justify-center align-center fill-height">
-                            <div class ="flex-grow-1">   
+                            <div class="flex-grow-1">   
                                 <div class="text-caption text-secondary text-uppercase">
                                     Front Left
                                 </div>
@@ -97,11 +106,11 @@ const getTireData = computed(() => {
                                     :uom="'%'"
                                     :size="gaugeSize"
                                     :width="gaugeWidth"
-                                    :uomInColumn="false"
+                                    :uom-in-column="false"
                                 />
                             </div>
 
-                            <div class ="flex-grow-1">  
+                            <div class="flex-grow-1">  
                                 <div class="text-caption text-secondary text-uppercase flex-grow-1">
                                     Rear Left
                                 </div>
@@ -111,11 +120,10 @@ const getTireData = computed(() => {
                                     :uom="'%'" 
                                     :size="gaugeSize"
                                     :width="gaugeWidth"
-                                    :uomInColumn="false"
+                                    :uom-in-column="false"
                                 />
                             </div>
                         </div>
-                            
                     </v-col>
 
                     <v-col :cols="cols[1]">
@@ -125,8 +133,8 @@ const getTireData = computed(() => {
                                 class="w-50 h-50"
                             >
                                 <path
-                                    :d="carImage.path"
                                     ref="path"
+                                    :d="carImage.path"
                                     :fill="teamHex" 
                                 />
                             </svg>
@@ -134,8 +142,8 @@ const getTireData = computed(() => {
                     </v-col>
 
                     <v-col :cols="cols[2]">
-                         <div class="d-flex flex-column justify-center align-center fill-height">
-                            <div class ="flex-grow-1">  
+                        <div class="d-flex flex-column justify-center align-center fill-height">
+                            <div class="flex-grow-1">  
                                 <div class="text-caption text-secondary text-uppercase">
                                     Front Right
                                 </div>
@@ -145,11 +153,11 @@ const getTireData = computed(() => {
                                     :uom="'%'" 
                                     :size="gaugeSize"
                                     :width="gaugeWidth"
-                                    :uomInColumn="false"
+                                    :uom-in-column="false"
                                 />
                             </div>
 
-                            <div class ="flex-grow-1">  
+                            <div class="flex-grow-1">  
                                 <div class="text-caption text-secondary text-uppercase">
                                     Rear Right
                                 </div>
@@ -159,7 +167,7 @@ const getTireData = computed(() => {
                                     :uom="'%'" 
                                     :size="gaugeSize"
                                     :width="gaugeWidth"
-                                    :uomInColumn="false"
+                                    :uom-in-column="false"
                                 />
                             </div>
                         </div>
@@ -167,5 +175,5 @@ const getTireData = computed(() => {
                 </v-row>
             </v-container>
         </template>
-<    </UiCard>
+    </UiCard>
 </template>

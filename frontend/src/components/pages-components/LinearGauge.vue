@@ -32,7 +32,6 @@
             :height="thickness"
             rounded="sm"
             v-bind="$attrs"
-        >
-    </v-progress-linear>
+        />
     </div>
 </template>

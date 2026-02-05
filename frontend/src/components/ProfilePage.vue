@@ -36,7 +36,7 @@
             newPassword.value = ''
             confirmPassword.value = ''
         } catch (err) {
-             showToast('Error: ' + (err.response?.data?.message || 'Error'), 'error')
+            showToast('Error: ' + (err.response?.data?.message || 'Error'), 'error')
         } finally {
             loading.value = false
         }
@@ -46,19 +46,23 @@
     const toastType = ref('info')
 
     function showToast(msg, type = 'info') {
-      toastMessage.value = msg
-      toastType.value = type
+        toastMessage.value = msg
+        toastType.value = type
     }
 </script>
 
 <template>
-    <v-container fluid class="d-flex justify-center align-center h-100">
-        <UiSheet   :elevation="2"
-            :backgroundColor="'surface'"
-            :roundedRadius="'lg'"
-            :sheetClasses="'w-100 d-flex flex-column pa-3 overflow-hidden'"
-            style="max-width: 1000px;">
-             
+    <v-container
+        fluid
+        class="d-flex justify-center align-center h-100"
+    >
+        <UiSheet
+            :elevation="2"
+            :background-color="'surface'"
+            :rounded-radius="'lg'"
+            :sheet-classes="'w-100 d-flex flex-column pa-3 overflow-hidden'"
+            style="max-width: 1000px;"
+        >
             <v-card>
                 <v-card-title class="text-h5 mb-6">
                     Your account
@@ -120,10 +124,12 @@
                         :loading="loading"
                         :disabled="loading"
                     />
-                        
                 </v-form>
             </v-card>
         </UiSheet>
     </v-container>
-    <Toast :message="toastMessage" :type="toastType" />
+    <Toast
+        :message="toastMessage"
+        :type="toastType"
+    />
 </template>

@@ -8,7 +8,7 @@
         icon: { type: String, default: "" },
         iconColor: { type: String, default: "text" },
         borderColor: { type: String, default:"black" },
-    	graphHeight: { type: Number, default: 50 },
+        graphHeight: { type: Number, default: 50 },
         gradient: { type: Array, default: () => ["primary", "primary-darken-1"] },
         lineWidth: { type: Number, default: 3 },
         maxSecondsScale: { type: Number, default: 10 }
@@ -67,7 +67,9 @@
                 stroke-linecap="round"
                 class="text-caption"
             >
-                <template #label="item"> -{{ props.maxSecondsScale-item.index }}s </template>
+                <template #label="item">
+                    -{{ props.maxSecondsScale-item.index }}s
+                </template>
             </v-sparkline>
         </template>
     </v-card>

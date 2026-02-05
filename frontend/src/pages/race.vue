@@ -16,7 +16,7 @@
 </script>
 
 <template>
-    <RacePage/>
+    <RacePage />
 </template>
 
 <route lang="yaml">

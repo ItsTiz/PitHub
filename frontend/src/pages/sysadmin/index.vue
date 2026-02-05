@@ -2,7 +2,7 @@
     import { definePage } from 'vue-router/auto'
 
     definePage({
-        redirect: to => {
+        redirect: () => {
             return '/sysadmin/simulation'
         }
     })

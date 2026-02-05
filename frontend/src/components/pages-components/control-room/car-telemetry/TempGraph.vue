@@ -17,14 +17,14 @@
     const theme = useTheme();
 
     const latestTemp = computed(() => {
-    if(props.tempsArray.length === 0) return 0;
-    return props.tempsArray[props.tempsArray.length - 1];
+        if(props.tempsArray.length === 0) return 0;
+        return props.tempsArray[props.tempsArray.length - 1];
     });
 
     const temperatureColor = computed(() => {
-    if (latestTemp.value < props.belowLevelThreshold) return 'info'
-    if (latestTemp.value < props.normalLevelThreshold) return 'success'
-    if (latestTemp.value < props.overLevelThreshold) return 'warning'
+        if (latestTemp.value < props.belowLevelThreshold) return 'info'
+        if (latestTemp.value < props.normalLevelThreshold) return 'success'
+        if (latestTemp.value < props.overLevelThreshold) return 'warning'
         return 'primary'
     })
 

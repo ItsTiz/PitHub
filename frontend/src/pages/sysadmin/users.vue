@@ -43,22 +43,22 @@
     const showAddDialog = ref(false)
 
     async function fetchUsers() {
-    loading.value = true
-    try {
-        const res = await axios.get('http://localhost:3000/v1/users')
-        users.value = res.data
-    } catch (err) {
-        console.error(err)
-    } finally {
-        loading.value = false
-    }
+        loading.value = true
+        try {
+            const res = await axios.get('http://localhost:3000/v1/users')
+            users.value = res.data
+        } catch (err) {
+            console.error(err)
+        } finally {
+            loading.value = false
+        }
     }
 
     async function handleReset(newPassword) {
         try {
             await axios.post('http://localhost:3000/v1/users/admin-reset-password', {
-            userId: currentUserId.value,
-            tempPassword: newPassword
+                userId: currentUserId.value,
+                tempPassword: newPassword
             })
             showToast('Password changed', 'success')
             resetDialog.value = false
@@ -70,15 +70,15 @@
     const toastType = ref('info')
 
     function showToast(msg, type = 'info') {
-      toastMessage.value = msg
-      toastType.value = type
+        toastMessage.value = msg
+        toastType.value = type
     }
     
 </script>
 
 <template>
     <v-container fluid>
-        <UiSheet :sheetClasses="'pa-4 mb-6'">
+        <UiSheet :sheet-classes="'pa-4 mb-6'">
             <v-card-title class="d-flex align-center">
                 Users
                 <v-spacer />
@@ -91,42 +91,52 @@
                 />
             </v-card-title>
         </UiSheet>
-        <UiSheet :sheetClasses="'pa-0'">   
-                <v-data-table
-                    :headers="[
-                        { title: 'Name', key: 'name' },
-                        { title: 'Email', key: 'email' },
-                        { title: 'Team', key: 'team' },
-                        { title: 'Role', key: 'role' },
-                        { title: 'Actions', key: 'actions', sortable: false }
-                    ]"
-                    :items="Array.isArray(users) ? users : []"
-                    :loading="loading"
-                    no-data-text="No users found"
-                >
-                    <template #[`item.actions`]="{ item }">
-                        <UiButton
-                            :icon="'mdi-delete'"
-                            :icon-only="true"
-                            :background-color="'error'"
-                            :variant="'outlined'"
-                            size="x-small"
-                            class="mr-4"
-                            @clicked="deleteUser(item._id)"
-                        />
-                        <UiButton
-                            :icon="'mdi-lock-reset'"
-                            :icon-only="true"
-                            :background-color="'warning'"
-                            :variant="'outlined'"
-                            size="x-small"
-                            @clicked="openReset(item._id)"
-                        />
-                    </template>
-                </v-data-table>
+        <UiSheet :sheet-classes="'pa-0'">   
+            <v-data-table
+                :headers="[
+                    { title: 'Name', key: 'name' },
+                    { title: 'Email', key: 'email' },
+                    { title: 'Team', key: 'team' },
+                    { title: 'Role', key: 'role' },
+                    { title: 'Actions', key: 'actions', sortable: false }
+                ]"
+                :items="Array.isArray(users) ? users : []"
+                :loading="loading"
+                no-data-text="No users found"
+            >
+                <template #[`item.actions`]="{ item }">
+                    <UiButton
+                        :icon="'mdi-delete'"
+                        :icon-only="true"
+                        :background-color="'error'"
+                        :variant="'outlined'"
+                        size="x-small"
+                        class="mr-4"
+                        @clicked="deleteUser(item._id)"
+                    />
+                    <UiButton
+                        :icon="'mdi-lock-reset'"
+                        :icon-only="true"
+                        :background-color="'warning'"
+                        :variant="'outlined'"
+                        size="x-small"
+                        @clicked="openReset(item._id)"
+                    />
+                </template>
+            </v-data-table>
         </UiSheet>
     </v-container>
-    <AddUserDialog v-model="showAddDialog" @added="fetchUsers" />
-    <Toast :message="toastMessage" :type="toastType" />
-    <ResetPasswordDialog v-model="resetDialog" :user-id="currentUserId" @confirm="handleReset"/>
+    <AddUserDialog
+        v-model="showAddDialog"
+        @added="fetchUsers"
+    />
+    <Toast
+        :message="toastMessage"
+        :type="toastType"
+    />
+    <ResetPasswordDialog
+        v-model="resetDialog"
+        :user-id="currentUserId"
+        @confirm="handleReset"
+    />
 </template>

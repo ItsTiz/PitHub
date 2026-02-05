@@ -8,7 +8,7 @@
         min: { type: Number, default: 0 },
         max: { type: Number, default: 100 },
         size: { type: Number, default: 250 },
-    uomInColumn: { type: Boolean, default: true },
+        uomInColumn: { type: Boolean, default: true },
         width: { type: Number, default: 15 }
     });
 

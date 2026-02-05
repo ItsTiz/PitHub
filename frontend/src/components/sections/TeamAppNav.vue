@@ -12,38 +12,38 @@
     const router = useRouter()  
     const pageIndex = ref(0)
 
-const views = ['telemetry', 'telemetry2', 'race', 'profile']
+    const views = ['telemetry', 'telemetry2', 'race', 'profile']
 
-const isAdminLogged = computed(() => {
-    return auth.user?.role === 'admin';
-});
+    const isAdminLogged = computed(() => {
+        return auth.user?.role === 'admin';
+    });
 
-const activeTeamName = computed(() => {
-    if (!isAdminLogged.value) {
-        return auth.user.team?.name;
+    const activeTeamName = computed(() => {
+        if (!isAdminLogged.value) {
+            return auth.user.team?.name;
+        }
+
+        return route.query?.team;
+    });
+
+    const getImageUrl = (path) => {
+        return new URL(`../../assets/teams/${path}`, import.meta.url).href
     }
 
-    return route.query?.team;
-});
+    const imagePath = computed(() => {   
+        const logoname = getLogoForTeam(activeTeamName.value);
+        return getImageUrl(logoname)
+    });
 
-const getImageUrl = (path) => {
-  return new URL(`../../assets/teams/${path}`, import.meta.url).href
-}
+    const maskImage = computed(() => `url('${imagePath.value}')`);
 
-const imagePath = computed(() => {   
-    const logoname = getLogoForTeam(activeTeamName.value);
-    return getImageUrl(logoname)
-});
+    const teamColor = computed(() => {
+        return getTeamColor(activeTeamName.value);
+    });
 
-const maskImage = computed(() => `url('${imagePath.value}')`);
-
-const teamColor = computed(() => {
-    return getTeamColor(activeTeamName.value);
-});
-
-const teamColorDarkened = computed(() => {
-    return getTeamColor(activeTeamName.value, true);
-});
+    const teamColorDarkened = computed(() => {
+        return getTeamColor(activeTeamName.value, true);
+    });
 
     const logout = () => {
         auth.logout()
@@ -54,7 +54,7 @@ const teamColorDarkened = computed(() => {
         appStore.toggleTheme();
     }
 
-const selectView = (index) => {
+    const selectView = (index) => {
         pageIndex.value = index
         const view = views[index] || 'telemetry'
 
@@ -69,29 +69,29 @@ const selectView = (index) => {
         });
     }
 
-const navItems = computed(() => {
-    const items = [];
+    const navItems = computed(() => {
+        const items = [];
 
-    const cars = (auth.user?.cars || [])
+        const cars = (auth.user?.cars || [])
 
-    if (cars.length > 0){
-        items.push({
+        if (cars.length > 0){
+            items.push({
                 type: 'car0',
                 icon: typeof cars[0].number === 'number'  ? `mdi-numeric-${cars[0].number}-circle-outline` : 'mdi-car'
             });
-        items.push({
-            type: 'car1',
-            icon: typeof cars[1].number === 'number'  ? `mdi-numeric-${cars[1].number}-circle-outline` : 'mdi-car'
-        });
-    }
+            items.push({
+                type: 'car1',
+                icon: typeof cars[1].number === 'number'  ? `mdi-numeric-${cars[1].number}-circle-outline` : 'mdi-car'
+            });
+        }
 
 
-    items.push({ type: 'race', icon: 'mdi-go-kart-track' })
-    items.push({ type: 'profile', icon: 'mdi-account-circle' })
-    console.log(items);
-    return items;
+        items.push({ type: 'race', icon: 'mdi-go-kart-track' })
+        items.push({ type: 'profile', icon: 'mdi-account-circle' })
+        console.log(items);
+        return items;
     
-})
+    })
 
     onMounted(() => {
         const path = router.currentRoute.value.path;
@@ -129,19 +129,21 @@ const navItems = computed(() => {
                     :class="`mb-4 bg-${teamColor}`"
                     :image="imagePath"
                 >
-                <div v-if="activeTeamName !== 'ferrari'" class="w-100 h-100 logo"></div>
+                    <div
+                        v-if="activeTeamName !== 'ferrari'"
+                        class="w-100 h-100 logo"
+                    />
                     <img
-                    v-else
+                        v-else
                         :src="imagePath"
-                        :alt="`team logo image`"
-                <!-- TODO put al here-->
-                    <!-- TODO substitue alt in next merge with variable -->
+                        :alt="`${activeTeamName} logo image`"
+                    >
                 </v-avatar>
             </div>
             <v-divider />
 
             <div class="flex-grow-1 d-flex flex-column align-center justify-center">
-               <v-avatar
+                <v-avatar
                     v-for="(item, index) in navItems"
                     :key="index"
                     :color="pageIndex === index ? 'surface' : 'surface-variant'"
@@ -149,7 +151,7 @@ const navItems = computed(() => {
                     :icon="item.icon"
                     class="mb-8 cursor-pointer bg-background"
                     @click="selectView(index)"
-                    />
+                />
             </div>
 
             <div class="d-flex justify-center">
