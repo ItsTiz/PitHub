@@ -1,0 +1,26 @@
+{
+  "include": [
+    // ...
+    "./typed-router.d.ts"
+  ],
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "es5",
+    "module": "esnext",
+    "baseUrl": "./",
+    "moduleResolution": "bundler",
+    "types": ["unplugin-vue-router/client"],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  },
+  "exclude": ["node_modules", "dist"]
+}

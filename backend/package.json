@@ -1,0 +1,34 @@
+{
+    "name": "pithub-be",
+    "version": "1.0.0",
+    "private": true,
+    "main": "main.js",
+    "keywords": [
+        "nodejs",
+        "mevn",
+        "formula1",
+        "racing",
+        "simulator"
+    ],
+    "author": "Tiziano Vuksan <tiziano.vuksan@studio.unibo.it>, Ines Fraccalvieri <ines.fraccalvieri@studio.unibo.it>",
+    "license": "MIT",
+    "description": "Backend API for PitHub - Formula1 Simulator with Express.js and MongoDB",
+    "scripts": {
+        "start": "node main.js",
+        "dev": "nodemon main.js"
+    },
+    "dependencies": {
+        "axios": "^1.13.2",
+        "bcryptjs": "^3.0.3",
+        "cors": "^2.8.5",
+        "dotenv": "^17.2.3",
+        "ejs": "^3.1.10",
+        "express": "^5.2.1",
+        "jsonwebtoken": "^9.0.3",
+        "mongoose": "^9.1.2",
+        "socket.io": "^4.8.3",
+        "swagger-ui-express": "^5.0.1",
+        "yamljs": "^0.3.0",
+        "nodemon": "^3.1.11"
+    }
+}

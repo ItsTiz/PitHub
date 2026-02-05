@@ -1,0 +1,838 @@
+openapi: 3.0.3
+info:
+  title: PitHub API
+  description: The PitHub APIs for users, cars, teams
+  contact:
+    name: API Support
+    email: tiziano.vuksan@studio.unibo.it, ines.fraccalvieri@studio.unibo.it
+  version: 1.0.0
+servers:
+  - url: http://api.pithub.com/v1
+    description: Production server
+  - url: http://localhost:3000/v1
+    description: Sandbox server
+
+paths:
+  # -------------------------
+  # TEAMS ENDPOINTS
+  # -------------------------
+  /teams:
+    get:
+      summary: Returns a list of all the F1 teams
+      tags: 
+        - Teams
+      responses:
+        '200':
+          description: A JSON array of F1 teams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+    post:
+      summary: Adds a new team
+      tags: 
+        - Teams
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        '201':
+          description: New team added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          $ref: '#/components/responses/GenericError'
+
+  /teams/{id}:
+    get:
+      summary: Gets a team by ID
+      tags: 
+        - Teams
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Team found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    put:
+      summary: Updates an existing team
+      tags: 
+        - Teams
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        '200':
+          description: Team updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      summary: Deletes a team
+      tags: 
+        - Teams
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Team deleted successfully (no content)
+        '404':
+          $ref: '#/components/responses/404NotFound'
+
+  # -------------------------
+  # DRIVERS ENDPOINTS
+  # -------------------------
+  /drivers:
+    get:
+      summary: Returns a list of all F1 drivers
+      tags: 
+        - Drivers
+      responses:
+        '200':
+          description: A JSON array of drivers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Driver'
+    post:
+      summary: Adds a new driver
+      tags: 
+        - Drivers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Driver'
+      responses:
+        '201':
+          description: New driver added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Driver'
+        '400':
+          $ref: '#/components/responses/GenericError'
+
+  /drivers/{id}:
+    get:
+      summary: Gets a driver by ID
+      tags: 
+        - Drivers
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Driver found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Driver'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    put:
+      summary: Updates an existing driver
+      tags: 
+        - Drivers
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Driver'
+      responses:
+        '200':
+          description: Driver updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Driver'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      summary: Deletes a driver
+      tags: 
+        - Drivers
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Driver deleted successfully
+        '404':
+          $ref: '#/components/responses/404NotFound'
+
+  # -------------------------
+  # CARS ENDPOINTS
+  # -------------------------
+  /cars:
+    get:
+      summary: Returns a list of all F1 cars
+      tags: 
+        - Cars
+      responses:
+        '200':
+          description: A list of cars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Car'
+    post:
+      summary: Adds a new car
+      tags: 
+        - Cars
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+      responses:
+        '201':
+          description: New car added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        '400':
+          $ref: '#/components/responses/GenericError'
+
+  /cars/{id}:
+    get:
+      summary: Gets a car by ID
+      tags: 
+        - Cars
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Car found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    put:
+      summary: Updates an existing car
+      tags: 
+        - Cars
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+      responses:
+        '200':
+          description: Car updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      summary: Deletes a car
+      tags: 
+        - Cars
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Car deleted successfully
+        '404':
+          $ref: '#/components/responses/404NotFound'
+
+  /cars/{engine_manufacturer}:
+    get:
+      summary: Returns a list of cars by manufacturers
+      tags: 
+        - Cars
+      parameters:
+        - in: path
+          name: engine_manufacturer
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of cars by manufacturer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Car'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+
+  # -------------------------
+  # USERS / AUTHENTICATION ENDPOINTS
+  # -------------------------
+  /users/register:
+      post:
+        summary: Register a new user
+        description: Creates a new user account. Returns JWT token and user details on success.
+        tags: [Users, Authentication]
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [email, password]
+                properties:
+                  email:
+                    type: string
+                    format: email
+                    example: "user@example.com"
+                  password:
+                    type: string
+                    format: password
+                    example: "securePass123"
+                  role:
+                    type: string
+                    enum: [admin, team, user]
+                    example: "user"
+                    description: Optional. Defaults to 'user' unless set by admin.
+        responses:
+          '201':
+            description: User registered successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    token:
+                      type: string
+                      example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    user:
+                      $ref: '#/components/schemas/User'
+          '400':
+            $ref: '#/components/responses/GenericError'
+          '409':
+            description: Email already exists
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+
+  /users/login:
+      post:
+        summary: Authenticate user and get JWT
+        description: Logs in a user with email and password.
+        tags: [Users, Authentication]
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [email, password]
+                properties:
+                  email:
+                    type: string
+                    format: email
+                    example: "user@example.com"
+                  password:
+                    type: string
+                    format: password
+                    example: "securePass123"
+        responses:
+          '200':
+            description: Login successful
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    token:
+                      type: string
+                      example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    user:
+                      $ref: '#/components/schemas/User'
+          '401':
+            description: Invalid credentials
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '400':
+            $ref: '#/components/responses/GenericError'
+
+  /users/me:
+      get:
+        summary: Get current authenticated user profile
+        description: Returns details of the currently logged-in user.
+        tags: [Users]
+        security:
+          - bearerAuth: []
+        responses:
+          '200':
+            description: User profile
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+          '401':
+            description: Unauthorized - invalid or missing token
+          '404':
+            $ref: '#/components/responses/404NotFound'
+
+      User:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+          email:
+            type: string
+            format: email
+            example: "user@example.com"
+          role:
+            type: string
+            enum: [admin, team, user]
+            example: "user"
+
+      Error:
+        type: object
+        properties:
+          code:
+            type: integer
+            example: 400
+          message:
+            type: string
+            example: "Invalid input"
+
+      responses:
+        404NotFound:
+          description: The specified resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        GenericError:
+          description: An error occurred (Bad Request).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+      securitySchemes:
+        bearerAuth:
+          type: http
+          scheme: bearer
+          bearerFormat: JWT
+
+  /users/change-password:
+    post:
+      summary: Change user password
+      description: Allows an authenticated user to update their password by providing the current one and a new one.
+      tags: [Users, Authentication]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [current_password, password]
+              properties:
+                current_password:
+                  type: string
+                  format: password
+                  example: "oldSecurePass123"
+                  description: The user's current password for verification
+                password:
+                  type: string
+                  format: password
+                  example: "newSecurePass456"
+                  description: The new password to set
+      responses:
+        '200':
+          description: Password changed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Password updated successfully"
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '401':
+          description: Unauthorized - invalid or missing token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - current password incorrect
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation error (e.g. new password too weak)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /users/admin-reset-password:
+    post:
+      summary: Reset password
+      description: Reset password from admin.
+      tags: [Users, Admin]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userId, tempPassword]
+              properties:
+                userId:
+                  type: string
+                  example: "507f1f77bcf86cd799439011"
+                tempPassword:
+                  type: string
+                  format: password
+                  example: "Temp123!"
+      responses:
+        '200':
+          description: Password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Password setted"
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'    
+
+  /users:
+    get:
+      summary: Get all users
+      description: Get list of all users.
+      tags: [Users, Admin]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    email:
+                      type: string
+                    role:
+                      type: string
+                      enum: [user, team, admin]
+                    team:
+                      type: string
+                      nullable: true
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          $ref: '#/components/responses/GenericError'        
+
+  /users/{id}:
+    delete:
+      summary: Delete user
+      description: Delete selected user
+      tags: [Users, Admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID user to delete
+      responses:
+        '200':
+          description: User deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User delete"
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Non autorizzato (solo admin)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          $ref: '#/components/responses/GenericError'                      
+
+components:
+  schemas:
+    Car:
+      type: object
+      required:
+        - model
+        - engine_manufacturer
+        - team_id
+      properties:
+        model:
+          type: string
+          example: "RB19"
+        engine_manufacturer:
+          type: string
+          example: "Honda RBPT"
+        base_weight_kg:
+          type: integer
+        fuel_capacity_kg:
+          type: integer
+        specs:
+          type: object
+          properties:
+            max_speed_kmh:
+              type: integer
+            acceleration_0_100_s:
+              type: integer
+            downforce_rating:
+              type: integer
+            reliability_rating:
+              type: integer
+        team_id:
+          type: integer
+          description: The ID of the team this car belongs to
+          example: 7
+
+    Driver:
+      type: object
+      required:
+        - full_name
+        - dob
+        - nationality
+      properties:
+        id:
+          type: integer
+          example: 42
+        full_name: 
+          type: string
+          example: "Max Verstappen"
+        dob:
+          type: integer
+          example: 2001
+        nationality:
+          type: string
+          description: The country origin of the driver
+          example: Dutch
+        height:
+          type: integer
+          example: 185
+        weight:
+          type: integer
+          example: 75
+        team_id:
+          type: integer
+          example: 7
+
+    Team:
+      type: object
+      required:
+        - name
+        - full_name
+        - joined_year
+        - nationality
+      properties:
+        id:
+          type: integer
+          example: 7
+        name:
+          type: string
+          description: Common short name
+          example: Red Bull
+        full_name:
+          type: string
+          description: Official licensed name
+          example: Oracle Red Bull Racing
+        joined_year:
+          type: integer
+          description: Year the team joined the current league/dataset
+          example: 2005
+        nationality:
+          type: string
+          description: The country under which the team races
+          example: Austrian
+        headquarters:
+          type: string
+          description: Physical factory location
+          example: Milton Keynes, UK
+        team_principal:
+          type: string
+          description: Name of the team boss
+          example: Christian Horner
+        # world_championships:
+        #   type: integer
+        #   description: Total constructor titles won
+        #   example: 6
+        # logo_url:
+        #   type: string
+        #   format: uri
+        #   description: URL to the official team badge
+        #   example: https://api.f1.com/logos/redbull.png
+        # colors:
+        #   type: object
+        #   description: Hex codes for UI theming
+        #   properties:
+        #     primary:
+        #       type: string
+        #       example: "#061D41"
+        #     secondary:
+        #       type: string
+        #       example: "#FFCC00"
+
+    Error: 
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+
+  responses: 
+    404NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    GenericError:
+      description: An error occurred (Bad Request).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+            
+    ImageResponse: 
+      description: An image.
+      content:
+        image/*:
+          schema:
+            type: string
+            format: binary
+

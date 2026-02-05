@@ -1,0 +1,179 @@
+<script setup>
+    import { computed } from 'vue'
+    import { useDisplay } from 'vuetify'
+    import { useAuthStore } from '@/stores/auth'
+    import { cars } from '@/composables/constants/cars.js';
+    import { useTheme } from 'vuetify'
+    import { getTeamHex } from '../../../../composables/utils/teams-colors';
+    const props = defineProps({
+        gaugeSize: { type: Number, default: 150 },
+        gaugeWidth: { type: Number, default: 22 },
+        frontRightHealth: { type: Number, default: 0 },
+        frontLeftHealth: { type: Number, default: 0 },
+        rearLeftHealth: { type: Number, default: 0 },
+        rearRightHealth: { type: Number, default: 0 },
+        tireType: { type: Number, default: -1 },
+        teamTheme: { type: String, default: "secondary" },
+    });
+
+    const { smAndDown } = useDisplay()
+    const theme = useTheme()
+    const auth = useAuthStore()
+
+    const cols = computed(() => {
+        return smAndDown.value ? [12, 12, 12] : [3, 3, 3]
+    })
+
+    const carImage = computed(() => {
+        return cars['top_view'] || { viewBox: '0 0 500 500', path: '' };
+    });
+
+    const teamHex = computed(() => {
+        if(auth.user?.role === "team"){
+            return getTeamHex(theme, auth.user?.team?.name, true)
+        }
+        else{
+            return getTeamHex(theme, props.teamTheme, true)
+        }
+    });
+
+    const getTireData = computed(() => {
+        switch(props.tireType){
+            case 0:
+                return {color: 'error', name: 'SOFT'};
+            case 1:
+                return {color: 'warning', name: 'MEDIUM'};
+            case 2:
+                return {color: 'white', name: 'HARD'};
+            case 3:
+                return {color: 'success', name: 'INTERMEDIATE'};
+            case 4:
+                return {color: 'williams-darken-1', name: 'WET'};
+            default:
+                return {color: 'white', name: '--'};
+        }
+    });
+
+</script>
+
+<template>
+    <UiCard
+        class="h-100"
+        :border-color="teamTheme"
+    >
+        <template #title>
+            <div class="d-flex flew-row align-center justify-center">
+                <span class="text-subtitle-1 text-secondary text-uppercase font-weight-bold">
+                    <v-chip
+                        :color="getTireData.color"
+                        variant="tonal"
+                        size="small"
+                        class="text-subtitle-1 text-secondary text-uppercase font-weight-bold flex-grow-0"
+                    >
+                        <template #prepend>
+                            <v-icon
+                                icon="mdi-tire"
+                                start
+                            />
+                        </template> 
+                        <template #default>
+                            {{ getTireData.name }}
+                        </template>
+                    </v-chip>
+                </span>
+            </div>
+        </template>
+
+        <template #text>
+            <v-container
+                fluid
+                class="h-100 d-flex flex-row ma-0 pa-0"
+            >
+                <v-row
+                    no-gutters
+                    class="flex-grow-1"
+                    justify="center"
+                >
+                    <v-col :cols="cols[0]">
+                        <div class="d-flex flex-column justify-center align-center fill-height">
+                            <div class="flex-grow-1">   
+                                <div class="text-caption text-secondary text-uppercase">
+                                    Front Left
+                                </div>
+                                <SemiCircularGauge
+                                    class="w-100"
+                                    :input="frontLeftHealth"
+                                    :uom="'%'"
+                                    :size="gaugeSize"
+                                    :width="gaugeWidth"
+                                    :uom-in-column="false"
+                                />
+                            </div>
+
+                            <div class="flex-grow-1">  
+                                <div class="text-caption text-secondary text-uppercase flex-grow-1">
+                                    Rear Left
+                                </div>
+                                <SemiCircularGauge 
+                                    class="w-100"
+                                    :input="rearLeftHealth"
+                                    :uom="'%'" 
+                                    :size="gaugeSize"
+                                    :width="gaugeWidth"
+                                    :uom-in-column="false"
+                                />
+                            </div>
+                        </div>
+                    </v-col>
+
+                    <v-col :cols="cols[1]">
+                        <div>
+                            <svg
+                                :viewBox="carImage.viewBox"
+                                class="w-50 h-50"
+                            >
+                                <path
+                                    ref="path"
+                                    :d="carImage.path"
+                                    :fill="teamHex" 
+                                />
+                            </svg>
+                        </div>
+                    </v-col>
+
+                    <v-col :cols="cols[2]">
+                        <div class="d-flex flex-column justify-center align-center fill-height">
+                            <div class="flex-grow-1">  
+                                <div class="text-caption text-secondary text-uppercase">
+                                    Front Right
+                                </div>
+                                <SemiCircularGauge 
+                                    class="w-100"
+                                    :input="frontRightHealth"
+                                    :uom="'%'" 
+                                    :size="gaugeSize"
+                                    :width="gaugeWidth"
+                                    :uom-in-column="false"
+                                />
+                            </div>
+
+                            <div class="flex-grow-1">  
+                                <div class="text-caption text-secondary text-uppercase">
+                                    Rear Right
+                                </div>
+                                <SemiCircularGauge 
+                                    class="w-100"
+                                    :input="rearRightHealth"
+                                    :uom="'%'" 
+                                    :size="gaugeSize"
+                                    :width="gaugeWidth"
+                                    :uom-in-column="false"
+                                />
+                            </div>
+                        </div>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </template>
+    </UiCard>
+</template>
