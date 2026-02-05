@@ -40,7 +40,7 @@ class UserController extends BaseController {
 
     async register(req, res) {
         try {
-            const { email, password, role, ...rest } = req.body;
+            const { name, email, password, role, ...rest } = req.body;
 
             // check if user exists
             const existingUser = await this._schemaModel.findOne({ email });
@@ -61,6 +61,7 @@ class UserController extends BaseController {
 
             try {
                 const user = await this._schemaModel.create({
+                    name: name,
                     email: email,
                     password: hashedPassword,
                     role: newRole
@@ -70,6 +71,7 @@ class UserController extends BaseController {
                     message: 'User registered successfully',
                     user: {
                         id: user._id,
+                        name: user.name,
                         email: user.email,
                         role: user.role
                     }

@@ -17,7 +17,7 @@
         appStore.toggleTheme();
     }
 
-    const views = ['simulation', 'users']
+    const views = ['simulation', 'users', 'profile']
 
     const selectView = (index) => {
         pageIndex.value = index
@@ -31,6 +31,8 @@
                 return 'mdi-play-speed';
             case 1:
                 return 'mdi-account-group';
+            case 2:
+                return 'mdi-account-circle';    
         }
     }
 
@@ -44,6 +46,9 @@
                 return;
             case "users":
                 pageIndex.value = 1;
+                return;
+            case "profile":
+                pageIndex.value = 2;
                 return;
         }
     })
@@ -71,7 +76,7 @@
 
             <div class="flex-grow-1 d-flex flex-column align-center justify-center">
                 <v-avatar
-                    v-for="n in 2"
+                    v-for="n in 3"
                     :key="n"
                     :color="n === (pageIndex + 1) ? 'info' : 'surface-variant'"
                     :size="n === (pageIndex + 1 )? 48 : 38"

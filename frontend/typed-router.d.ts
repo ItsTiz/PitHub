@@ -20,9 +20,10 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
-    '/controlroom': RouteRecordInfo<'/controlroom', '/controlroom', Record<never, never>, Record<never, never>, '/controlroom/' | '/controlroom/comms' | '/controlroom/race' | '/controlroom/telemetry' | '/controlroom/telemetry2'>,
+    '/controlroom': RouteRecordInfo<'/controlroom', '/controlroom', Record<never, never>, Record<never, never>, '/controlroom/' | '/controlroom/comms' | '/controlroom/profile' | '/controlroom/race' | '/controlroom/telemetry' | '/controlroom/telemetry2'>,
     '/controlroom/': RouteRecordInfo<'/controlroom/', '/controlroom', Record<never, never>, Record<never, never>>,
     '/controlroom/comms': RouteRecordInfo<'/controlroom/comms', '/controlroom/comms', Record<never, never>, Record<never, never>>,
+    '/controlroom/profile': RouteRecordInfo<'/controlroom/profile', '/controlroom/profile', Record<never, never>, Record<never, never>>,
     '/controlroom/race': RouteRecordInfo<'/controlroom/race', '/controlroom/race', Record<never, never>, Record<never, never>>,
     '/controlroom/telemetry': RouteRecordInfo<'/controlroom/telemetry', '/controlroom/telemetry', Record<never, never>, Record<never, never>>,
     '/controlroom/telemetry2': RouteRecordInfo<'/controlroom/telemetry2', '/controlroom/telemetry2', Record<never, never>, Record<never, never>>,
@@ -30,8 +31,9 @@ declare module 'vue-router/auto-routes' {
     '/profile': RouteRecordInfo<'/profile', '/profile', Record<never, never>, Record<never, never>>,
     '/race': RouteRecordInfo<'/race', '/race', Record<never, never>, Record<never, never>>,
     '/signup': RouteRecordInfo<'/signup', '/signup', Record<never, never>, Record<never, never>>,
-    '/sysadmin': RouteRecordInfo<'/sysadmin', '/sysadmin', Record<never, never>, Record<never, never>, '/sysadmin/' | '/sysadmin/simulation' | '/sysadmin/users'>,
+    '/sysadmin': RouteRecordInfo<'/sysadmin', '/sysadmin', Record<never, never>, Record<never, never>, '/sysadmin/' | '/sysadmin/profile' | '/sysadmin/simulation' | '/sysadmin/users'>,
     '/sysadmin/': RouteRecordInfo<'/sysadmin/', '/sysadmin', Record<never, never>, Record<never, never>>,
+    '/sysadmin/profile': RouteRecordInfo<'/sysadmin/profile', '/sysadmin/profile', Record<never, never>, Record<never, never>>,
     '/sysadmin/simulation': RouteRecordInfo<'/sysadmin/simulation', '/sysadmin/simulation', Record<never, never>, Record<never, never>>,
     '/sysadmin/users': RouteRecordInfo<'/sysadmin/users', '/sysadmin/users', Record<never, never>, Record<never, never>>,
   }
@@ -56,7 +58,7 @@ declare module 'vue-router/auto-routes' {
       views: never
     }
     'src/pages/controlroom.vue': {
-      routes: '/controlroom' | '/controlroom/' | '/controlroom/comms' | '/controlroom/race' | '/controlroom/telemetry' | '/controlroom/telemetry2'
+      routes: '/controlroom' | '/controlroom/' | '/controlroom/comms' | '/controlroom/profile' | '/controlroom/race' | '/controlroom/telemetry' | '/controlroom/telemetry2'
       views: 'default'
     }
     'src/pages/controlroom/index.vue': {
@@ -65,6 +67,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/controlroom/comms.vue': {
       routes: '/controlroom/comms'
+      views: never
+    }
+    'src/pages/controlroom/profile.vue': {
+      routes: '/controlroom/profile'
       views: never
     }
     'src/pages/controlroom/race.vue': {
@@ -96,11 +102,15 @@ declare module 'vue-router/auto-routes' {
       views: never
     }
     'src/pages/sysadmin.vue': {
-      routes: '/sysadmin' | '/sysadmin/' | '/sysadmin/simulation' | '/sysadmin/users'
+      routes: '/sysadmin' | '/sysadmin/' | '/sysadmin/profile' | '/sysadmin/simulation' | '/sysadmin/users'
       views: 'default'
     }
     'src/pages/sysadmin/index.vue': {
       routes: '/sysadmin/'
+      views: never
+    }
+    'src/pages/sysadmin/profile.vue': {
+      routes: '/sysadmin/profile'
       views: never
     }
     'src/pages/sysadmin/simulation.vue': {

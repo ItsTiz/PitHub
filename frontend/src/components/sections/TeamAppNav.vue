@@ -59,7 +59,7 @@ const selectView = (index) => {
         const view = views[index] || 'telemetry'
 
         if (view === 'profile') {
-            router.push(`/profile`)
+            router.push(`/controlroom/profile`)
             return;
         }
 
@@ -74,17 +74,20 @@ const navItems = computed(() => {
 
     const cars = (auth.user?.cars || [])
 
-
-items.push({
+    if (cars.length > 0){
+        items.push({
                 type: 'car0',
                 icon: typeof cars[0].number === 'number'  ? `mdi-numeric-${cars[0].number}-circle-outline` : 'mdi-car'
             });
-            items.push({
-                type: 'car1',
-                icon: typeof cars[1].number === 'number'  ? `mdi-numeric-${cars[1].number}-circle-outline` : 'mdi-car'
-            });
-        items.push({ type: 'race', icon: 'mdi-go-kart-track' })
-        items.push({ type: 'profile', icon: 'mdi-account-circle' })
+        items.push({
+            type: 'car1',
+            icon: typeof cars[1].number === 'number'  ? `mdi-numeric-${cars[1].number}-circle-outline` : 'mdi-car'
+        });
+    }
+
+
+    items.push({ type: 'race', icon: 'mdi-go-kart-track' })
+    items.push({ type: 'profile', icon: 'mdi-account-circle' })
     console.log(items);
     return items;
     
