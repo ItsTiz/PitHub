@@ -19,53 +19,65 @@ class BaseController {
         res.status(Errors.GENERIC_SERVER).send(err);
     }
 
-    _searchByParameter(paramName) {
+    _searchByParameter(paramName, populateBy = null) {
         return async (req, res) => {
             const _parameterName = paramName;
             const _parameterValue = req.params[paramName];
 
             if (!_parameterValue) {
-                this._badRequestError(res, 'Missing query parameter: ', _parameterValue);
+                return this._badRequestError(res, `Missing query parameter: ${_parameterName}`);
             }
 
-            await this._schemaModel
-                .where(_parameterName).equals(_parameterValue)
-                .then(doc => {
-                    if (!doc) {
-                        const errorString = 'No' + Model.prototype.modelName + 'with '+ _parameterValue + ' as' + _parameterName + 'found.'
-                        this._notFoundError(res, errorString);
-                    }
-                    res.json(doc);
-                })
-                .catch(err => {
-                    this._genericServerError(res, err);
-                });
-        }
+            try {
+                let query = this._schemaModel.where(_parameterName).equals(_parameterValue)
+
+                if (populateBy) {
+                    query = query.populate(populateBy);
+                }
+
+                const doc = await query;
+
+                if (!doc) {
+                    const errorString = `No element with ${_parameterValue} as ${_parameterName} found.`;
+                    return this._notFoundError(res, errorString);
+                }
+
+                res.json(doc);
+
+            } catch (err) {
+                this._genericServerError(res, err);
+            }
+        };
     }
 
-    _searchByParameterAndPopulate(paramName, populateBy) {
+     _findOneByParameter(paramName, populateBy = null) {
         return async (req, res) => {
             const _parameterName = paramName;
             const _parameterValue = req.params[paramName];
 
             if (!_parameterValue) {
-                this._badRequestError(res, 'Missing query parameter: ', _parameterValue);
+                return this._badRequestError(res, `Missing query parameter: ${_parameterName}`);
             }
 
-            await this._schemaModel
-                .where(_parameterName).equals(_parameterValue)
-                .populate(populateBy)
-                .then(doc => {
-                    if (!doc) {
-                        const errorString = 'No' + Model.prototype.modelName + 'with '+ _parameterValue + ' as' + _parameterName + 'found.'
-                        this._notFoundError(res, errorString);
-                    }
-                    res.json(doc);
-                })
-                .catch(err => {
-                    this._genericServerError(res, err);
-                });
-        }
+            try {
+                let query = this._schemaModel.findOne({ [_parameterName]: _parameterValue });
+
+                if (populateBy) {
+                    query = query.populate(populateBy);
+                }
+                const doc = await query;
+
+                if (!doc) {
+                    const errorString = `No element with ${_parameterValue} as ${_parameterName} found.`;
+                    return this._notFoundError(res, errorString);
+                }
+
+                res.json(doc);
+
+            } catch (err) {
+                this._genericServerError(res, err);
+            }
+        };
     }
 
     getElement = async (req, res) => {

@@ -85,8 +85,12 @@
         
         try {
             const team = await getTeamByName();
-            const res = await axios.get(`http://localhost:3000/v1/cars/search/team/${team[0]._id}`);
-            return res.data
+            let res;
+            if(team){
+                res = await axios.get(`http://localhost:3000/v1/cars/search/team/${team._id}`);
+            } 
+
+            return res?.data
         } catch (err) {
             console.error(err)
         }
@@ -128,6 +132,8 @@
         if(isAdminLogged.value) cars.value = await carRequest() ?? []
         else cars.value = auth.user?.cars
         
+        console.log(cars)
+
         switch(last){ 
             case "telemetry":
                 pageIndex.value = 0;
