@@ -41,7 +41,7 @@
                     class="flex-grow-1 overflow-y-auto"
                     :elevation="5"
                 >
-                    <EventsLog :max-height="'700px'" />
+                    <EventsLog :max-height="'650px'" />
                 </UiSheet>
             </v-col>
         </v-row>

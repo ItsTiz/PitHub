@@ -35,6 +35,7 @@ declare module 'vue' {
     SimulationControl: typeof import('./src/components/pages-components/sysadmin/SimulationControl.vue')['default']
     SimulationTerminal: typeof import('./src/components/pages-components/sysadmin/SimulationTerminal.vue')['default']
     TeamAppNav: typeof import('./src/components/sections/TeamAppNav.vue')['default']
+    TelemetryPage: typeof import('./src/components/pages-components/TelemetryPage.vue')['default']
     TempGraph: typeof import('./src/components/pages-components/control-room/car-telemetry/TempGraph.vue')['default']
     TiresStatus: typeof import('./src/components/pages-components/control-room/car-telemetry/TiresStatus.vue')['default']
     Toast: typeof import('./src/components/Toast.vue')['default']
