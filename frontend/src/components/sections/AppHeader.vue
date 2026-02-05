@@ -23,14 +23,15 @@
         height="45"
     > 
         <v-toolbar-title> {{ title }}</v-toolbar-title>
-        <UiButton 
+        <UiButton
+            v-if="auth.user?.role === 'user'"
             :background-color="'primary'"
             :text-color="'on-surface'"
-            :icon="'mdi-account-circle'"
+            :icon="router.currentRoute.value.fullPath.includes('profile') ? 'mdi-go-kart-track' : 'mdi-account-circle'"
             :icon-only="true"
             :variant="'text'"
-            @click="profile()"
-        />
+            @click="router.currentRoute.value.fullPath.includes('profile') ? router.push('/race') : profile()"
+            />
         <UiButton 
             :background-color="'primary'"
             :text-color="'on-surface'"
