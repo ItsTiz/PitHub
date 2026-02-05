@@ -5,28 +5,6 @@ import jwt from 'jsonwebtoken';
 import Car from '../models/car.js';
 import Driver from '../models/driver.js';
 
-// export const authMiddleware = async (req, res, next) => {
-//   const authHeader = req.headers.authorization;
-//   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-//     return res.status(401).json({ message: 'Token mancante o non valido' });
-//   }
-
-//   const token = authHeader.split(' ')[1];
-
-//   try {
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     req.user = await userModel.findById(decoded.id);
-//     if (!req.user) {
-//       return res.status(401).json({ message: 'Utente non trovato' });
-//     }
-//     next();
-//   } catch (err) {
-//     console.error('JWT error:', err.message);
-//     return res.status(401).json({ message: 'Token non valido o scaduto' });
-//   }
-// };
-
-
 class UserController extends BaseController {
     constructor(schema) {
         super(schema);

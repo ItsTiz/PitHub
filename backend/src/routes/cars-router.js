@@ -12,7 +12,10 @@ carRouter.route('/:id')
     .put(controller.updateElement)
     .delete(controller.deleteElement);
 
-carRouter.route('/search/:engine_manufacturer')
+carRouter.route('/search/team/:team')
+    .get(controller.findCarsByTeam);
+
+carRouter.route('/search/engine/:engine_manufacturer')
     .get(controller.findCarsByEngineManufacturer);
 
 export default carRouter;

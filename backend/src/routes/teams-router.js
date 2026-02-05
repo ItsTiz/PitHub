@@ -15,6 +15,9 @@ teamsRouter.route('/:id')
 teamsRouter.route('/search/year/:joined_year')
     .get(controller.findTeamByYearJoined);
 
+teamsRouter.route('/search/name/:name_slug')
+    .get(controller.findTeamByName);
+
 teamsRouter.route('/search/nationality/:nationality')
     .get(controller.findTeamByNationality);
 

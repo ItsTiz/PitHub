@@ -5,12 +5,14 @@
     import { useAuthStore } from '@/stores/auth'
     import { getLogoForTeam } from '../../composables/utils/teams-logos'
     import { getTeamColor } from '../../composables/utils/teams-colors'
+    import axios from 'axios'
 
     const appStore = useAppStore();
     const auth = useAuthStore()
     const route = useRoute()
     const router = useRouter()  
     const pageIndex = ref(0)
+    const cars = ref([])
 
     const views = ['telemetry', 'telemetry2', 'race', 'profile']
 
@@ -69,34 +71,62 @@
         });
     }
 
+    const getTeamByName = async () => {
+        try {
+            const res = await axios.get(`http://localhost:3000/v1/teams/search/name/${activeTeamName.value}`);
+            return res.data
+        } catch (err) {
+            console.error(err)
+        }
+
+    }
+
+    const carRequest = async () => {
+        
+        try {
+            const team = await getTeamByName();
+            const res = await axios.get(`http://localhost:3000/v1/cars/search/team/${team[0]._id}`);
+            return res.data
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
     const navItems = computed(() => {
         const items = [];
 
-        const cars = (auth.user?.cars || [])
+        if (cars.value.length > 0){
 
-        if (cars.length > 0){
+            let numbers = [];
+            if(cars.value[0].driver){
+                numbers = cars.value.map(e => e.driver.number)
+            } else{
+                numbers = cars.value.map(e => e.number)
+            }
+
             items.push({
                 type: 'car0',
-                text: cars[0].number ? cars[0].number.toString() : '1'
+                text: numbers[0] ? numbers[0].toString() : '1'
             });
             items.push({
                 type: 'car1',
-                text: cars[1].number ? cars[1].number.toString() : '1'
+                text: numbers[1] ? numbers[1].toString() : '1'
             });
         }
 
 
         items.push({ type: 'race', icon: 'mdi-go-kart-track' })
         items.push({ type: 'profile', icon: 'mdi-account-circle' })
-        console.log(items);
         return items;
     
     })
 
-    onMounted(() => {
+    onMounted(async () => {
         const path = router.currentRoute.value.path;
         const splitted = path.split("/")
         const last = splitted[splitted.length - 1];
+        if(isAdminLogged.value) cars.value = await carRequest() ?? []
+        else cars.value = auth.user?.cars
         
         switch(last){ 
             case "telemetry":

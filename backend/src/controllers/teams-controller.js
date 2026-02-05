@@ -8,7 +8,7 @@ class TeamController extends BaseController {
 
         this.findTeamByYearJoined = this._searchByParameter("joined_year")
         this.findTeamByNationality = this._searchByParameter("nationality")
-        this.findTeamByName = this._searchByParameter("name")
+        this.findTeamByName = this._searchByParameter("name_slug")
     }
 
     getElementsAsJsArray = async () => {

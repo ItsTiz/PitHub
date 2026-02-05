@@ -43,6 +43,31 @@ class BaseController {
         }
     }
 
+    _searchByParameterAndPopulate(paramName, populateBy) {
+        return async (req, res) => {
+            const _parameterName = paramName;
+            const _parameterValue = req.params[paramName];
+
+            if (!_parameterValue) {
+                this._badRequestError(res, 'Missing query parameter: ', _parameterValue);
+            }
+
+            await this._schemaModel
+                .where(_parameterName).equals(_parameterValue)
+                .populate(populateBy)
+                .then(doc => {
+                    if (!doc) {
+                        const errorString = 'No' + Model.prototype.modelName + 'with '+ _parameterValue + ' as' + _parameterName + 'found.'
+                        this._notFoundError(res, errorString);
+                    }
+                    res.json(doc);
+                })
+                .catch(err => {
+                    this._genericServerError(res, err);
+                });
+        }
+    }
+
     getElement = async (req, res) => {
         await this._schemaModel
             .findById(req.params.id)

@@ -10,6 +10,7 @@ const MONGO_URI = 'mongodb://root:pithub@localhost:27017/pithub?authSource=admin
 
 const teamSchema = new mongoose.Schema({
     name: { type: String, required: true },
+    name_slug: { type: String },
     full_name: { type: String, required: true },
     joined_year: { type: Number, required: true },
     nationality: { type: String, required: true },
@@ -48,6 +49,12 @@ const userSchema = new mongoose.Schema({
     password: {type: String, required: true, minlength: 6, select: false},
     role: {type: String, enum: ['user', 'admin', 'team'], default: 'user'},
     team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
+});
+
+teamSchema.pre('save', async function() {
+    if (this.isModified('name')) {
+        this.name_slug = this.name.toLowerCase().replace(/\s+/g, '');
+    }
 });
 
 // --- 3. MODELS ---

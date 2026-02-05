@@ -17,9 +17,9 @@
     }
 
     const teams = () => {
-           router.push('/teams')
-            return;
-        }    
+        router.push('/teams')
+        return;
+    }    
 </script>
 
 <template>
@@ -27,7 +27,8 @@
         :elevation="2"
         height="45"
     > 
-        <v-toolbar-title> {{ title }}
+        <v-toolbar-title>
+            {{ title }}
 
             <UiButton
                 title="Teams"
@@ -37,7 +38,7 @@
                 :icon-only="true"
                 :variant="'text'"
                 @click="teams()"
-        />
+            />
         </v-toolbar-title>
         
         <UiButton
