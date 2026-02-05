@@ -77,11 +77,11 @@
         if (cars.length > 0){
             items.push({
                 type: 'car0',
-                icon: typeof cars[0].number === 'number'  ? `mdi-numeric-${cars[0].number}-circle-outline` : 'mdi-car'
+                text: cars[0].number ? cars[0].number.toString() : '1'
             });
             items.push({
                 type: 'car1',
-                icon: typeof cars[1].number === 'number'  ? `mdi-numeric-${cars[1].number}-circle-outline` : 'mdi-car'
+                text: cars[1].number ? cars[1].number.toString() : '1'
             });
         }
 
@@ -148,10 +148,17 @@
                     :key="index"
                     :color="pageIndex === index ? 'surface' : 'surface-variant'"
                     :size="pageIndex === index ? 48 : 38"
-                    :icon="item.icon"
                     class="mb-8 cursor-pointer bg-background"
                     @click="selectView(index)"
-                />
+                >
+                    <span
+                        v-if="index < 2"
+                        class="text-body-1 font-weight-bold"
+                    >{{ item.text }}</span>
+                    <v-icon v-else>
+                        {{ item.icon }}
+                    </v-icon>
+                </v-avatar>
             </div>
 
             <div class="d-flex justify-center">
