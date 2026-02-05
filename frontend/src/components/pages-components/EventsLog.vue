@@ -9,6 +9,13 @@
         store.deleteNotification(timestamp)
     }
 
+    defineProps({
+        maxHeight: {
+            type: [String],
+            default: '250px'
+        }
+    })
+
     function getIcon(type) {
         const icons = {
             lap_completed: 'mdi-flag-checkered',
@@ -68,11 +75,11 @@
 
         <v-divider class="mb-2" />
 
-        <v-list
-            density="compact"
-            class="flex-grow-1 overflow-y-auto"
-            style="max-height: 1000px;"
-        >
+       <v-list
+  density="compact"
+  class="flex-grow-1 overflow-y-auto"
+  :style="{ 'max-height': maxHeight }"
+>
             <v-list-item
                 v-for="ev in events"
                 :key="ev.timestamp"
@@ -119,3 +126,8 @@
         </v-btn>
     </UiSheet>
 </template>
+<style scoped>
+.v-list {
+  max-height: v-bind(maxHeight);
+}
+</style>
