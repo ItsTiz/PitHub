@@ -4,30 +4,54 @@ import { assembleTelemetryData, injectCarRaceData, sortCars } from "./mock-simul
 import { getCars } from "./data-fetcher.js";
 import { generateNotifications } from "./notification.js";
 
-let timeout;
 let carsRacing = [];
-let lastNotificationTime = 0;
-const NOTIFICATION_INTERVAL = 5000;
-
+let racingTimer = null;
+let notificationTimer = null;
+let isRunning = false;
+       
 const startSimulation = async (io) => {
+    if (isRunning) return; 
     console.log("Starting simulation...")
+    
+    isRunning = true; 
     carsRacing = await getCars();
-    timeout = setInterval(() => {
-        //const now = Date.now();
-        
-        broadcastRacingData(io);
-        
-        broadcastTelemetryData(io);
-                
-        generateNotifications(carsRacing);
 
+    racingTimer = setInterval(() => {
+        broadcastRacingData(io);
+        broadcastTelemetryData(io); 
     }, process.env.INTERVAL);
+    
+    runNotifications();
 }
 
 const stopSimulation = () => {
     console.log("Stopping simulation...")
-    clearInterval(timeout);
+    
+    isRunning = false; 
+
+    if (racingTimer) {
+        clearInterval(racingTimer);
+        racingTimer = null;
+    }
+
+    if (notificationTimer) {
+        clearTimeout(notificationTimer);
+        notificationTimer = null;
+    }
 }
+
+const runNotifications = async () => {
+    if (!isRunning) return;
+
+    try {
+        await generateNotifications(carsRacing);
+    } catch (err) {
+        console.error(err);
+    }
+
+    if (!isRunning) return; 
+    notificationTimer = setTimeout(runNotifications, process.env.INTERVAL);
+};
 
 const broadcastTelemetryData = (io) => {
     const teams = [...new Set(carsRacing.map(car => car.team))];
@@ -44,11 +68,12 @@ const broadcastRacingData = (io) => {
 }
 
 const isAlive = () => {
-    return !!timeout
+    return !!racingTimer 
 }
 
 
 export { startSimulation, stopSimulation, isAlive };
+
 
 
 

@@ -76,8 +76,8 @@
             } else {
                 gsap.to(tween, {
                     totalTime: targetTime,
-                    duration: 1, 
-                    ease: "power1.out",
+                    duration: 1.2, 
+                    //ease: "power1.out",
                     overwrite: true 
                 });
             }

@@ -49,7 +49,7 @@
                     :elevation="5"
                 >
                     <template #text>
-                         <EventsLog :max-height="isCarSelected ? '250px' : '650px'" />
+                        <EventsLog :max-height="isCarSelected ? '250px' : '650px'" />
                     </template>
                 </UiCard>
             </div>

@@ -75,11 +75,11 @@
 
         <v-divider class="mb-2" />
 
-       <v-list
-  density="compact"
-  class="flex-grow-1 overflow-y-auto"
-  :style="{ 'max-height': maxHeight }"
->
+        <v-list
+            density="compact"
+            class="flex-grow-1 overflow-y-auto"
+            :style="{ 'max-height': maxHeight }"
+        >
             <v-list-item
                 v-for="ev in events"
                 :key="ev.timestamp"

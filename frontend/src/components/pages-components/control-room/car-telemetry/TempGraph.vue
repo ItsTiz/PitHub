@@ -4,9 +4,11 @@
     import LinearGraph from '../../LinearGraph.vue'
 
     const props = defineProps({
+        name: { type: String, default: "" },
         tempsArray: { type: Array, default: () => [] },
         teamTheme: { type: String, default: "secondary" } ,
         icon: { type: String, default: "" },
+        uom: { type: String, default: "" },
         belowLevelThreshold: { type: Number, default: 90 },
         normalLevelThreshold: { type: Number, default: 150 },
         overLevelThreshold: { type: Number, default: 185 },

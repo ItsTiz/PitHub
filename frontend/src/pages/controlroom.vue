@@ -35,7 +35,7 @@
         raceStore.unsubscribeFromRace();
     });
 
-    watch(route.query.team, (newTeam, oldTeam) => {
+    watch(route?.query?.team, (newTeam, oldTeam) => {
         console.log(`Switching telemetry from ${oldTeam} to ${newTeam}`);
         handleSubscription(newTeam, oldTeam);
     }

@@ -98,7 +98,7 @@
         if (cars.value.length > 0){
 
             let numbers = [];
-            if(cars.value[0].driver){
+            if(typeof cars.value[0].driver === 'object'){
                 numbers = cars.value.map(e => e.driver.number)
             } else{
                 numbers = cars.value.map(e => e.number)
