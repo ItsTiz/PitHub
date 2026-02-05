@@ -82,7 +82,7 @@
                                     :src="getImageUrl(team.name)"
                                     :alt="`${team.name} car image`"
                                     cover
-                                    class="rounded-t-lg h-100 w-100"
+                                    class="rounded-t-lg h-85 w-100"
                                     style="object-fit: cover;"
                                 >
                                     <template #placeholder>
