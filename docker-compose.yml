@@ -11,7 +11,6 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
-      - ./backend/db/import:/docker-entrypoint-initdb.d:ro
     command: ["mongod", "--bind_ip_all"]
 
   mongo-express:
@@ -22,7 +21,7 @@ services:
     ports:
       - 8081:8081
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://root:pithub@mongo:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://root:pithub@mongo:27017/pithub?authSource=admin
       ME_CONFIG_BASICAUTH: false
 
   seeder:
