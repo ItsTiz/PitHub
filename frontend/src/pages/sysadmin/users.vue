@@ -34,8 +34,8 @@
 
     async function deleteUser() {
         try {
-            await axios.delete(`${import.meta.env.VITE_API_URL}/v1/users/${id}`)
-            users.value = users.value.filter(u => u._id !== id)
+            await axios.delete(`${import.meta.env.VITE_API_URL}/v1/users/${userToDelete.value}`)
+            users.value = users.value.filter(u => u._id !== userToDelete.value)
              showToast('User deleted', 'success')
         } catch (err) {
             console.error(err)
@@ -98,7 +98,7 @@
                     :icon-only="false"
                     :icon="'mdi-plus'"
                     :background-color="'primary'"
-                    @clicked="showAddDialog = true"
+                    @click="showAddDialog = true"
                 />
             </v-card-title>
         </UiSheet>

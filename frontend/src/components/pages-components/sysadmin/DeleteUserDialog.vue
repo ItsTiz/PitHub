@@ -49,7 +49,7 @@ function cancel() {
             <UiButton
                 title="Cancel"
                 variant="text"
-                @clicked="cancel"
+                @click="cancel"
             />
 
             <UiButton

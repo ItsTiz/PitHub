@@ -2,9 +2,10 @@
     import { ref, onMounted } from 'vue'
     import axios from 'axios'
 
-    const modelValue = ref(false);
+    const modelValue = defineModel()
     const emit = defineEmits(['update:modelValue', 'added'])
 
+    const name = ref('')
     const email = ref('')
     const password = ref('')
     const role = ref('user')
@@ -42,6 +43,7 @@
 
         try {
             await axios.post(`${import.meta.env.VITE_API_URL}/v1/users`, {
+                name: name.value,
                 email: email.value,
                 password: password.value,
                 role: role.value,
@@ -59,6 +61,7 @@
     }
 
     function resetForm() {
+        name.value = ''
         email.value = ''
         password.value = ''
         role.value = 'user'
@@ -85,6 +88,13 @@
 
             <template #text>
                 <v-form @submit.prevent="addUser">
+                     <v-text-field
+                        v-model="name"
+                        label="Name"
+                        type="name"
+                        prepend-inner-icon="mdi-text"
+                        required
+                    />
                     <v-text-field
                         v-model="email"
                         label="Email"
@@ -125,7 +135,7 @@
                     :variant="'text'"
                     class="mr-3"
                     :background-color="'primary'"
-                    @clicked="$emit('update:modelValue', false)"
+                    @click="$emit('update:modelValue', false)"
                 />
                 <UiButton
                     :title="'Add'"
@@ -133,7 +143,7 @@
                     :background-color="'primary'"
                     :loading="loading"
                     :disabled="loading"
-                    @clicked="addUser"
+                    @click="addUser"
                 />
             </template>
         </UiCard>
